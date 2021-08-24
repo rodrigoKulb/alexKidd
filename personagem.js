@@ -1,10 +1,10 @@
 // JavaScript Document
 
 
-class Personagem 
+class Personagem
 {
-	
-	constructor(x,y,animation) 
+
+	constructor(x,y,animation)
 	{
 		this.x = x;
 		this.y = y;
@@ -40,18 +40,18 @@ class Personagem
 		this.taAgua = 0;
 		this.margemAgua = 0;
 	}
-	
+
 	normaliza(cenario,inimigos)
 	{
 
-	
+
 			this.yStop = 0;
 			this.hitY = false;
 			if(this.x>=width+50) this.x = width+50;
 			//if(this.x<=150) this.x = 150;
 			if(this.y>=450)
 			{
-				console.log(cenario.scrollPer+"<="+(cenario.limiteAltura-1080));
+				// console.log(cenario.scrollPer+"<="+(cenario.limiteAltura-1080));
 				if(cenario.scrollPer<=cenario.limiteAltura-1080)
 				{
 					cenario.scrollPer = cenario.scrollPer+12;
@@ -65,21 +65,21 @@ class Personagem
 			//this.xMenorL = 0;
 			for (var b=0; b < cenario.mapLevel.length; b++)
 			 {
-				
+
 				 var mapLavelN = cenario.mapLevel[b];
 				for (var c = 0; c < mapLavelN.length; c++)
 				{
 					if(mapLavelN[c] && mapLavelN[c]!=7 && mapLavelN[c]!=8 && mapLavelN[c]!=5 && mapLavelN[c]!=6 && mapLavelN[c]!=16 && mapLavelN[c]!=15 && mapLavelN[c]!=12 && mapLavelN[c]!=13 && mapLavelN[c]!=20 && mapLavelN[c]!=22 && mapLavelN[c]!=23 && mapLavelN[c]!=24 && mapLavelN[c]!=25 && mapLavelN[c]!=26 && mapLavelN[c]!=27)
 					{
 						var hit = collideRectRect(this.x-125,this.y+40,60,116,(c*90),(b*90)-cenario.scrollPer,90,90);
-						
+
 						var superBloco = this.quebraSuperForca(mapLavelN,c,b);
-					
-						for (let inimigo of inimigos) 
-						{						
+
+						for (let inimigo of inimigos)
+						{
 							if(((b*90)-cenario.scrollPer)<inimigo.inimigoAltura+90 && ((b*90)-cenario.scrollPer)+90>inimigo.inimigoAltura+90)
 							{
-								
+
 								var hitInimigo = collideRectRect(inimigo.x,inimigo.inimigoAltura+90,150,20,(c*90),(b*90)-cenario.scrollPer,90,90);
 								if(hitInimigo)
 								{
@@ -88,20 +88,20 @@ class Personagem
 								}
 							}
 						}
-						
+
 						if(superBloco)
 						{
 							if(superBloco=='zero') superBloco = 0;
 							mapLavelN[c] = superBloco;
 						}
-						
+
 						//	rect((c*90),(b*90)-cenario.scrollPer,90,90);
 						if(((b*90)-cenario.scrollPer)>this.y+45 && ((b*90)-cenario.scrollPer)+40<this.y+45+116)
 						{
-							
+
 							// PEGAR LADO DIREITO
 							if((this.x-125+60)<(c*90))
-							{ 
+							{
 								if(this.loopPega==0)
 								{
 									this.xMenorR = (c*90);
@@ -115,7 +115,7 @@ class Personagem
 										this.xMenorRForca = (c*90);
 										//rect((c*90),(b*90)-cenario.scrollPer,90,90);
 										this.loopPegaForca = 1;
-									}	
+									}
 								}
 							}
 							else
@@ -123,60 +123,60 @@ class Personagem
 								this.xMenorL = (c*90)+90;
 								//rect((c*90),(b*90)-cenario.scrollPer,90,90);
 								if(mapLavelN[c]!=9 && mapLavelN[c]!=10 && mapLavelN[c]!=19)
-								{								
+								{
 									this.xMenorLForca = (c*90)+90;
 									//rect((c*90),(b*90)-cenario.scrollPer,90,90);
 								}
 							}
 						}
-	
-						rect(this.x-130,this.y+40,60,116);
-						rect((c*90),(b*90)-cenario.scrollPer,90,90);
-						 if(hit==true && ((this.y+40+116)<=((b*90)-cenario.scrollPer+90)) && this.vy>= 6 ) 
-						 {	
+
+						//rect(this.x-130,this.y+40,60,116);
+						//rect((c*90),(b*90)-cenario.scrollPer,90,90);
+						 if(hit==true && ((this.y+40+116)<=((b*90)-cenario.scrollPer+90)) && this.vy>= 6 )
+						 {
 							//console.log("colidiu"+this.y+155+" => "+(b*90));
-							
+
 							this.hitY = true;
 							this.maxAltura = (b*90-cenario.scrollPer)-155;
 						 }
-	
-						else if((hit==true && ((this.y+40)<=((b*90)+90-cenario.scrollPer))) && ((this.y+40+116)>=((b*90)+90-cenario.scrollPer))) 
+
+						else if((hit==true && ((this.y+40)<=((b*90)+90-cenario.scrollPer))) && ((this.y+40+116)>=((b*90)+90-cenario.scrollPer)))
 						{
 							this.yStop = 1;
 						}
-						
-						
+
+
 					}
 					else if(mapLavelN[c]==15 || mapLavelN[c]==16 || mapLavelN[c]==20)
 					{
-						
+
 						var hit = collideRectRect(this.x-125,this.y+40,60,116,(c*90),(b*90)-cenario.scrollPer,90,90);
 						if(hit)
 						{
 							if(mapLavelN[c]==15) this.money= this.money+20;
 							if(mapLavelN[c]==16) this.money= this.money+10;
 							if(mapLavelN[c]==20)
-							{ 
+							{
 								// Quando pega o super força
 								this.superForca = 1;
 							}
 							cenario.mapLevel[b][c] = 0;
-							console.log(this.money);
+							// console.log(this.money);
 						}
 					}
 					else if(mapLavelN[c]>=25 && mapLavelN[c]<=27)
 					{
 						var hit = collideRectRect(this.x-125,this.y,60,116,(c*90),(b*90)-cenario.scrollPer,90,90);
 						if(hit)
-						{	
-							
-							this.taAgua = 1;	
+						{
+
+							this.taAgua = 1;
 						}
 					}
 				}
 			}
-			console.log(this.taAgua);
-			
+			// console.log(this.taAgua);
+
 			if(this.morreu==1)
 			{
 				this.morSoma++;
@@ -188,11 +188,14 @@ class Personagem
 				}
 				else
 				{
-					this.morSoma = 0;	
+					this.morSoma = 0;
 				}
-				console.log(this.y+50+this.morSomaY);
+				// console.log(this.y+50+this.morSomaY);
 				image(this.animation[this.ImgMorte ], this.x-190,this.y+50+this.morSomaY);
-				
+
+				diedSound.volume(0.5)
+				diedSound.play()
+
 				if(this.y+50+this.morSomaY<(-200))
 				{
 					this.morreu = 0;
@@ -204,11 +207,11 @@ class Personagem
 			}
 			else
 			{
-			
+
 			if(this.hitY!=true)
 			{
-				this.maxAltura = height-155;	
-				
+				this.maxAltura = height-155;
+
 			}
 			if(this.noar)
 			{
@@ -231,9 +234,9 @@ class Personagem
 			}
 			if(this.nosoco>=12)
 			{
-				this.nosoco = 0;	
+				this.nosoco = 0;
 			}
-			
+
 			if(cenario.soco>=1)
 			{
 				cenario.soco++;
@@ -242,13 +245,13 @@ class Personagem
 			{
 				cenario.soco = 0;
 			}
-			
+
 			if(this.taAgua)
 			{
 				this.gravity = 0;
 				this.vy = 0;
 			}
-			
+
 			if(this.yStop==1)  this.vy = 6;
 			if(this.stopJump==1)
 			{
@@ -258,7 +261,7 @@ class Personagem
 			this.y += this.vy;
 			if(this.y>=this.maxAltura)
 			{
-				console.log(this.maxAltura);
+				// console.log(this.maxAltura);
 				this.y = this.maxAltura;
 				this.noar = 0;
 				if(this.vy >10) this.vy = 6;
@@ -269,12 +272,12 @@ class Personagem
 				this.noar = 1;
 			}
 			this.yOld = this.y;
-			
+
 			if((this.superForca==2) || this.forcaAndando) this.vaisuperForca();
 			}
 			if(this.taAgua && (!keyIsDown(DOWN_ARROW))  && this.y>90) this.y = this.y-5;
 	}
-	
+
 	parado()
 	{
 		if(this.morreu!=1)
@@ -288,19 +291,19 @@ class Personagem
 			if(this.lado=='left')
 			{
 				scale(-1,1);
-				image(this.animation[this.img], -this.x, this.y);	
-				
+				image(this.animation[this.img], -this.x, this.y);
+
 			}
 			else
 			{
-				image(this.animation[this.img], this.x-190, this.y);	
+				image(this.animation[this.img], this.x-190, this.y);
 			}
 			pop();
 		}
 	}
-	
+
 	andar(lado)
-	{		
+	{
 		this.lado = lado;
 		if(this.nosoco) this.b = 6;
 		else if(this.noar) this.b = 5;
@@ -313,7 +316,7 @@ class Personagem
 		push();
 		//rect( this.x-245, this.y,190,190);
 
-		
+
 		if(lado=='left')
 		{
 			scale(-1,1);
@@ -338,12 +341,12 @@ class Personagem
 					if(this.z>=4) this.x = this.x+10;
 				}
 			}
-		}				
+		}
 		this.i++;
 		this.z++;
 		pop();
 	}
-	
+
 	pular(tipo)
 	{
 		if(this.noar==0)
@@ -354,8 +357,8 @@ class Personagem
 				if(this.lado=='left')
 				{
 					scale(-1,1);
-					image(this.animation[5], -this.x, this.y);	
-					if (keyIsDown(LEFT_ARROW) && (this.segueLeft==0) && (this.xStopL==0)) 
+					image(this.animation[5], -this.x, this.y);
+					if (keyIsDown(LEFT_ARROW) && (this.segueLeft==0) && (this.xStopL==0))
 					{
 						this.x = this.x-4;
 					}
@@ -363,30 +366,30 @@ class Personagem
 				}
 				else
 				{
-					image(this.animation[5], this.x-190, this.y);	
-					if (keyIsDown(RIGHT_ARROW) && (this.segueRight==0)  && (this.xStopR==0)) 
+					image(this.animation[5], this.x-190, this.y);
+					if (keyIsDown(RIGHT_ARROW) && (this.segueRight==0)  && (this.xStopR==0))
 					{
 						this.x = this.x+4;
 					}
 				}
 				pop();
-				
+
 			}
 			else
 			{
-				if (keyIsDown(RIGHT_ARROW) || keyIsDown(LEFT_ARROW)) 
+				if (keyIsDown(RIGHT_ARROW) || keyIsDown(LEFT_ARROW))
 				{
-					this.vy = -23;	
+					this.vy = -23;
 				}
 				else
 				{
-					this.vy = -20;	
+					this.vy = -20;
 				}
 			}
 			this.noar = 1;
 		}
 	}
-	
+
 	soco(cenario)
 	{
 		if(this.nosoco==0)
@@ -401,7 +404,7 @@ class Personagem
 			{
 				scale(-1,1);
 				image(this.animation[6], -this.x, this.y);
-				//console.log('soco');
+				//zx('soco');
 				cenario.x = cenario.x-220;
 			}
 			else
@@ -412,7 +415,7 @@ class Personagem
 			pop();
 		}
 	}
-	
+
 	abaixar()
 	{
 		if(this.taAgua)
@@ -437,15 +440,15 @@ class Personagem
 				image(this.animation[this.img], this.x-190, this.y);
 			}
 			pop();
-		
-	}	
-	
+
+	}
+
 	vaisuperForca()
 	{
-		
+
 		if(this.forcaAndando==0)
 		{
-			this.yForca = this.y+65;	
+			this.yForca = this.y+65;
 			this.xForca = this.x;
 			this.forcaAndando = 1;
 			this.cenarioIni = cenario.scrollPer;
@@ -455,7 +458,7 @@ class Personagem
 		}
 		else if(this.forcaAndando==1)
 		{
-		
+
 			push();
 			if(this.forcaLado=='left')
 			{
@@ -481,19 +484,19 @@ class Personagem
 			pop();
 		}
 	}
-	
+
 	quebraSuperForca(mapLavelN,c,b)
-	{	
+	{
 		if(this.forcaLado=='left') this.redusX = this.xForca-280;
 		else this.redusX = this.xForca-10
 		//rect(this.redusX, this.yForca+this.cenarioIni-cenario.scrollPer+20,90,45);
-		
+
 		var hitSoco = collideRectRect(this.redusX, this.yForca+this.cenarioIni-cenario.scrollPer+20,90,45,(c*90),(b*90)-cenario.scrollPer,90,90);
 		if((mapLavelN[c]==9 || mapLavelN[c]==10 || mapLavelN[c]==19 || mapLavelN[c]==18) && (hitSoco))
 		{
 			//rect((c*90),(b*90)-cenario.scrollPer,90,90);
 			if(mapLavelN[c]==9)
-			{ 
+			{
 				if(random(0, 1)>=0.5)
 				{
 					return 15;
@@ -505,10 +508,10 @@ class Personagem
 			}
 			if(mapLavelN[c]==10 || mapLavelN[c]==18) return 'zero';
 			if(mapLavelN[c]==19) return 20;
-		}			
+		}
 		else
 		{
-			return false;	
+			return false;
 		}
 	}
 }
