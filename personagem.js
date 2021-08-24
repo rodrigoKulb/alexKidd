@@ -130,8 +130,8 @@ class Personagem
 							}
 						}
 
-						rect(this.x-130,this.y+40,60,116);
-						rect((c*90),(b*90)-cenario.scrollPer,90,90);
+						//rect(this.x-130,this.y+40,60,116);
+						//rect((c*90),(b*90)-cenario.scrollPer,90,90);
 						 if(hit==true && ((this.y+40+116)<=((b*90)-cenario.scrollPer+90)) && this.vy>= 6 )
 						 {
 							//console.log("colidiu"+this.y+155+" => "+(b*90));
