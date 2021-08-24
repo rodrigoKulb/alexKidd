@@ -3,7 +3,7 @@ Recriando o jogo Alex Kidd em p5.js
 
 O objetivo desse repositório é inciar o desenvolvimento do jogo Alex Kidd criado para Master System em JAVASCRIPT, toda ajuda será bem vinda.
 
-Gostaria de deixar o crédito aqui para as pessoas que vem ajudando no projeto:
+Gostaria de listar os créditos as pessoas que vem ajudando o projeto:
 
 (24/08/2021) [@diegomagikal](https://github.com/diegomagikal) => Música de fundo, sons básicos e outros pequenos ajustes
 <hr>
