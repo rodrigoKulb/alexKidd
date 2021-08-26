@@ -24,7 +24,9 @@ let i = 0;
 let b = 0;
 let flechaMenu = 620;
 let pisca = 1;
-let backgroundSound;
+
+// sons
+let backgroundSound, punchSound, coinSound, jumpingSound, diedSound, crashSound, enemyDiedSound
 
 
 function preload() {
@@ -36,14 +38,16 @@ function preload() {
     bg = loadImage('src/img/fundo.png');
     menuImg = loadImage('src/img/menu.jpg');
     fontGame = loadFont('src/fonts/PixelGameFont.ttf');
-    soundFormats('mp3', 'wav');
-
+    
     // sounds
+    soundFormats('mp3', 'wav');
     backgroundSound = loadSound('src/sounds/level1.mp3');
     punchSound = createAudio('src/sounds/punch.wav');
     coinSound = loadSound('src/sounds/coins15.mp3');
     jumpingSound = loadSound('src/sounds/jumping.wav');
     diedSound = createAudio('src/sounds/died.wav');
+    crashSound = loadSound('src/sounds/crash.mp3');
+    enemyDiedSound = loadSound('src/sounds/crow.mp3');
 }
 
 function setup() {
@@ -135,7 +139,6 @@ function keyPressed() {
     if (key == 'x') {
         personagem.soco(cenario);
         punchSound.volume(0.4);
-        punchSound.play();
         if (personagem.superForca == 2) {
             personagem.vaisuperForca();
             personagem.forcaAndando = 0;

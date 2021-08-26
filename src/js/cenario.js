@@ -1,5 +1,7 @@
 // JavaScript Document
-
+/** mapLevel
+ * 10 - pedra
+ */
 class Cenario
 {
 	constructor(x,y,animation)
@@ -16,6 +18,8 @@ class Cenario
 		this.aguaCor = 0;
 		this.somaCor = 0;
 		this.limiteAltura = 0;
+		// 10: pedra, 9: caixote, 19: caixa surpresa
+		this.quebraveis = [ 10, 9, 19 ];
 		this.mapLevel = [
 		  [11,0,0,0,0,0,0,0,0,0,0,0,0,0,0,11],
 		  [11,0,0,12,13,0,0,0,0,0,0,0,12,13,0,11],
@@ -201,9 +205,11 @@ class Cenario
 
 							if(this.soco==7)
 							{
-
-								 if(this.mapLevel[this.i][this.t]==10)
-								 {
+								if(this.quebraveis.includes(this.mapLevel[this.i][this.t]) && !crashSound.isPlaying()) {
+									crashSound.play();
+								}
+								if(this.mapLevel[this.i][this.t]==10)
+								{
 								 	this.mapLevel[this.i][this.t] = 0;
 								 	this.socoN = 1;
 									this.yN = this.y;

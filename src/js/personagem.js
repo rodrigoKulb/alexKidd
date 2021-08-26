@@ -393,6 +393,7 @@ class Personagem
 
 	soco(cenario)
 	{
+		punchSound.play();
 		if(this.nosoco==0)
 		{
 			this.nosoco = 1;
