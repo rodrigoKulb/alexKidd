@@ -351,6 +351,7 @@ class Personagem
 	{
 		if(this.noar==0)
 		{
+			jumpingSound.play();
 			if(tipo=="image")
 			{
 				push();

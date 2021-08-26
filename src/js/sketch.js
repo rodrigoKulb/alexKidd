@@ -147,7 +147,6 @@ function keyPressed() {
         personagem.segueRight = 0;
         personagem.segueLeft = 0;
         personagem.pular();
-        jumpingSound.play();
         if ((menu == 1) && (flechaMenu <= 690) && (personagem.superForca == 1)) {
             personagem.superForca = 2;
         }
