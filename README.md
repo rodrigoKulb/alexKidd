@@ -12,4 +12,4 @@ Gostaria de listar os créditos as pessoas que vem ajudando o projeto:
 
 
 # DEMO
-http://rodrigo-kulb.com.br/alexKidd/
+https://rodrigo-kulb.com.br/alexKidd/
