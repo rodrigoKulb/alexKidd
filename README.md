@@ -10,7 +10,7 @@ Gostaria de listar os créditos as pessoas que vem ajudando o projeto:
 (24/08/2021) [@diegomagikal](https://github.com/diegomagikal) => Música de fundo, sons básicos e outros pequenos ajustes
 <hr>
 
-![print](https://raw.githubusercontent.com/rodrigoKulb/alexKidd/master/src/img/Captura%20de%20tela%20de%202020-03-14%2021-53-21.png)
+![print](https://github.com/rodrigoKulb/alexKidd/blob/master/stable/src/img/Captura%20de%20tela%20de%202020-03-14%2021-53-21.png)
 
 
 # DEMO
