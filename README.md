@@ -14,9 +14,11 @@ Gostaria de listar os créditos as pessoas que vem ajudando o projeto:
 
 
 # DEMO VERSÃO STABLE
-Versão funcional, porem o código está horrivel!
+Versão funcional, porem o código está horrivel 😅️!
+
 https://rodrigo-kulb.com.br/alexKidd/stable
 
 # DEMO VERSÃO ALPHA
-Com objetivo de organizar o código, criei um "fork alpha", deixei a resolução igual o game original do Master System 256 x 224
+Com objetivo de organizar o código, criei um "fork alpha", deixei a resolução igual o game original do Master System 256 x 224.
+
 https://rodrigo-kulb.com.br/alexKidd/alpha
