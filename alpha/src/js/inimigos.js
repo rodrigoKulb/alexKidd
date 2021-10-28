@@ -54,6 +54,10 @@ class Inimigos
 						this.morreu = 1;
 					}
 				}
+
+				if(this.morreu == 1){
+					enemyDiedSound.play()
+				}
 			}
 
 			var morreu = collideRectRect(personagem.x-120,personagem.y+40,50,100,this.x+40,this.y-cenario.scrollPer+60,100,50);

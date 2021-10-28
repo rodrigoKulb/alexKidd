@@ -24,8 +24,9 @@ let i = 0;
 let b = 0;
 let flechaMenu = 620;
 let pisca = 1;
-let backgroundSound;
 
+// sons
+let backgroundSound, punchSound, coinSound, jumpingSound, diedSound, crashSound, enemyDiedSound
 
 function preload() {
     spritedata = loadJSON('src/img/alex.json');
@@ -36,20 +37,21 @@ function preload() {
     bg = loadImage('src/img/fundo.png');
     menuImg = loadImage('src/img/menu.jpg');
     fontGame = loadFont('src/fonts/PixelGameFont.ttf');
-    soundFormats('mp3', 'wav');
 
     // sounds
+    soundFormats('mp3', 'wav');
     backgroundSound = loadSound('src/sounds/level1.mp3');
     punchSound = createAudio('src/sounds/punch.wav');
-    coinSound = loadSound('src/sounds/coins15.mp3');
-    jumpingSound = loadSound('src/sounds/jumping.wav');
+    coinSound = loadSound('src/sounds/coins.wav');
+    jumpingSound = loadSound('src/sounds/jumping1.wav');
     diedSound = createAudio('src/sounds/died.wav');
+    crashSound = loadSound('src/sounds/crash.wav');
+    enemyDiedSound = loadSound('src/sounds/crow.mp3');
 }
 
 function setup() {
 
-    createCanvas(1440, 1080);
-
+    createCanvas(256, 224);
     let frames = spritedata.frames;
     for (let i = 0; i < frames.length; i++) {
         let pos = frames[i].position;
@@ -58,7 +60,7 @@ function setup() {
     }
 
     //background(bg);
-    personagem = new Personagem(250, 300, animation);
+    personagem = new Personagem(44, 53, animation);
     cenario = new Cenario();
     inimigos[0] = new Inimigos(400, 1600, animation);
     inimigos[1] = new Inimigos(650, 2185, animation);
@@ -75,7 +77,7 @@ function setup() {
     inimigos[12] = new Inimigos(95, 8310, animation);
 
     backgroundSound.loop(1, 1, 0.2); // % do volume
-
+    resolucao();
 }
 
 function draw() {
@@ -105,7 +107,6 @@ function draw() {
         }
     } else {
         cenario.pedra();
-
         if (keyIsDown('x')) {
             personagem.soco(cenario);
         } else if (keyIsDown(LEFT_ARROW)) {
@@ -117,7 +118,6 @@ function draw() {
         } else {
             personagem.parado();
         }
-
         personagem.normaliza(cenario, inimigos);
 
         for (let inimigo of inimigos) {
@@ -135,7 +135,6 @@ function keyPressed() {
     if (key == 'x') {
         personagem.soco(cenario);
         punchSound.volume(0.4);
-        punchSound.play();
         if (personagem.superForca == 2) {
             personagem.vaisuperForca();
             personagem.forcaAndando = 0;
@@ -147,7 +146,6 @@ function keyPressed() {
         personagem.segueRight = 0;
         personagem.segueLeft = 0;
         personagem.pular();
-        jumpingSound.play();
         if ((menu == 1) && (flechaMenu <= 690) && (personagem.superForca == 1)) {
             personagem.superForca = 2;
         }
@@ -156,17 +154,17 @@ function keyPressed() {
         else menu = 0;
     }
     if (key == 'ArrowRight') {
-        i = i + 10;
+        i = i + 2;
 
     }
     if (key == 'ArrowLeft') {
-        i = i - 10;
+        i = i - 2;
     }
     if (key == 'ArrowDown') {
-        b = b + 10;
+        b = b + 2;
     }
     if (key == 'ArrowUp') {
-        b = b - 10;
+        b = b - 2;
     }
 
 }
@@ -186,5 +184,24 @@ function keyReleased() {
     }
     if (key == 'z') {
         if (personagem.vy < 0) personagem.vy = 0;
+    }
+}
+
+function resolucao() {
+    let canvas = document.getElementById('defaultCanvas0');
+    if (canvas) {
+        const rel = 1.142857143;
+        const height = window.innerHeight - 20;
+        const width = window.innerWidth - 20;
+        console.log(height + ' ' + width);
+        if (height > width) {
+            console.log(width / rel);
+            canvas.style.width = width + "px";
+            canvas.style.height = (width / rel) + "px";
+        } else {
+            console.log(height * rel);
+            canvas.style.width = (height * rel) + "px";
+            canvas.style.height = height + "px";
+        }
     }
 }
