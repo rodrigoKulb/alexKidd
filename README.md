@@ -13,5 +13,8 @@ Gostaria de listar os créditos as pessoas que vem ajudando o projeto:
 ![print](https://github.com/rodrigoKulb/alexKidd/blob/master/stable/src/img/Captura%20de%20tela%20de%202020-03-14%2021-53-21.png)
 
 
-# DEMO
+# DEMO VERSÃO STABLE
+https://rodrigo-kulb.com.br/alexKidd/
+
+# DEMO VERSÃO ALPHA
 https://rodrigo-kulb.com.br/alexKidd/
