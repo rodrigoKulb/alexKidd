@@ -8,6 +8,7 @@ class Personagem {
         this.y = y;
         this.z = 0;
         this.bloco = 16;
+        this.pixel = 1;
         //strokeWeight(1);
         strokeWeight(1);
         this.lado;
@@ -43,8 +44,8 @@ class Personagem {
     }
 
     limiteTela() {
-        if (this.x >= width+this.bloco*0.5) this.x = width+this.bloco*0.5;
-        if (this.x <= this.bloco*1.5) this.x = this.bloco*1.5;
+        if (this.x >= width + this.bloco * 0.5) this.x = width + this.bloco * 0.5;
+        if (this.x <= this.bloco * 1.5) this.x = this.bloco * 1.5;
         if (this.y >= 90) {
             if (cenario.scrollPer <= cenario.limiteAltura - 10) {
                 cenario.scrollPer = cenario.scrollPer + 2;
@@ -54,99 +55,99 @@ class Personagem {
     }
 
 
-    colisao(cenario, inimigos)
-    {
-        //rect(this.x - this.bloco * 1.5, this.y + this.bloco * 0.3 , this.bloco, this.bloco * 1.4);
-        
+    colisao(cenario, inimigos) {
+        this.personagemX = this.x - this.bloco * 1.5 + this.pixel * 2;
+        this.personagemY = this.y + this.bloco * 0.3;
+        this.pesonagemTamanhoX = this.bloco - this.pixel * 4;
+        this.pesonagemTamanhoY = this.bloco * 1.4;
+
+        rect(this.personagemX, this.personagemY, this.pesonagemTamanhoX, this.pesonagemTamanhoY);
         for (var b = 0; b < cenario.mapLevel.length; b++) {
-            var mapLavelN = cenario.mapLevel[b];
-            for (var c = 0; c < mapLavelN.length; c++) {
-                let naoColidir = [7, 8, 5, 6, 16, 15, 12, 13, 20, 22, 23 ,24 ,24, 25, 26, 27];
+            let mapa = cenario.mapLevel[b];
+            for (var c = 0; c < mapa.length; c++) {
+                let naoColidir = [7, 8, 5, 6, 16, 15, 12, 13, 20, 22, 23, 24, 24, 25, 26, 27];
 
-                if (mapLavelN[c] && (naoColidir.indexOf(mapLavelN[c])==-1)) {
-                    var hit = collideRectRect(this.x - this.bloco * 1.5, this.y + this.bloco * 0.3, this.bloco, this.bloco * 1.4, (c * this.bloco), (b * this.bloco) - cenario.scrollPer, this.bloco, this.bloco);
-                    //rect((c * this.bloco), (b * this.bloco) - cenario.scrollPer, this.bloco, this.bloco);
-                    var superBloco = this.quebraSuperForca(mapLavelN, c, b);
+                if (mapa[c] && (naoColidir.indexOf(mapa[c]) == -1)) {
+                    var hit = collideRectRect(this.personagemX, this.personagemY, this.pesonagemTamanhoX, this.pesonagemTamanhoY, (c * this.bloco), (b * this.bloco) - cenario.scrollPer, this.bloco, this.bloco);
 
-    
+                    var superBloco = this.quebraSuperForca(mapa, c, b);
 
-                    //rect((c * this.bloco), (b * this.bloco) - cenario.scrollPer, this.bloco, this.bloco);
-                    if (c * this.bloco > this.x - this.bloco * 2.5  && 
-                        c * this.bloco < this.x - this.bloco *0.5  &&
-                        b * this.bloco - cenario.scrollPer > this.y + this.bloco * 0.3) {
-                            if (this.loopPegaPiso == 0) {
+                    if (
+                        ((c * this.bloco + this.bloco > this.personagemX && c * this.bloco < this.personagemX) ||
+                        (c * this.bloco + this.bloco > this.personagemX+this.pesonagemTamanhoX && c * this.bloco < this.personagemX+this.pesonagemTamanhoX)) &&
+                        b * this.bloco - cenario.scrollPer > this.personagemY) {
+                        if (this.loopPegaPiso == 0) {
                             //this.xMenorL = (c * this.bloco) + this.bloco;
+
+                            this.xMenorPiso = (b * this.bloco) + this.bloco;
+                            this.maxAltura = (b * this.bloco - cenario.scrollPer) - this.bloco * 1.75;
+                            this.loopPegaPiso = 1;
+                            //console.log(this.xMenorPiso);
+                            rect((c * this.bloco), (b * this.bloco) - cenario.scrollPer, this.bloco, this.bloco);
+
+                        }
+                    }
+
+
+                    if (((b * this.bloco) - cenario.scrollPer) > this.personagemY &&
+                        ((b * this.bloco) - cenario.scrollPer) < this.personagemY + this.bloco) {
+
+                        // PEGAR LADO DIREITO
+                        if ((this.personagemX) < (c * this.bloco)) {
+                            if (this.loopPega == 0) {
+                                this.xMenorR = (c * this.bloco);
+                                //rect((c * this.bloco), (b * this.bloco) - cenario.scrollPer, this.bloco, this.bloco);
+                                this.loopPega = 1;
+                            }
+                            if (mapa[c] != 9 && mapa[c] != 10 && mapa[c] != 19) {
+                                if (this.loopPegaForca == 0) {
+                                    this.xMenorRForca = (c * this.bloco);
+                                    //rect((c * this.bloco), (b * this.bloco) - cenario.scrollPer, this.bloco, this.bloco);
+                                    this.loopPegaForca = 1;
+                                }
+                            }
+                        } else {
+                            this.xMenorL = (c * this.bloco) + this.bloco;
                             //rect((c * this.bloco), (b * this.bloco) - cenario.scrollPer, this.bloco, this.bloco);
-                            if (mapLavelN[c] != 9 && mapLavelN[c] != 10 && mapLavelN[c] != 19) {
-                                this.xMenorPiso = (b * this.bloco) + this.bloco;
-                                this.maxAltura = (b * this.bloco - cenario.scrollPer) -  this.bloco*1.75;
-                                this.loopPegaPiso = 1;
-                                //console.log(this.xMenorPiso);
-                                rect((c * this.bloco), (b * this.bloco) - cenario.scrollPer, this.bloco, this.bloco);
+                            if (mapa[c] != 9 && mapa[c] != 10 && mapa[c] != 19) {
+                                this.xMenorLForca = (c * this.bloco) + this.bloco;
+                                //rect((c * this.bloco), (b * this.bloco) - cenario.scrollPer, this.bloco, this.bloco);
                             }
                         }
                     }
-
-
-                    if (((b * this.bloco) - cenario.scrollPer) > this.y + this.bloco * 0.3 && 
-                    ((b * this.bloco) - cenario.scrollPer) < this.y + this.bloco * 0.3 + this.bloco) {
-                        
-                    // PEGAR LADO DIREITO
-                    if ((this.x - this.bloco * 1.5+this.bloco) < (c * this.bloco)) {
-                        if (this.loopPega == 0) {
-                            this.xMenorR = (c * this.bloco);
-                            rect((c * this.bloco), (b * this.bloco) - cenario.scrollPer, this.bloco, this.bloco);
-                            this.loopPega = 1;
-                        }
-                        if (mapLavelN[c] != 9 && mapLavelN[c] != 10 && mapLavelN[c] != 19) {
-                            if (this.loopPegaForca == 0) {
-                                this.xMenorRForca = (c * this.bloco);
-                                rect((c * this.bloco), (b * this.bloco) - cenario.scrollPer, this.bloco, this.bloco);
-                                this.loopPegaForca = 1;
-                            }
-                        }
-                    } else {
-                        this.xMenorL = (c * this.bloco) + this.bloco;
-                        //rect((c * this.bloco), (b * this.bloco) - cenario.scrollPer, this.bloco, this.bloco);
-                        if (mapLavelN[c] != 9 && mapLavelN[c] != 10 && mapLavelN[c] != 19) {
-                            this.xMenorLForca = (c * this.bloco) + this.bloco;
-                            rect((c * this.bloco), (b * this.bloco) - cenario.scrollPer, this.bloco, this.bloco);
-                        }
-                    }
-                }
 
                     //rect(this.x-130,this.y+40,60,116);
                     //rect((c*this.bloco),(b*this.bloco)-cenario.scrollPer,this.bloco,this.bloco);
-                    if (hit == true && ((this.y + this.bloco * 1.5 + this.bloco ) <= ((b * this.bloco) - cenario.scrollPer + this.bloco)) ) {
+                    if (hit == true && ((this.y + this.bloco * 1.5 + this.bloco) <= ((b * this.bloco) - cenario.scrollPer + this.bloco))) {
                         //rect((c * this.bloco), (b * this.bloco) - cenario.scrollPer, this.bloco, this.bloco);
                         this.hitY = true;
                         //this.maxAltura = (b * this.bloco - cenario.scrollPer) - 32;
-                    } else if ((hit == true && (this.y + this.bloco * 0.3 <= ((b * this.bloco) + this.bloco - cenario.scrollPer))) && ((this.y + this.bloco * 0.3 + this.bloco * 1.4) >= ((b * this.bloco) + this.bloco - cenario.scrollPer))) {
+                    } else if ((hit == true && (this.personagemY <= ((b * this.bloco) + this.bloco - cenario.scrollPer))) && ((this.personagemY + this.pesonagemTamanhoY) >= ((b * this.bloco) + this.bloco - cenario.scrollPer))) {
                         //this.yStop = 1;
                     }
 
 
-                } else if (mapLavelN[c] == 15 || mapLavelN[c] == 16 || mapLavelN[c] == 20) {
+                } else if (mapa[c] == 15 || mapa[c] == 16 || mapa[c] == 20) {
 
-                    var hit = collideRectRect(this.x - this.bloco * 1.5, this.y + this.bloco * 0.3, (c * this.bloco), (b * this.bloco) - cenario.scrollPer, this.bloco, this.bloco);
+                    var hit = collideRectRect(this.personagemX, this.personagemY, (c * this.bloco), (b * this.bloco) - cenario.scrollPer, this.bloco, this.bloco);
                     if (hit) {
-                        if (mapLavelN[c] == 15) {
+                        if (mapa[c] == 15) {
                             this.money = this.money + 20;
                             coinSound.play();
                         }
-                        if (mapLavelN[c] == 16) {
+                        if (mapa[c] == 16) {
                             this.money = this.money + 10;
                             coinSound.play();
                         }
-                        if (mapLavelN[c] == 20) {
+                        if (mapa[c] == 20) {
                             // Quando pega o super força
                             this.superForca = 1;
                         }
                         cenario.mapLevel[b][c] = 0;
                         // console.log(this.money);
                     }
-                } else if (mapLavelN[c] >= 25 && mapLavelN[c] <= 27) {
-                    var hit = collideRectRect(this.x - this.bloco * 1.5, this.y + this.bloco * 0.3, (c * this.bloco), (b * this.bloco) - cenario.scrollPer, this.bloco, this.bloco);
+                } else if (mapa[c] >= 25 && mapa[c] <= 27) {
+                    var hit = collideRectRect(this.personagemX, this.personagemY, (c * this.bloco), (b * this.bloco) - cenario.scrollPer, this.bloco, this.bloco);
                     if (hit) {
 
                         this.taAgua = 1;
@@ -156,7 +157,7 @@ class Personagem {
                 for (let inimigo of inimigos) {
                     if (((b * this.bloco) - cenario.scrollPer) < inimigo.inimigoAltura + this.bloco && ((b * this.bloco) - cenario.scrollPer) + this.bloco > inimigo.inimigoAltura + this.bloco) {
 
-                        var hitInimigo = collideRectRect(inimigo.x, inimigo.inimigoAltura + this.bloco, this.bloco*2, 4, (c * this.bloco), (b * this.bloco) - cenario.scrollPer, this.bloco, this.bloco);
+                        var hitInimigo = collideRectRect(inimigo.x, inimigo.inimigoAltura + this.bloco, this.bloco * 2, 4, (c * this.bloco), (b * this.bloco) - cenario.scrollPer, this.bloco, this.bloco);
                         if (hitInimigo) {
                             if (inimigo.soma > 0) inimigo.soma = inimigo.soma * -1;
                             else inimigo.soma = inimigo.soma * -1;
@@ -166,7 +167,7 @@ class Personagem {
 
                 if (superBloco) {
                     if (superBloco == 'zero') superBloco = 0;
-                    mapLavelN[c] = superBloco;
+                    mapa[c] = superBloco;
                 }
             }
         }
@@ -206,14 +207,14 @@ class Personagem {
             }
         } else {
 
-            
+
             if (this.noar) {
-                if (this.xMenorL <=  this.x - this.bloco * 2.5 && (this.lado == 'left')) {
+                if (this.xMenorL <= this.x - this.bloco * 2.5 && (this.lado == 'left')) {
                     //this.x = this.x - this.segueLeft + this.segueRight
                     //this.segueLeft = this.segueLeft - 0.2;
                     //this.segueRight = this.segueRight - 0.2;
                 }
-                if ((this.xMenorR >=  this.x - this.bloco ) && (this.lado == 'right')) {
+                if ((this.xMenorR >= this.x - this.bloco) && (this.lado == 'right')) {
                     //this.x = this.x - this.segueLeft + this.segueRight
                     //this.segueLeft = this.segueLeft - 0.2;
                     //this.segueRight = this.segueRight - 0.2;
@@ -250,7 +251,7 @@ class Personagem {
                 this.vy = 0;
                 this.noar = 0;
                 if (this.vy > 10) this.vy = 1;
-            } else{
+            } else {
                 this.vy += this.gravity;
                 this.noar = 1;
             }
@@ -298,8 +299,8 @@ class Personagem {
             image(this.animation[this.b], -this.x, this.y);
 
             if ((this.nosoco == 0 || this.noar != 0)) {
-               
-                if (this.xMenorL+this.bloco*1.2 <= this.x - this.passo*3) {
+                console.log(this.xMenorL + " => " + (this.personagemX - this.pixel * 2));
+                if (this.xMenorL < this.personagemX - this.pixel * 2) {
                     if (this.z >= 4) this.x = this.x - this.passo;
                 }
             }
@@ -309,9 +310,9 @@ class Personagem {
             image(this.animation[this.b], this.x - this.bloco * 2, this.y);
             if ((this.nosoco == 0 || this.noar != 0)) {
                 console.log(this.xMenorR);
-                console.log(this.x-6);
-                if (this.xMenorR > this.x-6) {
-                if (this.z >= 4) this.x = this.x + this.passo;
+                console.log(this.x - 6);
+                if (this.xMenorR > this.personagemX + this.pesonagemTamanhoX + this.pixel * 2) {
+                    if (this.z >= 4) this.x = this.x + this.passo;
                 }
             }
         }
@@ -427,23 +428,23 @@ class Personagem {
         }
     }
 
-    quebraSuperForca(mapLavelN, c, b) {
+    quebraSuperForca(mapa, c, b) {
         if (this.forcaLado == 'left') this.redusX = this.xForca - 280;
         else this.redusX = this.xForca - 10
         //rect(this.redusX, this.yForca+this.cenarioIni-cenario.scrollPer+20,this.bloco,45);
 
         var hitSoco = collideRectRect(this.redusX, this.yForca + this.cenarioIni - cenario.scrollPer + 20, this.bloco, 45, (c * this.bloco), (b * this.bloco) - cenario.scrollPer, this.bloco, this.bloco);
-        if ((mapLavelN[c] == 9 || mapLavelN[c] == 10 || mapLavelN[c] == 19 || mapLavelN[c] == 18) && (hitSoco)) {
+        if ((mapa[c] == 9 || mapa[c] == 10 || mapa[c] == 19 || mapa[c] == 18) && (hitSoco)) {
             //rect((c*this.bloco),(b*this.bloco)-cenario.scrollPer,this.bloco,this.bloco);
-            if (mapLavelN[c] == 9) {
+            if (mapa[c] == 9) {
                 if (random(0, 1) >= 0.5) {
                     return 15;
                 } else {
                     return 16;
                 }
             }
-            if (mapLavelN[c] == 10 || mapLavelN[c] == 18) return 'zero';
-            if (mapLavelN[c] == 19) return 20;
+            if (mapa[c] == 10 || mapa[c] == 18) return 'zero';
+            if (mapa[c] == 19) return 20;
         } else {
             return false;
         }
