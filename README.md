@@ -14,7 +14,7 @@ Gostaria de listar os créditos as pessoas que vem ajudando o projeto:
 
 
 # DEMO VERSÃO STABLE
-https://rodrigo-kulb.com.br/alexKidd/
+https://rodrigo-kulb.com.br/alexKidd/stable
 
 # DEMO VERSÃO ALPHA
-https://rodrigo-kulb.com.br/alexKidd/
+https://rodrigo-kulb.com.br/alexKidd/alpha
