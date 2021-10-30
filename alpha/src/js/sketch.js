@@ -48,7 +48,6 @@ function preload() {
     spritesheetP = loadImage('src/img/fundo-01.png');
     bg = loadImage('src/img/fundo.png');
     menuImg = loadImage('src/img/menu.jpg');
-    transparency = loadImage('src/img/transparency.png');
     fontGame = loadFont('src/fonts/PixelGameFont.ttf');
 
     // sounds
@@ -103,7 +102,7 @@ let settings = {
 
 function chamaSom(valorSom) {
     if (valorSom == true) {
-        backgroundSound.loop(1, 1, settings.vol); 
+        backgroundSound.loop(1, 1, settings.vol);
     }
     if (valorSom == false) {
         backgroundSound.stop()
@@ -147,21 +146,19 @@ function draw() {
 
     // pausa
     else if (menu == 2) {
-
         let valorSom = false
         chamaSom(valorSom)
         gameCanvas.classList.add('im-paused')
         textPaused.removeAttribute('style')
-        cenario.pedra(personagem);
-        personagem.parado();
-
+        cenario.pedra(personagem)
+        personagem.parado()
     }
 
 
     else {
         gameCanvas.classList.remove('im-paused')
         textPaused.setAttribute('style', 'display:none')
-        cenario.pedra(personagem);
+        cenario.pedra(personagem)
         if (keyIsDown('x')) {
             personagem.soco(cenario);
         } else if (keyIsDown(LEFT_ARROW)) {
@@ -187,12 +184,12 @@ function keyPressed() {
     // pausa e despausa
     if (key == 'p' || key == 'P') {
         let valorSom = true
-        if (menu == 0) menu = 2;
-        else menu = 0 & chamaSom(valorSom);
+        if (menu == 0) menu = 2
+        else menu = 0 & chamaSom(valorSom)
     }
 
     // teclas não funcionais enquanto há pausa
-    if(menu != 2){
+    if (menu != 2) {
         // soco
         if (key == 'x' || key == 'X') {
             personagem.soco(cenario);
@@ -205,7 +202,7 @@ function keyPressed() {
                 personagem.superForca = 2;
             }
         }
-    
+
         // pulo normal
         if (key == 'z' || key == 'Z') {
             personagem.segueRight = 0;
@@ -215,14 +212,13 @@ function keyPressed() {
                 personagem.superForca = 2;
             }
         }
-    
+
         // abre o mapa
         if (key == 'c' || key == 'C') {
             if (menu == 0) menu = 1;
             else menu = 0;
         }
     }
-    
 
     // movimentacao
     if (key == 'ArrowRight') {

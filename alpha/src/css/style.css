@@ -1,3 +1,6 @@
+/* Alex Kidd in Miracle World remade with p5.js */
+
+/* Variáveis ambiente */
 :root {
     --font-size: 16px;
     --w: 100vw;
@@ -8,14 +11,16 @@
 * {
     box-sizing: border-box;
     margin: 0;
+    user-select: none;
 }
 
 body {
-    overflow: hidden;
+    overflow: hidden; /* Remove as barras de rolagem */
     text-align: center;
-    background-color: black;
+    background: black;
 }
 
+/* Canvas do Game */
 #defaultCanvas0 {
     position: center;
     position: relative;
@@ -24,6 +29,7 @@ body {
     margin-top: .5rem;
 }
 
+/* Adiciona opacidade ao canvas quando pausado */
 .im-paused {
     opacity: 0.3;
 }
@@ -32,6 +38,7 @@ body {
     position: absolute;
     font-family: PixelGameFont, serif;
     color: white;
+    /* A margem da esquerda será o tamanho da view width dividido por 2 menos 4x fonte */
     margin-left: calc((var(--w)/2) - (var(--font-size))*4);
     top: calc(50% - var(--font-size));
     z-index: 1000;
@@ -40,7 +47,6 @@ body {
 .invisible {
     display: none;
 }
-
 
 @media (orientation: portrait) {
     .text-paused {
@@ -51,4 +57,4 @@ body {
         top: calc(35% - var(--font-size));
         z-index: 1000;
     }
-} 
+}
