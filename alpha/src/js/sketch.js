@@ -271,14 +271,18 @@ function pauseGame() {
 }
 
 // pausa o jogo quando sair da aba
+
 localStorage.setItem('inner-visibility', '0')
-document.addEventListener('visibilitychange', ()=>{
-    if(document.visibilityState === 'visible'){
-        pauseGame().pauseFalse()
-        localStorage.setItem('inner-visibility', 1)
-    }
-    if(document.visibilityState === 'hidden'){
-        pauseGame().pauseFalse()
-        localStorage.setItem('inner-visibility', 2)
+document.addEventListener('visibilitychange', () => {
+    let p = localStorage.getItem('bool-paused')
+    if (p == 0) {
+        if (document.visibilityState === 'visible') {
+            pauseGame().pauseFalse()
+            localStorage.setItem('inner-visibility', 1)
+        }
+        if (document.visibilityState === 'hidden') {
+            pauseGame().pauseFalse()
+            localStorage.setItem('inner-visibility', 2)
+        }
     }
 })
