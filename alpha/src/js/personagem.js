@@ -52,18 +52,18 @@ class Personagem {
 
     pegaAreaSoco() {
         if (this.lado == 'left') {
-            this.personagemXSoco = this.x - this.bloco * 1.5 - this.pixel * 10;
+            this.personagemXSoco = this.x - this.bloco * 1.5 - this.pixel * 6;
             this.personagemYSoco = this.y + this.bloco * 0.8;
             this.pesonagemTamanhoXSoco = this.bloco - this.pixel * 4;
-            this.pesonagemTamanhoYSoco = this.bloco;
-            rect(this.personagemXSoco, this.personagemYSoco, this.pesonagemTamanhoXSoco, this.pesonagemTamanhoYSoco);
+            this.pesonagemTamanhoYSoco = this.bloco * 0.8;
+            //rect(this.personagemXSoco, this.personagemYSoco, this.pesonagemTamanhoXSoco, this.pesonagemTamanhoYSoco);
         }
         else { 
             this.personagemXSoco = this.x - this.bloco * 1.5 + this.pixel * 10;
-            this.personagemYSoco = this.y + this.bloco * 0.3;
+            this.personagemYSoco = this.y + this.bloco * 0.8;
             this.pesonagemTamanhoXSoco = this.bloco - this.pixel * 4;
-            this.pesonagemTamanhoYSoco = this.bloco;
-            rect(this.personagemXSoco, this.personagemYSoco, this.pesonagemTamanhoXSoco, this.pesonagemTamanhoYSoco);
+            this.pesonagemTamanhoYSoco = this.bloco * 0.8;
+            //rect(this.personagemXSoco, this.personagemYSoco, this.pesonagemTamanhoXSoco, this.pesonagemTamanhoYSoco);
         }
     }
 
