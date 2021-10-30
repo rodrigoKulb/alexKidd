@@ -22,6 +22,7 @@ class Personagem {
         this.noar = 0;
         this.img = 0;
         this.nosoco = 0;
+        this.lado = 'right';
         this.nobaixo = 0;
         this.segueRight = 0;
         this.segueLeft = 0;
@@ -46,6 +47,23 @@ class Personagem {
                 cenario.scrollPer = cenario.scrollPer + 2;
                 this.y = this.bloco * 5;
             }
+        }
+    }
+
+    pegaAreaSoco() {
+        if (this.lado == 'left') {
+            this.personagemXSoco = this.x - this.bloco * 1.5 - this.pixel * 10;
+            this.personagemYSoco = this.y + this.bloco * 0.8;
+            this.pesonagemTamanhoXSoco = this.bloco - this.pixel * 4;
+            this.pesonagemTamanhoYSoco = this.bloco;
+            rect(this.personagemXSoco, this.personagemYSoco, this.pesonagemTamanhoXSoco, this.pesonagemTamanhoYSoco);
+        }
+        else { 
+            this.personagemXSoco = this.x - this.bloco * 1.5 + this.pixel * 10;
+            this.personagemYSoco = this.y + this.bloco * 0.3;
+            this.pesonagemTamanhoXSoco = this.bloco - this.pixel * 4;
+            this.pesonagemTamanhoYSoco = this.bloco;
+            rect(this.personagemXSoco, this.personagemYSoco, this.pesonagemTamanhoXSoco, this.pesonagemTamanhoYSoco);
         }
     }
 
@@ -100,13 +118,13 @@ class Personagem {
     colisao(cenario, inimigos) {
 
         this.pegaAreaPersonagem();
-
+        this.pegaAreaSoco();
         for (var linha = 0; linha < cenario.mapLevel.length; linha++) {
             let mapa = cenario.mapLevel[linha];
             for (var coluna = 0; coluna < mapa.length; coluna++) {
 
                 let naoColidir = [7, 8, 5, 6, 16, 15, 12, 13, 20, 22, 23, 24, 24, 25, 26, 27];
-                let objetos = [15,16,20];
+                let objetos = [15, 16, 20];
 
                 if (mapa[coluna] && (naoColidir.indexOf(mapa[coluna]) == -1)) {
 
@@ -114,7 +132,7 @@ class Personagem {
                     this.colisaoPiso(cenario, coluna, linha);
                     this.colisaoDasLaterais(linha, coluna, cenario, mapa);
 
-                } else if (objetos.indexOf(mapa[coluna]) >=0) {
+                } else if (objetos.indexOf(mapa[coluna]) >= 0) {
 
                     let colisaoObjeto = collideRectRect(this.personagemX, this.personagemY, this.pesonagemTamanhoX - this.pixel * 2, this.pesonagemTamanhoY - this.pixel * 2, (coluna * this.bloco), (linha * this.bloco) - cenario.scrollPer, this.bloco, this.bloco);
 
