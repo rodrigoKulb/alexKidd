@@ -90,7 +90,6 @@ function setup() {
 
     backgroundSound.loop(1, 1, 0.2); // % do volume
     resolucao();
-
     // pause iniciado
     localStorage.setItem('bool-paused', 0)
 }
@@ -146,7 +145,6 @@ function draw() {
         }
 
     }
-
 
 }
 
@@ -245,9 +243,8 @@ function resolucao() {
     }
 }
 
-// Pause 
+// pause 
 function pauseGame() {
-
     let p = localStorage.getItem('bool-paused')
     let gameCanvas = document.getElementById('defaultCanvas0')
     p == 0 ? pauseTrue(gameCanvas) & localStorage.setItem('bool-paused', 1) :
@@ -258,12 +255,34 @@ function pauseGame() {
         gameCanvas.classList.add('im-paused')
         backgroundSound.pause()
 
+        let textPaused = document.getElementById('pausado')
+        textPaused.removeAttribute('style')
 
     }
 
     function pauseFalse() {
         gameCanvas.classList.remove('im-paused')
         backgroundSound.play()
+
+        let textPaused = document.getElementById('pausado')
+        textPaused.setAttribute('style', 'display:none')
     }
 
-} 
+}
+
+// pausa o jogo quando sair da aba
+
+localStorage.setItem('inner-visibility', '0')
+document.addEventListener('visibilitychange', () => {
+    let p = localStorage.getItem('bool-paused')
+    if (p == 0) {
+        if (document.visibilityState === 'visible') {
+            pauseGame().pauseFalse()
+            localStorage.setItem('inner-visibility', 1)
+        }
+        if (document.visibilityState === 'hidden') {
+            pauseGame().pauseFalse()
+            localStorage.setItem('inner-visibility', 2)
+        }
+    }
+})

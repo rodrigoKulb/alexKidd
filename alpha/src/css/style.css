@@ -1,3 +1,15 @@
+:root {
+    --font-size: 16px;
+    --w: 100vw;
+    --h: 100vw;
+    --rel: 1.142857143;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+}
+
 body {
     overflow: hidden;
     text-align: center;
@@ -5,10 +17,26 @@ body {
 }
 
 #defaultCanvas0 {
+    position: center;
+    position: relative;
     width:100%;
     image-rendering: pixelated;
+    margin-top: .5rem;
 }
 
 .im-paused {
     opacity: 0.3;
+}
+
+.text-paused {
+    position: absolute;
+    font-family: PixelGameFont, serif;
+    color: white;
+    margin-left: calc((var(--w)/2) - (var(--font-size))*4);
+    top: calc(50% - var(--font-size));
+    z-index: 1000;
+}
+
+.invisible {
+    display: none;
 }
