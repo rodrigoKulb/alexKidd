@@ -1,0 +1,14 @@
+body {
+    overflow: hidden;
+    text-align: center;
+    background-color: black;
+}
+
+#defaultCanvas0 {
+    width:100%;
+    image-rendering: pixelated;
+}
+
+.im-paused {
+    opacity: 0.3;
+}
