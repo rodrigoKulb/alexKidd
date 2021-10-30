@@ -40,7 +40,7 @@ class Personagem {
     }
 
 
-    limiteTela() {
+    limitarTela() {
         if (this.y >= this.bloco * 5) {
             if (cenario.scrollPer <= cenario.limiteAltura - 10) {
                 cenario.scrollPer = cenario.scrollPer + 2;
@@ -49,7 +49,7 @@ class Personagem {
         }
     }
 
-    posicaoPersonagem() {
+    pegaAreaPersonagem() {
         this.personagemX = this.x - this.bloco * 1.5 + this.pixel * 2;
         this.personagemY = this.y + this.bloco * 0.3;
         this.pesonagemTamanhoX = this.bloco - this.pixel * 4;
@@ -68,7 +68,7 @@ class Personagem {
         }
     }
 
-    colisaoDasLaterais(linha,coluna,cenario,mapa) {
+    colisaoDasLaterais(linha, coluna, cenario, mapa) {
         if (((linha * this.bloco) - cenario.scrollPer) > this.personagemY &&
             ((linha * this.bloco) - cenario.scrollPer) < this.personagemY + this.bloco) {
 
@@ -99,24 +99,25 @@ class Personagem {
 
     colisao(cenario, inimigos) {
 
-        this.posicaoPersonagem();
+        this.pegaAreaPersonagem();
 
         for (var linha = 0; linha < cenario.mapLevel.length; linha++) {
             let mapa = cenario.mapLevel[linha];
             for (var coluna = 0; coluna < mapa.length; coluna++) {
 
                 let naoColidir = [7, 8, 5, 6, 16, 15, 12, 13, 20, 22, 23, 24, 24, 25, 26, 27];
-                
+                let objetos = [15,16,20];
+
                 if (mapa[coluna] && (naoColidir.indexOf(mapa[coluna]) == -1)) {
 
                     var superBloco = this.quebraSuperForca(mapa, coluna, linha);
                     this.colisaoPiso(cenario, coluna, linha);
-                    this.colisaoDasLaterais(linha,coluna,cenario,mapa);
+                    this.colisaoDasLaterais(linha, coluna, cenario, mapa);
 
-                } else if (mapa[coluna] == 15 || mapa[coluna] == 16 || mapa[coluna] == 20) {
+                } else if (objetos.indexOf(mapa[coluna]) >=0) {
 
-                    var colisaoObjeto = collideRectRect(this.personagemX, this.personagemY, this.pesonagemTamanhoX-this.pixel*2, this.pesonagemTamanhoY-this.pixel*2, (coluna * this.bloco), (linha * this.bloco) - cenario.scrollPer, this.bloco, this.bloco);
-                   
+                    let colisaoObjeto = collideRectRect(this.personagemX, this.personagemY, this.pesonagemTamanhoX - this.pixel * 2, this.pesonagemTamanhoY - this.pixel * 2, (coluna * this.bloco), (linha * this.bloco) - cenario.scrollPer, this.bloco, this.bloco);
+
                     if (colisaoObjeto) {
                         if (mapa[coluna] == 15) {
                             this.money = this.money + 20;
@@ -127,7 +128,6 @@ class Personagem {
                             coinSound.play();
                         }
                         if (mapa[coluna] == 20) {
-                            // Quando pega o super força
                             this.superForca = 1;
                         }
                         cenario.mapLevel[linha][coluna] = 0;
@@ -162,7 +162,7 @@ class Personagem {
 
         this.yStop = 0;
         this.hitY = false;
-        this.limiteTela();
+        this.limitarTela();
         this.loopPega = 0;
         this.loopPegaForca = 0;
         this.loopPegaPiso = 0;
@@ -350,7 +350,7 @@ class Personagem {
                 scale(-1, 1);
                 image(this.animation[6], -this.x, this.y);
                 //zx('soco');
-                cenario.x = cenario.x - 220;
+                //cenario.x = cenario.x - 220;
             } else {
                 scale(1, 1);
                 image(this.animation[6], this.x - 190, this.y);
