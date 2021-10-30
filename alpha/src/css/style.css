@@ -5,6 +5,8 @@
     --rel: 1.142857143;
 }
 
+
+
 * {
     box-sizing: border-box;
     margin: 0;
@@ -39,4 +41,15 @@ body {
 
 .invisible {
     display: none;
+}
+
+@media (orientation: portrait) {
+    .text-paused {
+        position: absolute;
+        font-family: PixelGameFont, serif;
+        color: white;
+        margin-left: calc((var(--w)/2) - (var(--font-size))*4);
+        top: calc(35% - var(--font-size));
+        z-index: 1000;
+    }
 }
