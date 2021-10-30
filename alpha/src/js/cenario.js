@@ -192,6 +192,7 @@ class Cenario
 
 					
 					image( this.bg[mapLavelN[this.coluna]-1], this.coluna*  this.bg[mapLavelN[this.coluna]-1].width, this.linha*  this.bg[mapLavelN[this.coluna]-1].height-this.scrollPer);
+					
 					if(personagem.nosoco==7) {
 						console.log(this.soco);
 					}
