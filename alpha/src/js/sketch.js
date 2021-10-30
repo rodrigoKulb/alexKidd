@@ -126,7 +126,7 @@ function draw() {
             } else pisca = 1;
         }
     } else {
-        cenario.pedra();
+        cenario.pedra(personagem);
         if (keyIsDown('x')) {
             personagem.soco(cenario);
         } else if (keyIsDown(LEFT_ARROW) && p == 0) {
