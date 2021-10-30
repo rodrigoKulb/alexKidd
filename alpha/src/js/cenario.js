@@ -9,8 +9,8 @@ class Cenario
 		this.gravity = 0.75;
 		this.x = x;
 		this.y = y;
-		this.i = 0;
-		this.t =0;
+		this.linha = 0;
+		this.coluna =0;
 		this.scrollPer = 1;
 		this.bg = [];
 		this.frames = 0;
@@ -175,72 +175,72 @@ class Cenario
 		// console.log(this.aguaCor);
 		// console.log(this.mapLevel.length);
 		 this.limiteAltura = this.mapLevel.length*16;
-		 for (this.i=0; this.i < this.mapLevel.length; this.i++)
+		 for (this.linha=0; this.linha < this.mapLevel.length; this.linha++)
 		 {
 
-			 var mapLavelN = this.mapLevel[this.i];
-			for (this.t = 0; this.t < mapLavelN.length; this.t++)
+			 var mapLavelN = this.mapLevel[this.linha];
+			for (this.coluna = 0; this.coluna < mapLavelN.length; this.coluna++)
 			{
-				if(mapLavelN[this.t])
+				if(mapLavelN[this.coluna])
 				{
 					//agua
-					if(this.mapLevel[this.i][this.t]==22){ this.mapLevel[this.i][this.t] = this.somaCor; }
-					if(this.mapLevel[this.i][this.t]==23){  this.mapLevel[this.i][this.t] = this.somaCor;  }
-					if(this.mapLevel[this.i][this.t]==24){  this.mapLevel[this.i][this.t] = this.somaCor;  }
-					if(this.mapLevel[this.i][this.t]==25){ this.mapLevel[this.i][this.t] = this.somaCor+3; }
-					if(this.mapLevel[this.i][this.t]==26){  this.mapLevel[this.i][this.t] = this.somaCor+3;  }
-					if(this.mapLevel[this.i][this.t]==27){  this.mapLevel[this.i][this.t] = this.somaCor+3;  }
+					if(this.mapLevel[this.linha][this.coluna]==22){ this.mapLevel[this.linha][this.coluna] = this.somaCor; }
+					if(this.mapLevel[this.linha][this.coluna]==23){  this.mapLevel[this.linha][this.coluna] = this.somaCor;  }
+					if(this.mapLevel[this.linha][this.coluna]==24){  this.mapLevel[this.linha][this.coluna] = this.somaCor;  }
+					if(this.mapLevel[this.linha][this.coluna]==25){ this.mapLevel[this.linha][this.coluna] = this.somaCor+3; }
+					if(this.mapLevel[this.linha][this.coluna]==26){  this.mapLevel[this.linha][this.coluna] = this.somaCor+3;  }
+					if(this.mapLevel[this.linha][this.coluna]==27){  this.mapLevel[this.linha][this.coluna] = this.somaCor+3;  }
 
-					//console.log((this.bg[mapLavelN[this.t]-1])+" próximo: "+(this.t*  this.bg[mapLavelN[this.t]-1].width)+" próximo:"+ (this.i*  this.bg[mapLavelN[this.t]-1].height-this.scrollPer));
-					image( this.bg[mapLavelN[this.t]-1], this.t*  this.bg[mapLavelN[this.t]-1].width, this.i*  this.bg[mapLavelN[this.t]-1].height-this.scrollPer);
+					//console.log((this.bg[mapLavelN[this.coluna]-1])+" próximo: "+(this.coluna*  this.bg[mapLavelN[this.coluna]-1].width)+" próximo:"+ (this.linha*  this.bg[mapLavelN[this.coluna]-1].height-this.scrollPer));
+					image( this.bg[mapLavelN[this.coluna]-1], this.coluna*  this.bg[mapLavelN[this.coluna]-1].width, this.linha*  this.bg[mapLavelN[this.coluna]-1].height-this.scrollPer);
 
-					if(this.soco>=1 && (this.x>(this.t*this.bg[mapLavelN[this.t]-1].width)) && (this.x<(this.t*this.bg[mapLavelN[this.t]-1].width+this.bg[mapLavelN[this.t]-1].width)))
+					if(this.soco>=1 && (this.x>(this.coluna*this.bg[mapLavelN[this.coluna]-1].width)) && (this.x<(this.coluna*this.bg[mapLavelN[this.coluna]-1].width+this.bg[mapLavelN[this.coluna]-1].width)))
 					{
-
-						if( (this.y+85>(this.i*this.bg[mapLavelN[this.t]-1].height-this.scrollPer)) && (this.y+85<(this.i*this.bg[mapLavelN[this.t]-1].height-this.scrollPer+this.bg[mapLavelN[this.t]-1].height)))
+						console.log('linha');
+						if( (this.y+17>(this.linha*this.bg[mapLavelN[this.coluna]-1].height-this.scrollPer)) && (this.y+17<(this.linha*this.bg[mapLavelN[this.coluna]-1].height-this.scrollPer+this.bg[mapLavelN[this.coluna]-1].height)))
 						{
 
-							//rect(this.t*  this.bg[mapLavelN[this.t]-1].width, this.i*  this.bg[mapLavelN[this.t]-1].height-this.scrollPer,90,90);
+							//rect(this.coluna*  this.bg[mapLavelN[this.coluna]-1].width, this.linha*  this.bg[mapLavelN[this.coluna]-1].height-this.scrollPer,90,90);
 						   // rect(this.x, this.y+85,30,30);
 
 							if(this.soco==7)
 							{
-								if(this.quebraveis.includes(this.mapLevel[this.i][this.t]) && !crashSound.isPlaying()) {
+								if(this.quebraveis.includes(this.mapLevel[this.linha][this.coluna]) && !crashSound.isPlaying()) {
 									crashSound.play();
 								}
-								if(this.mapLevel[this.i][this.t]==10)
+								if(this.mapLevel[this.linha][this.coluna]==10)
 								{
-								 	this.mapLevel[this.i][this.t] = 0;
+								 	this.mapLevel[this.linha][this.coluna] = 0;
 								 	this.socoN = 1;
 									this.yN = this.y;
 								 }
-								 else if(this.mapLevel[this.i][this.t]==17)
+								 else if(this.mapLevel[this.linha][this.coluna]==17)
 								 {
-								 	this.mapLevel[this.i][this.t] = 0;
+								 	this.mapLevel[this.linha][this.coluna] = 0;
 								 	this.socoN = 1;
 									this.yN = this.y;
 								 }
-								 else if(this.mapLevel[this.i][this.t]==18)
+								 else if(this.mapLevel[this.linha][this.coluna]==18)
 								 {
-								 	this.mapLevel[this.i][this.t] = 19;
+								 	this.mapLevel[this.linha][this.coluna] = 19;
 								 	this.socoN = 1;
 									this.yN = this.y;
 								 }
-								else if(this.mapLevel[this.i][this.t]==19)
+								else if(this.mapLevel[this.linha][this.coluna]==19)
 								 {
-								 	this.mapLevel[this.i][this.t] = 20;
+								 	this.mapLevel[this.linha][this.coluna] = 20;
 								 	this.socoN = 1;
 									this.yN = this.y;
 								 }
-								 else if(this.mapLevel[this.i][this.t]==9)
+								 else if(this.mapLevel[this.linha][this.coluna]==9)
 								 {
 								 	if(random(0, 1)>=0.5)
 									{
-								 		this.mapLevel[this.i][this.t] =15;
+								 		this.mapLevel[this.linha][this.coluna] =15;
 									}
 									else
 									{
-										this.mapLevel[this.i][this.t] = 16;
+										this.mapLevel[this.linha][this.coluna] = 16;
 									}
 								 	this.socoN = 1;
 									this.yN = this.y;
