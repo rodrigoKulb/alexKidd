@@ -1,5 +1,6 @@
 // JavaScript Document
 
+
 class Personagem {
 
     constructor(x, y, animation) {
