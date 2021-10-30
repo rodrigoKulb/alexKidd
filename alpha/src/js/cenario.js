@@ -151,7 +151,7 @@ class Cenario
   		}
 	}
 
-	pedra(personagem)
+	pedra()
 	{
 		this.aguaCor++;
 		if(this.aguaCor<=20)
@@ -172,7 +172,8 @@ class Cenario
 			this.aguaCor = 0;
 		}
 
-
+		// console.log(this.aguaCor);
+		// console.log(this.mapLevel.length);
 		 this.limiteAltura = this.mapLevel.length*16;
 		 for (this.linha=0; this.linha < this.mapLevel.length; this.linha++)
 		 {
@@ -190,14 +191,12 @@ class Cenario
 					if(this.mapLevel[this.linha][this.coluna]==26){  this.mapLevel[this.linha][this.coluna] = this.somaCor+3;  }
 					if(this.mapLevel[this.linha][this.coluna]==27){  this.mapLevel[this.linha][this.coluna] = this.somaCor+3;  }
 
-					
+					//console.log((this.bg[mapLavelN[this.coluna]-1])+" próximo: "+(this.coluna*  this.bg[mapLavelN[this.coluna]-1].width)+" próximo:"+ (this.linha*  this.bg[mapLavelN[this.coluna]-1].height-this.scrollPer));
 					image( this.bg[mapLavelN[this.coluna]-1], this.coluna*  this.bg[mapLavelN[this.coluna]-1].width, this.linha*  this.bg[mapLavelN[this.coluna]-1].height-this.scrollPer);
-					if(personagem.nosoco>=1) {
-						console.log(this.soco);
-					}
+
 					if(this.soco>=1 && (this.x>(this.coluna*this.bg[mapLavelN[this.coluna]-1].width)) && (this.x<(this.coluna*this.bg[mapLavelN[this.coluna]-1].width+this.bg[mapLavelN[this.coluna]-1].width)))
 					{
-			
+						console.log('linha');
 						if( (this.y+17>(this.linha*this.bg[mapLavelN[this.coluna]-1].height-this.scrollPer)) && (this.y+17<(this.linha*this.bg[mapLavelN[this.coluna]-1].height-this.scrollPer+this.bg[mapLavelN[this.coluna]-1].height)))
 						{
 
