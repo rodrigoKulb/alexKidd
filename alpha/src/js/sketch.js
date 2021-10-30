@@ -103,7 +103,7 @@ let settings = {
 
 function chamaSom(valorSom) {
     if (valorSom == true) {
-        backgroundSound.loop(1, 1, settings.vol)
+        backgroundSound.loop(1, 1, settings.vol); 
     }
     if (valorSom == false) {
         backgroundSound.stop()
