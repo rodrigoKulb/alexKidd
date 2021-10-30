@@ -40,6 +40,7 @@ let backgroundSound,
     enemyDiedSound
 
 function preload() {
+    // sprites
     spritedata = loadJSON('src/img/alex.json');
     spritesheet = loadImage('src/img/alex.png');
     pedraImgP = loadImage('src/img/pedra.png');
@@ -47,6 +48,7 @@ function preload() {
     spritesheetP = loadImage('src/img/fundo-01.png');
     bg = loadImage('src/img/fundo.png');
     menuImg = loadImage('src/img/menu.jpg');
+    transparency = loadImage('src/img/transparency.png')
     fontGame = loadFont('src/fonts/PixelGameFont.ttf');
 
     // sounds
@@ -88,10 +90,24 @@ function setup() {
     inimigos[11] = new Inimigos(95, 8040, animation);
     inimigos[12] = new Inimigos(95, 8310, animation);
 
-    backgroundSound.loop(1, 1, 0.2); // % do volume
     resolucao();
-    // pause iniciado
-    localStorage.setItem('bool-paused', 0)
+
+    let valorSom = true
+    chamaSom(valorSom)
+}
+
+// inicia o som 
+let settings = {
+    vol: 0.2
+}
+
+function chamaSom(valorSom) {
+    if (valorSom == true) {
+        backgroundSound.loop(1, 1, settings.vol)
+    }
+    if (valorSom == false) {
+        backgroundSound.stop()
+    }
 }
 
 // introduction 
@@ -100,9 +116,12 @@ function intro() {
 }
 
 function draw() {
-    let p = localStorage.getItem('bool-paused')
+    let gameCanvas = document.getElementById('defaultCanvas0')
+    let textPaused = document.getElementById('pausado')
+
     background(1, 0, 252);
-    //background(bg);
+
+    // mapa
     if (menu == 1) {
         background(menuImg);
         if (pisca <= 5) image(animation[9], flechaMenu, 820);
@@ -112,7 +131,6 @@ function draw() {
         textAlign(RIGHT);
         text(personagem.money, 420, 930);
         text(personagem.life, 280, 1010);
-        //console.log(i+","+b);
         if (keyIsDown(LEFT_ARROW)) {
             if (flechaMenu >= 620) flechaMenu -= 10;
         } else if (keyIsDown(RIGHT_ARROW)) {
@@ -125,15 +143,32 @@ function draw() {
                 if (pisca >= 10) pisca = 1;
             } else pisca = 1;
         }
-    } else {
+    }
+
+    // pausa
+    else if (menu == 2) {
+
+        let valorSom = false
+        chamaSom(valorSom)
+        gameCanvas.classList.add('im-paused')
+        textPaused.removeAttribute('style')
+        cenario.pedra(personagem);
+        personagem.parado();
+
+    }
+
+
+    else {
+        gameCanvas.classList.remove('im-paused')
+        textPaused.setAttribute('style', 'display:none')
         cenario.pedra(personagem);
         if (keyIsDown('x')) {
             personagem.soco(cenario);
-        } else if (keyIsDown(LEFT_ARROW) && p == 0) {
+        } else if (keyIsDown(LEFT_ARROW)) {
             personagem.andar("left");
-        } else if (keyIsDown(RIGHT_ARROW) && p == 0) {
+        } else if (keyIsDown(RIGHT_ARROW)) {
             personagem.andar("right");
-        } else if (keyIsDown(DOWN_ARROW) && p == 0) {
+        } else if (keyIsDown(DOWN_ARROW)) {
             personagem.abaixar();
         } else {
             personagem.parado();
@@ -149,14 +184,15 @@ function draw() {
 }
 
 function keyPressed() {
-    let p = localStorage.getItem('bool-paused')
-
     // pausa e despausa
     if (key == 'p' || key == 'P') {
-        pauseGame()
+        let valorSom = true
+        if (menu == 0) menu = 2;
+        else menu = 0 & chamaSom(valorSom);
     }
 
-    if (p == 0) {
+    // teclas não funcionais enquanto há pausa
+    if(menu != 2){
         // soco
         if (key == 'x' || key == 'X') {
             personagem.soco(cenario);
@@ -169,7 +205,7 @@ function keyPressed() {
                 personagem.superForca = 2;
             }
         }
-
+    
         // pulo normal
         if (key == 'z' || key == 'Z') {
             personagem.segueRight = 0;
@@ -179,28 +215,29 @@ function keyPressed() {
                 personagem.superForca = 2;
             }
         }
-
+    
         // abre o mapa
         if (key == 'c' || key == 'C') {
             if (menu == 0) menu = 1;
             else menu = 0;
         }
-
-        // movimentacao
-        if (key == 'ArrowRight') {
-            i = i + 2;
-        }
-        if (key == 'ArrowLeft') {
-            i = i - 2;
-        }
-        if (key == 'ArrowDown') {
-            b = b + 2;
-        }
-        if (key == 'ArrowUp') {
-            b = b - 2;
-        }
-
     }
+    
+
+    // movimentacao
+    if (key == 'ArrowRight') {
+        i = i + 2;
+    }
+    if (key == 'ArrowLeft') {
+        i = i - 2;
+    }
+    if (key == 'ArrowDown') {
+        b = b + 2;
+    }
+    if (key == 'ArrowUp') {
+        b = b - 2;
+    }
+
 }
 
 function keyReleased() {
@@ -243,46 +280,5 @@ function resolucao() {
     }
 }
 
-// pause 
-function pauseGame() {
-    let p = localStorage.getItem('bool-paused')
-    let gameCanvas = document.getElementById('defaultCanvas0')
-    p == 0 ? pauseTrue(gameCanvas) & localStorage.setItem('bool-paused', 1) :
-        pauseFalse(gameCanvas) & localStorage.setItem('bool-paused', 0)
-
-
-    function pauseTrue() {
-        gameCanvas.classList.add('im-paused')
-        backgroundSound.pause()
-
-        let textPaused = document.getElementById('pausado')
-        textPaused.removeAttribute('style')
-
-    }
-
-    function pauseFalse() {
-        gameCanvas.classList.remove('im-paused')
-        backgroundSound.play()
-
-        let textPaused = document.getElementById('pausado')
-        textPaused.setAttribute('style', 'display:none')
-    }
-
-}
-
-// pausa o jogo quando sair da aba
-
-localStorage.setItem('inner-visibility', '0')
-document.addEventListener('visibilitychange', () => {
-    let p = localStorage.getItem('bool-paused')
-    if (p == 0) {
-        if (document.visibilityState === 'visible') {
-            pauseGame().pauseFalse()
-            localStorage.setItem('inner-visibility', 1)
-        }
-        if (document.visibilityState === 'hidden') {
-            pauseGame().pauseFalse()
-            localStorage.setItem('inner-visibility', 2)
-        }
-    }
-})
+// caso usuario saia da aba o jogo pausa
+document.addEventListener('visibilitychange', () => { menu = 2 })
