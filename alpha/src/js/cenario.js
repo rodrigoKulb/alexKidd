@@ -263,7 +263,4 @@ class Cenario
 			this.socoN = this.soco;
 		}
 	}
-
-
-
 }
