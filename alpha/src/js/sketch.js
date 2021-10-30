@@ -8,25 +8,36 @@ let N;
 let total;
 let ladoAnterior;
 let path = [];
-let jump = 0;
-let down = 0;
-let life = 5;
-let spritesheet;
-let spritedata;
-let pedraImgP;
-let spritedataP;
-let spritesheetP;
-let animation = [];
-let inimigos = [];
-let counter = 0;
-let menu = 0;
-let i = 0;
-let b = 0;
-let flechaMenu = 620;
-let pisca = 1;
+
+
+// sprites
+let spritesheet,
+    spritedata,
+    pedraImgP,
+    spritedataP,
+    spritesheetP,
+    animation = [],
+    inimigos = []
+
+// personagem e game
+let jump = 0,
+    down = 0,
+    life = 5,
+    counter = 0,
+    menu = 0,
+    i = 0,
+    b = 0,
+    flechaMenu = 620,
+    pisca = 1
 
 // sons
-let backgroundSound, punchSound, coinSound, jumpingSound, diedSound, crashSound, enemyDiedSound
+let backgroundSound,
+    punchSound,
+    coinSound,
+    jumpingSound,
+    diedSound,
+    crashSound,
+    enemyDiedSound
 
 function preload() {
     spritedata = loadJSON('src/img/alex.json');
@@ -47,6 +58,7 @@ function preload() {
     diedSound = createAudio('src/sounds/died.wav');
     crashSound = loadSound('src/sounds/crash.wav');
     enemyDiedSound = loadSound('src/sounds/crow.mp3');
+    enemyDiedSound.volume = 1
 }
 
 function setup() {
@@ -78,9 +90,18 @@ function setup() {
 
     backgroundSound.loop(1, 1, 0.2); // % do volume
     resolucao();
+
+    // pause iniciado
+    localStorage.setItem('bool-paused', 0)
+}
+
+// introduction 
+function intro() {
+    // here goes the intro
 }
 
 function draw() {
+    let p = localStorage.getItem('bool-paused')
     background(1, 0, 252);
     //background(bg);
     if (menu == 1) {
@@ -109,11 +130,11 @@ function draw() {
         cenario.pedra();
         if (keyIsDown('x')) {
             personagem.soco(cenario);
-        } else if (keyIsDown(LEFT_ARROW)) {
+        } else if (keyIsDown(LEFT_ARROW) && p == 0) {
             personagem.andar("left");
-        } else if (keyIsDown(RIGHT_ARROW)) {
+        } else if (keyIsDown(RIGHT_ARROW) && p == 0) {
             personagem.andar("right");
-        } else if (keyIsDown(DOWN_ARROW)) {
+        } else if (keyIsDown(DOWN_ARROW) && p == 0) {
             personagem.abaixar();
         } else {
             personagem.parado();
@@ -124,52 +145,68 @@ function draw() {
             inimigo.aparece(cenario, personagem);
         }
 
-
-
     }
 
 
 }
 
 function keyPressed() {
-    if (key == 'x') {
-        personagem.soco(cenario);
-        punchSound.volume(0.4);
-        if (personagem.superForca == 2) {
-            personagem.vaisuperForca();
-            personagem.forcaAndando = 0;
-        }
-        if ((menu == 1) && (flechaMenu <= 690) && (personagem.superForca == 1)) {
-            personagem.superForca = 2;
-        }
-    } else if (key == 'z') {
-        personagem.segueRight = 0;
-        personagem.segueLeft = 0;
-        personagem.pular();
-        if ((menu == 1) && (flechaMenu <= 690) && (personagem.superForca == 1)) {
-            personagem.superForca = 2;
-        }
-    } else if (key == 'c') {
-        if (menu == 0) menu = 1;
-        else menu = 0;
-    }
-    if (key == 'ArrowRight') {
-        i = i + 2;
+    let p = localStorage.getItem('bool-paused')
 
-    }
-    if (key == 'ArrowLeft') {
-        i = i - 2;
-    }
-    if (key == 'ArrowDown') {
-        b = b + 2;
-    }
-    if (key == 'ArrowUp') {
-        b = b - 2;
+    // pausa e despausa
+    if (key == 'p' || key == 'P') {
+        pauseGame()
     }
 
+    if (p == 0) {
+        // soco
+        if (key == 'x' || key == 'X') {
+            personagem.soco(cenario);
+            punchSound.volume(0.4);
+            if (personagem.superForca == 2) {
+                personagem.vaisuperForca();
+                personagem.forcaAndando = 0;
+            }
+            if ((menu == 1) && (flechaMenu <= 690) && (personagem.superForca == 1)) {
+                personagem.superForca = 2;
+            }
+        }
+
+        // pulo normal
+        if (key == 'z' || key == 'Z') {
+            personagem.segueRight = 0;
+            personagem.segueLeft = 0;
+            personagem.pular();
+            if ((menu == 1) && (flechaMenu <= 690) && (personagem.superForca == 1)) {
+                personagem.superForca = 2;
+            }
+        }
+
+        // abre o mapa
+        if (key == 'c' || key == 'C') {
+            if (menu == 0) menu = 1;
+            else menu = 0;
+        }
+
+        // movimentacao
+        if (key == 'ArrowRight') {
+            i = i + 2;
+        }
+        if (key == 'ArrowLeft') {
+            i = i - 2;
+        }
+        if (key == 'ArrowDown') {
+            b = b + 2;
+        }
+        if (key == 'ArrowUp') {
+            b = b - 2;
+        }
+
+    }
 }
 
 function keyReleased() {
+    // corrida 
     if (key == 'ArrowRight') {
         if (personagem.noar) personagem.segueRight = 5;
         personagem.z = 0;
@@ -182,7 +219,9 @@ function keyReleased() {
         //personagem.xStopL = 0;
         //personagem.xStopR = 0;
     }
-    if (key == 'z') {
+
+    // super soco
+    if (key == 'z' || key == 'Z') {
         if (personagem.vy < 0) personagem.vy = 0;
     }
 }
@@ -204,4 +243,27 @@ function resolucao() {
             canvas.style.height = height + "px";
         }
     }
+}
+
+// Pause 
+function pauseGame() {
+
+    let p = localStorage.getItem('bool-paused')
+    let gameCanvas = document.getElementById('defaultCanvas0')
+    p == 0 ? pauseTrue(gameCanvas) & localStorage.setItem('bool-paused', 1) :
+        pauseFalse(gameCanvas) & localStorage.setItem('bool-paused', 0)
+
+
+    function pauseTrue() {
+        gameCanvas.classList.add('im-paused')
+        backgroundSound.pause()
+
+
+    }
+
+    function pauseFalse() {
+        gameCanvas.classList.remove('im-paused')
+        backgroundSound.play()
+    }
+
 }
