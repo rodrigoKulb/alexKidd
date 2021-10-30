@@ -151,7 +151,7 @@ class Cenario
   		}
 	}
 
-	pedra()
+	pedra(personagem)
 	{
 		this.aguaCor++;
 		if(this.aguaCor<=20)
