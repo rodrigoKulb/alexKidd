@@ -43,14 +43,14 @@ class Personagem {
 
     limitarTela() {
         if (this.y >= this.bloco * 5) {
-            if (cenario.scrollPer <= cenario.limiteAltura - 10) {
+            if (cenario.scrollPer <= cenario.limiteAlturaMapa - 10) {
                 cenario.scrollPer = cenario.scrollPer + 2;
                 this.y = this.bloco * 5;
             }
         }
     }
 
-    pegaAreaSoco() {
+    pegarAreaSoco() {
         if (this.lado == 'left') {
             this.personagemXSoco = this.x - this.bloco * 1.5 - this.pixel * 6;
             this.personagemYSoco = this.y + this.bloco * 0.8;
@@ -67,7 +67,7 @@ class Personagem {
         }
     }
 
-    pegaAreaPersonagem() {
+    pegarAreaPersonagem() {
         this.personagemX = this.x - this.bloco * 1.5 + this.pixel * 2;
         this.personagemY = this.y + this.bloco * 0.3;
         this.pesonagemTamanhoX = this.bloco - this.pixel * 4;
@@ -80,9 +80,20 @@ class Personagem {
             ((coluna * this.bloco + this.bloco > this.personagemX && coluna * this.bloco < this.personagemX) ||
                 (coluna * this.bloco + this.bloco > this.personagemX + this.pesonagemTamanhoX && coluna * this.bloco < this.personagemX + this.pesonagemTamanhoX)) &&
             linha * this.bloco - cenario.scrollPer > this.personagemY && (this.loopPegaPiso == 0)) {
-            this.xMenorPiso = (linha * this.bloco - cenario.scrollPer) - this.bloco * 1.75;
+            this.yMenorPiso = (linha * this.bloco - cenario.scrollPer) - this.bloco * 1.75;
             this.loopPegaPiso = 1;
             //rect((coluna * this.bloco), (linha * this.bloco) - cenario.scrollPer, this.bloco, this.bloco);
+        }
+    }
+
+    colisaoTopo(cenario, coluna, linha) {
+        if (
+            ((coluna * this.bloco + this.bloco > this.personagemX && coluna * this.bloco < this.personagemX) ||
+                (coluna * this.bloco + this.bloco > this.personagemX + this.pesonagemTamanhoX && coluna * this.bloco < this.personagemX + this.pesonagemTamanhoX)) &&
+            linha * this.bloco - cenario.scrollPer < this.personagemY ) {
+            this.yMaiorTopo = (linha * this.bloco - cenario.scrollPer) + this.bloco*0.7;
+            
+            rect((coluna * this.bloco), (linha * this.bloco) - cenario.scrollPer, this.bloco, this.bloco);
         }
     }
 
@@ -117,8 +128,8 @@ class Personagem {
 
     colisao(cenario, inimigos) {
 
-        this.pegaAreaPersonagem();
-        this.pegaAreaSoco();
+        this.pegarAreaPersonagem();
+        this.pegarAreaSoco();
         for (var linha = 0; linha < cenario.mapLevel.length; linha++) {
             let mapa = cenario.mapLevel[linha];
             for (var coluna = 0; coluna < mapa.length; coluna++) {
@@ -129,6 +140,7 @@ class Personagem {
                 if (mapa[coluna] && (naoColidir.indexOf(mapa[coluna]) == -1)) {
 
                     var superBloco = this.quebraSuperForca(mapa, coluna, linha);
+                    this.colisaoTopo(cenario, coluna, linha);
                     this.colisaoPiso(cenario, coluna, linha);
                     this.colisaoDasLaterais(linha, coluna, cenario, mapa);
 
@@ -184,6 +196,7 @@ class Personagem {
         this.loopPega = 0;
         this.loopPegaForca = 0;
         this.loopPegaPiso = 0;
+        this.loopPegaTopo = 0;
         this.colisao(cenario, inimigos)
 
         if (this.morreu == 1) {
@@ -248,15 +261,20 @@ class Personagem {
                 this.stopJump = 0;
             }
             this.y += this.vy;
-            if (this.y >= this.xMenorPiso) {
+            if (this.y >= this.yMenorPiso) {
 
-                this.y = this.xMenorPiso;
+                this.y = this.yMenorPiso;
                 this.vy = 0;
                 this.noar = 0;
                 if (this.vy > 10) this.vy = 1;
             } else {
                 this.vy += this.gravity;
                 this.noar = 1;
+            }
+            console.log(this.y+" -> "+this.yMaiorTopo);
+            if(this.y <= this.yMaiorTopo)
+            {
+                this.y = this.yMaiorTopo;
             }
             this.yOld = this.y;
 

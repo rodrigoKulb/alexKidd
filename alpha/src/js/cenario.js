@@ -14,6 +14,7 @@ class Cenario {
 		this.soco = 0;
 		this.aguaCor = 0;
 		this.somaCor = 0;
+		this.limiteAlturaMapa = 0;
 		// 10: pedra, 9: caixote, 19: caixa surpresa
 		this.quebraveis = [10, 9, 19];
 		this.mapLevel = [
@@ -219,7 +220,9 @@ class Cenario {
 	pedra(personagem) {
 		if (personagem.bloco) {
 			
+
 			this.alteraCorAgua();
+			this.limiteAlturaMapa = this.mapLevel.length * personagem.bloco;
 			for (this.linha = 0; this.linha < this.mapLevel.length; this.linha++) {
 
 				var mapLavelN = this.mapLevel[this.linha];
