@@ -266,4 +266,4 @@ function pauseGame() {
         backgroundSound.play()
     }
 
-}
+} 
