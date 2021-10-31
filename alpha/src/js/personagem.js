@@ -413,7 +413,7 @@ class Personagem {
             //console.log('soco');
         } else {
             scale(1, 1);
-            image(this.animation[this.img], this.x - 190, this.y);
+            image(this.animation[this.img], this.x - this.bloco * 2, this.y);
         }
         pop();
 
