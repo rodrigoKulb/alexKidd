@@ -38,6 +38,7 @@ class Personagem {
         this.morSomaY = 0;
         this.taAgua = 0;
         this.margemAgua = 0;
+        this.blocos = [];
     }
 
 
@@ -98,7 +99,6 @@ class Personagem {
     }
 
     colisaoDasLaterais(linha, coluna, cenario, mapa) {
-
         if (((linha * this.bloco + this.pixel * 10) - cenario.scrollPer) > this.personagemY &&
             ((linha * this.bloco) - cenario.scrollPer) < this.personagemY + this.pesonagemTamanhoY) {
 
@@ -116,9 +116,10 @@ class Personagem {
                     }
                 }
             } else {
-                   // blocos.push((coluna * this.bloco) + this.bloco);
-                    this.xMenorL = (coluna * this.bloco) + this.bloco;
-                    rect((coluna * this.bloco), (linha * this.bloco) - cenario.scrollPer, this.bloco, this.bloco);
+                   
+                   this.xMenorL = (coluna * this.bloco) + this.bloco;
+                   rect((coluna * this.bloco), (linha * this.bloco) - cenario.scrollPer, this.bloco, this.bloco);
+
                 
                 //rect((c * this.bloco), (b * this.bloco) - cenario.scrollPer, this.bloco, this.bloco);
                 if (mapa[coluna] != 9 && mapa[coluna] != 10 && mapa[coluna] != 19) {
@@ -188,7 +189,7 @@ class Personagem {
                     if (superBloco == 'zero') superBloco = 0;
                     mapa[coluna] = superBloco;
                 }
-            }
+            }           
         }
     }
 

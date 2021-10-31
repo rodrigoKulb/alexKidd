@@ -1,6 +1,6 @@
 let controller = document.getElementById('afterCanvas')
 
-controller.style.zoom = '160%'
+controller.style.zoom = '59%'
 
 // controle para mobile
 let divSoco = document.getElementById('soco'),
