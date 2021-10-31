@@ -116,7 +116,7 @@ class Personagem {
                     }
                 }
             } else {
-                    blocos.push((coluna * this.bloco) + this.bloco);
+                   // blocos.push((coluna * this.bloco) + this.bloco);
                     this.xMenorL = (coluna * this.bloco) + this.bloco;
                     rect((coluna * this.bloco), (linha * this.bloco) - cenario.scrollPer, this.bloco, this.bloco);
                 
