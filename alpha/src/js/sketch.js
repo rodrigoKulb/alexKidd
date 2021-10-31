@@ -277,4 +277,8 @@ function resolucao() {
 }
 
 // caso usuario saia da aba o jogo pausa
-document.addEventListener('visibilitychange', () => { menu = 2 })
+document.addEventListener('visibilitychange', () => { 
+    let state = document.visibilityState
+    if(state == 'hidden') menu = 2 & backgroundSound.pause()
+    if(state == 'visible') menu = 2
+})
