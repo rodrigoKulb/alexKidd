@@ -22,7 +22,9 @@ body {
 
 /* Canvas do Game */
 #defaultCanvas0 {
-    position: center;
+    display: flex;
+    margin-left:auto;
+    margin-right: auto;
     position: relative;
     width:100%;
     image-rendering: pixelated;
