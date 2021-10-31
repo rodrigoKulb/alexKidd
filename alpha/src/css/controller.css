@@ -1,0 +1,299 @@
+/* Mega System Controller made by Victor Inknov (https://github.com/victorinknov) */
+
+:root {
+    --vertical-left-plastic-width: 30px;
+    --all-elements-height: 200px;
+    --controller-width: 575px;
+    --controller-height: 230px;
+    
+
+    /* Colors */
+    --deeper-grey: #434450;
+    --medium-grey: #78767f;
+    --dark: #292729;
+    --red: #ff5555;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+}
+
+
+
+html {
+    translate: no;
+}
+
+.controller {
+    width: var(--controller-width);
+    height: var(--controller-height);
+    background-color: var(--deeper-grey);
+    border-radius: 15px;
+    display: flex;
+    position: absolute;
+}
+
+.controller:nth-child(){
+    position: relative;
+}
+
+.vertical-left-plastic {
+    width: var(--vertical-left-plastic-width);
+    height: var(--all-elements-height);
+    background-color: var(--medium-grey);
+    border-radius: 7px;
+    margin-left: 15px;
+    margin-top: calc((var(--controller-height) - var(--all-elements-height)) / 2);
+}
+
+.largest-square {
+    width: var(--all-elements-height);
+    height: var(--all-elements-height);
+    background-color: var(--dark);
+    margin-top: calc((var(--controller-height) - var(--all-elements-height)) / 2);
+    border-radius: 7px;
+    margin-left: 15px;
+    display: flex;
+}
+
+.red-square {
+    display: flex;
+    width: 180px;
+    height: 180px;
+    margin-left: 10px;
+    margin-top: 10px;
+    background-color: var(--dark);
+    border: 5px solid var(--red);
+    border-radius: 7.5%;
+    position: absolute;
+}
+
+.red-square-label-text {
+    display: flex;
+    width: 100px;
+    height: 15px;
+    background-color: var(--dark);
+    float: left;
+    margin-top: 3.5px;
+    margin-left: 50px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    
+    font-size: 11px;
+    font-weight: bolder;
+    color: white;
+    letter-spacing: 1px;
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    z-index: 1000;
+}
+
+.medium-square {
+    display: flex;
+    width: 150px;
+    height: 150px;
+    background-color: #b4b4b4;
+    margin-left: 7.5px;
+    margin-top: 7.5px;
+    border-radius: 4px;
+}
+
+.small-square {
+    display: flex;
+    width: 125px;
+    height: 125px;
+    background: rgb(86,81,100);
+    background: linear-gradient(0deg, rgba(86,81,100,1) 0%, rgba(141,141,146,1) 100%);
+    margin-left: 12.5px;
+    margin-top: 12.5px;
+    border-radius:35%;
+    border: 3px solid var(--dark);
+}
+
+.smallest-square {
+    display: flex;
+    width: 100px;
+    height: 100px;
+    background: rgb(86,81,100);
+    background: linear-gradient(0deg, rgba(86,81,100,1) 0%, rgba(141,141,146,1) 100%);
+    margin-left: 9.5px;
+    margin-top: 9.5px;
+    border-radius:35%;
+    border: 3px solid var(--dark);
+}
+
+.arrow {
+    display: flex;
+    height: 16px;
+    width: 8px;
+    border-radius: 30%;
+    border: 2.5px solid var(--dark);
+    position: relative;
+
+}
+
+.arrow-top{
+    display: flex;
+    position: absolute;
+    margin-top: 6px;
+    margin-left: 42.5px;
+}
+
+.arrow-left{
+    display: flex;
+    position: absolute;
+    rotate: 90deg;
+    margin-top: calc(((100px - 13px) - 6px - 2.5px) / 2);
+    margin-left:12.5px;
+}
+
+.arrow-right{
+    display: flex;
+    position: absolute;
+    margin-top: calc(((100px - 13px) - 6px - 2.5px) / 2);
+    margin-left: 74px;
+    rotate: 90deg;
+}
+
+.arrow-bottom{
+    display: flex;
+    position: absolute;
+    margin-top: 72.5px;
+    margin-left: 42.5px;
+}
+
+.horizontal-right-plastic {
+    display: flex;
+    margin-top: calc((var(--controller-height) - var(--all-elements-height)) /2 );
+    margin-left: 15px;
+    border-radius: 7px;
+    width: 285px;
+    height: 60px;
+    background-color: var(--medium-grey);
+    position: relative;
+}
+
+.rectangle-dark-plastic {
+    position: absolute;
+    margin-top: 90px;
+    margin-left: 260px;
+    display: flex;
+    width: 300px;
+    height: 100px;
+    background-color: var(--dark);
+    border-top-right-radius: 7px;
+    border-bottom-right-radius: 7px;
+}
+
+.horizontal-bottom-plastic {
+    position: absolute;
+    display: flex;
+    width: 285px;
+    height: 15px;
+    background-color: var(--medium-grey);
+    margin-top: 200px;
+    margin-left: 275px;
+    border-radius: 3.5px;
+}
+
+.first-square-label {
+    display: flex;
+    margin-top: 2.5px;
+    align-items: center;
+    justify-content: center;
+    width: 80px;
+    height: 15px;
+    border-radius: 3.5px;
+    background-color: var(--red);
+    margin-left: 80px;
+    font-size: 8px;
+    font-weight: bolder;
+    color: white;
+    letter-spacing: 1px;
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    z-index: 1000;
+    position: relative;
+    letter-spacing: 0;
+}
+
+.second-square-label {
+    display: flex;
+    border-radius: 3.5px;
+    align-items: center;
+    justify-content: center;
+    margin-top: 2.5px;
+    width: 80px;
+    height: 15px;
+    background-color: var(--red);
+    margin-left: 2.5px;
+    font-size: 8px;
+    font-weight: bolder;
+    color: white;
+    letter-spacing: 1px;
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    z-index: 1000;
+}
+
+.first-square {
+    position: absolute;
+    display: flex;
+    width: 80px;
+    height: 75px;
+    margin-left: 80px;
+    margin-top: 20px;
+    background: linear-gradient(0deg, rgba(86,81,100,1) 0%, rgba(141,141,146,1) 100%);
+    border-radius: 3.5px;
+}
+
+.second-square {
+    position: absolute;
+    display: flex;
+    width: 80px;
+    height: 75px;
+    margin-left: 162.5px;
+    margin-top: 20px;
+    background: linear-gradient(0deg, rgba(86,81,100,1) 0%, rgba(141,141,146,1) 100%);
+    border-radius: 3.5px;
+}
+
+.button {
+    display: flex;
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(0deg, rgba(86,81,100,1) 0%, rgba(141,141,146,1) 100%);
+
+    border-radius: 50%;
+    margin-top: 7.5px;
+    margin-left: 10px;
+    border: 2px solid var(--dark);
+
+}
+
+.button-circle {
+    display: flex;
+    height: 47.5px;
+    width: 47.5px;
+    margin-top: 4.5px;
+    margin-left: 4.5px;
+    border-radius: 50%;
+    border: 3px solid var(--dark);
+    background: linear-gradient(0deg, rgba(86,81,100,1) 0%, rgba(141,141,146,1) 100%);
+
+}
+
+@media(orientation: landscape){
+    .controller {
+        display: none;
+    }
+}
+
+#afterCanvas {
+    width: 100%;
+    position: absolute;
+    margin-top: 120%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
