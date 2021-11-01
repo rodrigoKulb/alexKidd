@@ -100,35 +100,20 @@ class Personagem {
     colisaoDasLaterais(linha, coluna, cenario, mapa) {
         if (((linha * this.bloco + this.pixel * 10) - cenario.scrollPer) > this.personagemY &&
             ((linha * this.bloco) - cenario.scrollPer) < this.personagemY + this.pesonagemTamanhoY) {
-
-            // PEGAR LADO DIREITO
             if ((this.personagemX) < (coluna * this.bloco)) {
                 if (this.xMenorR >= (coluna * this.bloco) || this.xMenorR == 0) {
                     this.xMenorR = (coluna * this.bloco);
                 }
-                if (mapa[coluna] != 9 && mapa[coluna] != 10 && mapa[coluna] != 19) {
-                    if (this.loopPegaForca == 0) {
-                        this.xMenorRForca = (coluna * this.bloco);
-                        //rect((c * this.bloco), (linha * this.bloco) - cenario.scrollPer, this.bloco, this.bloco);
-                        this.loopPegaForca = 1;
-                    }
-                }
             } else {
-
                 if (this.xMenorL <= ((coluna * this.bloco) + this.bloco) || this.xMenorR == 0) {
                     this.xMenorL = ((coluna * this.bloco) + this.bloco);
                     //rect((coluna * this.bloco), (linha * this.bloco) - cenario.scrollPer, this.bloco, this.bloco);
-                }
-                //rect((c * this.bloco), (b * this.bloco) - cenario.scrollPer, this.bloco, this.bloco);
-                if (mapa[coluna] != 9 && mapa[coluna] != 10 && mapa[coluna] != 19) {
-                    this.xMenorLForca = (coluna * this.bloco) + this.bloco;
                 }
             }
         }
     }
 
     colisao(cenario, inimigos) {
-
         this.pegarAreaPersonagem();
         this.pegarAreaSoco();
         this.xMenorR = 0;
@@ -137,32 +122,28 @@ class Personagem {
         for (var linha = 0; linha < cenario.mapLevel.length; linha++) {
             let mapa = cenario.mapLevel[linha];
             for (var coluna = 0; coluna < mapa.length; coluna++) {
-
-                let naoColidir = [7, 8, 5, 6, 16, 15, 12, 13, 20, 22, 23, 24, 24, 25, 26, 27];
+                let naoColidir = [5, 6, 16, 15, 12, 13, 20, 22, 23, 24, 24, 25, 26, 27];
                 let objetos = [15, 16, 20];
-
                 if (mapa[coluna] && (naoColidir.indexOf(mapa[coluna]) == -1)) {
-
                     var superBloco = this.quebraSuperForca(mapa, coluna, linha);
                     this.colisaoTopo(cenario, coluna, linha);
                     this.colisaoPiso(cenario, coluna, linha);
                     this.colisaoDasLaterais(linha, coluna, cenario, mapa);
-
                 } else if (objetos.indexOf(mapa[coluna]) >= 0) {
-
                     let colisaoObjeto = collideRectRect(this.personagemX, this.personagemY, this.pesonagemTamanhoX - this.pixel * 2, this.pesonagemTamanhoY - this.pixel * 2, (coluna * this.bloco), (linha * this.bloco) - cenario.scrollPer, this.bloco, this.bloco);
-
                     if (colisaoObjeto) {
-                        if (mapa[coluna] == 15) {
-                            this.money = this.money + 20;
-                            coinSound.play();
-                        }
-                        if (mapa[coluna] == 16) {
-                            this.money = this.money + 10;
-                            coinSound.play();
-                        }
-                        if (mapa[coluna] == 20) {
-                            this.superForca = 1;
+                        switch (mapa[coluna]) {
+                            case 15:
+                                this.money = this.money + 20;
+                                coinSound.play();
+                                break;
+                            case 16:
+                                this.money = this.money + 10;
+                                coinSound.play();
+                                break;
+                            case 20:
+                                this.superForca = 1;
+                                break;
                         }
                         cenario.mapLevel[linha][coluna] = 0;
                     }
