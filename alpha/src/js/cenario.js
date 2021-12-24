@@ -238,7 +238,7 @@ class Cenario {
 						if (this.mapLevel[this.linha][this.coluna] == 27) { this.mapLevel[this.linha][this.coluna] = this.somaCor + 3; }
 
 						image(this.bg[mapLavelN[this.coluna] - 1], this.coluna * this.bg[mapLavelN[this.coluna] - 1].width, this.linha * this.bg[mapLavelN[this.coluna] - 1].height - this.scrollPer);
-
+					
 						this.verificaSoco(personagem);
 					}
 				}

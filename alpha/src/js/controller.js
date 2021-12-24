@@ -1,7 +1,7 @@
 let controller = document.getElementById('afterCanvas')
 
 controller.style.zoom = '59%'
-
+let moveDireitaDiv = 0;
 // controle para mobile
 let divSoco = document.getElementById('soco'),
     divPulo = document.getElementById('pulo'),
@@ -9,6 +9,9 @@ let divSoco = document.getElementById('soco'),
     divDesce = document.getElementById('moveBaixo'),
     divEsquerda = document.getElementById('moveEsquerda'),
     divDireita = document.getElementById('moveDireita')
+
+    document.getElementById("moveDireita").addEventListener("mouseenter", function(  ) { moveDireitaDiv=1;});
+    document.getElementById("moveDireita").addEventListener("mouseleave", function(  ) { moveDireitaDiv=0;});
 
 function detectaClick(id) {
     
@@ -40,7 +43,7 @@ function detectaClick(id) {
             i = i - 2;
         }
         if (id == 'moveDireita') {
-            personagem.andar('right')
+            personagem.andarRight = 1;
             i = i + 2;
         }
         if (id == 'moveCima') {

@@ -9,7 +9,6 @@ let total;
 let ladoAnterior;
 let path = [];
 
-
 // sprites
 let spritesheet,
     spritedata,
@@ -90,7 +89,6 @@ function setup() {
     inimigos[12] = new Inimigos(95, 8310, animation);
 
     resolucao();
-
     let valorSom = true
     chamaSom(valorSom)
 }
@@ -116,8 +114,9 @@ function intro() {
 
 function draw() {
     let gameCanvas = document.getElementById('defaultCanvas0')
+    const ctx = gameCanvas.getContext("2d");
     let textPaused = document.getElementById('pausado')
-
+    ctx.imageSmoothingEnabled = false
     background(1, 0, 252);
 
     // mapa
@@ -144,7 +143,7 @@ function draw() {
         }
     }
 
-    // pausa
+
     else if (menu == 2) {
         let valorSom = false
         chamaSom(valorSom)
@@ -159,19 +158,8 @@ function draw() {
         gameCanvas.classList.remove('im-paused')
         textPaused.setAttribute('style', 'display:none')
         cenario.pedra(personagem)
-        if (keyIsDown('x')) {
-            personagem.soco(cenario);
-        } else if (keyIsDown(LEFT_ARROW)) {
-            personagem.andar("left");
-        } else if (keyIsDown(RIGHT_ARROW)) {
-            personagem.andar("right");
-        } else if (keyIsDown(DOWN_ARROW)) {
-            personagem.abaixar();
-        } else {
-            personagem.parado();
-        }
+        personagem.adicionarControle(cenario);
         personagem.normaliza(cenario, inimigos);
-
         for (let inimigo of inimigos) {
             inimigo.aparece(cenario, personagem);
         }
@@ -239,16 +227,10 @@ function keyPressed() {
 function keyReleased() {
     // corrida 
     if (key == 'ArrowRight') {
-        if (personagem.noar) personagem.segueRight = 5;
-        personagem.z = 0;
-        //personagem.xStopR = 0;
-        //personagem.xStopL = 0;
+        personagem.passo = 0;
     }
     if (key == 'ArrowLeft') {
-        if (personagem.noar) personagem.segueLeft = 5;
-        personagem.z = 0;
-        //personagem.xStopL = 0;
-        //personagem.xStopR = 0;
+        personagem.passo = 0;
     }
 
     // super soco
@@ -261,17 +243,19 @@ function resolucao() {
     let canvas = document.getElementById('defaultCanvas0');
     if (canvas) {
         const rel = 1.142857143;
-        const height = window.innerHeight - 20;
-        const width = window.innerWidth - 20;
-        console.log(height + ' ' + width);
+        const height = window.innerHeight;
+        const width = window.innerWidth;
+       
         if (height > width) {
             console.log(width / rel);
             canvas.style.width = width + "px";
             canvas.style.height = (width / rel) + "px";
+            canvas.style.imageRendering = 'pixelated';
         } else {
             console.log(height * rel);
             canvas.style.width = (height * rel) + "px";
             canvas.style.height = height + "px";
+            canvas.style.imageRendering = 'pixelated';
         }
     }
 }

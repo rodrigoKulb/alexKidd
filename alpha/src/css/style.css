@@ -18,17 +18,15 @@ body {
     overflow: hidden; /* Remove as barras de rolagem */
     text-align: center;
     background: black;
+    margin: 0px;
 }
 
 /* Canvas do Game */
 #defaultCanvas0 {
     display: flex;
-    margin-left:auto;
-    margin-right: auto;
-    position: relative;
-    width:100%;
+    margin: 0 auto;
+    width: 100%;
     image-rendering: pixelated;
-    margin-top: .5rem;
 }
 
 /* Adiciona opacidade ao canvas quando pausado */

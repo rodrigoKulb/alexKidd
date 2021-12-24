@@ -1,24 +1,19 @@
 // JavaScript Document
 
-
 class Personagem {
 
     constructor(x, y, animation) {
-        strokeWeight(1);
+        //strokeWeight(1);
         this.x = x;
         this.y = y;
         this.bloco = 16;
         this.pixel = 1;
-        this.z = 0; // ???
-        this.stopJump = 0;
-        this.i = 0;
-        this.fundo = width;
+        this.animaPassos = 0;
         this.animation = animation;
         this.w = this.animation[0].width;
         this.len = this.animation.length;
-        this.gravity = 0.18;
+        this.gravity = 0.17;
         this.vy = 1;
-        this.passo = 2;
         this.noar = 0;
         this.img = 0;
         this.nosoco = 0;
@@ -26,9 +21,7 @@ class Personagem {
         this.nobaixo = 0;
         this.segueRight = 0;
         this.segueLeft = 0;
-        this.yStop = 0;
-        this.xStopL = 0;
-        this.xStopR = 0;
+        this.inercia = 0;
         this.xMenorL = 0;
         this.money = 0;
         this.life = 3;
@@ -41,6 +34,19 @@ class Personagem {
         this.blocos = [];
     }
 
+    adicionarControle(cenario) {
+        if (keyIsDown('x')) {
+            this.soco(cenario);
+        } else if (keyIsDown(LEFT_ARROW)) {
+            this.andar("left");
+        } else if (keyIsDown(RIGHT_ARROW)) {
+            this.andar("right");
+        } else if (keyIsDown(DOWN_ARROW)) {
+            this.abaixar();
+        } else {
+            this.parado();
+        }
+    }
 
     limitarTela() {
         if (this.y >= this.bloco * 5) {
@@ -76,7 +82,7 @@ class Personagem {
         //rect(this.personagemX, this.personagemY, this.pesonagemTamanhoX, this.pesonagemTamanhoY);
     }
 
-    colisaoPiso(cenario, coluna, linha) {
+    pegarColisaoPiso(cenario, coluna, linha) {
         if (
             ((coluna * this.bloco + this.bloco > this.personagemX && coluna * this.bloco < this.personagemX) ||
                 (coluna * this.bloco + this.bloco > this.personagemX + this.pesonagemTamanhoX && coluna * this.bloco < this.personagemX + this.pesonagemTamanhoX)) &&
@@ -87,7 +93,7 @@ class Personagem {
         }
     }
 
-    colisaoTopo(cenario, coluna, linha) {
+    pegarColisaoTopo(cenario, coluna, linha) {
         if (
             ((coluna * this.bloco + this.bloco > this.personagemX && coluna * this.bloco < this.personagemX) ||
                 (coluna * this.bloco + this.bloco > this.personagemX + this.pesonagemTamanhoX && coluna * this.bloco < this.personagemX + this.pesonagemTamanhoX)) &&
@@ -97,7 +103,8 @@ class Personagem {
         }
     }
 
-    colisaoDasLaterais(linha, coluna, cenario, mapa) {
+    pegarColisaoDasLaterais(linha, coluna, cenario, mapa) {
+        this.x = Math.round(this.x);
         if (((linha * this.bloco + this.pixel * 10) - cenario.scrollPer) > this.personagemY &&
             ((linha * this.bloco) - cenario.scrollPer) < this.personagemY + this.pesonagemTamanhoY) {
             if ((this.personagemX) < (coluna * this.bloco)) {
@@ -107,7 +114,7 @@ class Personagem {
             } else {
                 if (this.xMenorL <= ((coluna * this.bloco) + this.bloco) || this.xMenorR == 0) {
                     this.xMenorL = ((coluna * this.bloco) + this.bloco);
-                    //rect((coluna * this.bloco), (linha * this.bloco) - cenario.scrollPer, this.bloco, this.bloco);
+                    //
                 }
             }
         }
@@ -122,13 +129,18 @@ class Personagem {
         for (var linha = 0; linha < cenario.mapLevel.length; linha++) {
             let mapa = cenario.mapLevel[linha];
             for (var coluna = 0; coluna < mapa.length; coluna++) {
+                //stroke('rgba(0,0,0,1)');
+                //fill('rgba(100%,0%,100%,0)');
+                //rect((coluna * this.bloco), (linha * this.bloco) - cenario.scrollPer, this.bloco, this.bloco);
+
+
                 let naoColidir = [5, 6, 16, 15, 12, 13, 20, 22, 23, 24, 24, 25, 26, 27];
                 let objetos = [15, 16, 20];
                 if (mapa[coluna] && (naoColidir.indexOf(mapa[coluna]) == -1)) {
                     var superBloco = this.quebraSuperForca(mapa, coluna, linha);
-                    this.colisaoTopo(cenario, coluna, linha);
-                    this.colisaoPiso(cenario, coluna, linha);
-                    this.colisaoDasLaterais(linha, coluna, cenario, mapa);
+                    this.pegarColisaoTopo(cenario, coluna, linha);
+                    this.pegarColisaoPiso(cenario, coluna, linha);
+                    this.pegarColisaoDasLaterais(linha, coluna, cenario, mapa);
                 } else if (objetos.indexOf(mapa[coluna]) >= 0) {
                     let colisaoObjeto = collideRectRect(this.personagemX, this.personagemY, this.pesonagemTamanhoX - this.pixel * 2, this.pesonagemTamanhoY - this.pixel * 2, (coluna * this.bloco), (linha * this.bloco) - cenario.scrollPer, this.bloco, this.bloco);
                     if (colisaoObjeto) {
@@ -173,102 +185,93 @@ class Personagem {
         }
     }
 
-    normaliza(cenario, inimigos) {
-
-        this.yStop = 0;
-        this.hitY = false;
-        this.limitarTela();
-        this.loopPega = 0;
-        this.loopPegaForca = 0;
-        this.loopPegaPiso = 0;
-        this.loopPegaTopo = 0;
-        this.colisao(cenario, inimigos)
-
-        if (this.morreu == 1) {
-            this.morSoma++;
-            this.morSomaY = this.morSomaY - 5;
-            if (this.morSoma <= 8) this.ImgMorte = 12;
-            else if (this.morSoma <= 16) {
-                this.ImgMorte = 13;
-            } else {
-                this.morSoma = 0;
-            }
-            // console.log(this.y+50+this.morSomaY);
-            image(this.animation[this.ImgMorte], this.x - 190, this.y + 50 + this.morSomaY);
-
-            diedSound.volume(0.5)
-            diedSound.play()
-
-            if (this.y + 10 + this.morSomaY < (-40)) {
-                this.morreu = 0;
-                this.morSoma = 0;
-                this.morSomaY = 0;
-                this.x = this.xMenorL + this.bloco;
-                this.y = this.y + 38;
-            }
+    animarMorte() {
+        this.morSoma++;
+        this.morSomaY = this.morSomaY - 5;
+        if (this.morSoma <= 8) this.ImgMorte = 12;
+        else if (this.morSoma <= 16) {
+            this.ImgMorte = 13;
         } else {
-
-
-            if (this.noar) {
-                if (this.xMenorL <= this.x - this.bloco * 2.5 && (this.lado == 'left')) {
-                    //this.x = this.x - this.segueLeft + this.segueRight
-                    //this.segueLeft = this.segueLeft - 0.2;
-                    //this.segueRight = this.segueRight - 0.2;
-                }
-                if ((this.xMenorR >= this.x - this.bloco) && (this.lado == 'right')) {
-                    //this.x = this.x - this.segueLeft + this.segueRight
-                    //this.segueLeft = this.segueLeft - 0.2;
-                    //this.segueRight = this.segueRight - 0.2;
-                }
-            }
-            if (this.nosoco) {
-                this.nosoco++;
-            }
-            if (this.nosoco >= 12) {
-                this.nosoco = 0;
-            }
-
-            if (cenario.soco >= 1) {
-                cenario.soco++;
-            }
-            if (cenario.soco >= 50) {
-                cenario.soco = 0;
-            }
-
-            if (this.taAgua) {
-                this.gravity = 0;
-                this.vy = 0;
-            }
-
-            if (this.yStop == 1) this.vy = 0;
-            if (this.stopJump == 1) {
-                this.vy = 0;
-                this.stopJump = 0;
-            }
-            this.y += this.vy;
-            if (this.y >= this.yMenorPiso) {
-
-                this.y = this.yMenorPiso;
-                this.vy = 0;
-                this.noar = 0;
-                if (this.vy > 10) this.vy = 1;
-            } else {
-                this.vy += this.gravity;
-                this.noar = 1;
-            }
-            //console.log(this.y+" -> "+this.yMaiorTopo);
-            if (this.y <= this.yMaiorTopo) {
-                this.y = this.yMaiorTopo;
-                this.vy += 2;
-            }
-            this.yOld = this.y;
-
-            if ((this.superForca == 2) || this.forcaAndando) this.vaisuperForca();
+            this.morSoma = 0;
         }
-        if (this.taAgua && (!keyIsDown(DOWN_ARROW)) && this.y > this.bloco) this.y = this.y - 5;
+        image(this.animation[this.ImgMorte], this.x - 190, this.y + 50 + this.morSomaY);
+        diedSound.volume(0.5)
+        diedSound.play()
+        if (this.y + 10 + this.morSomaY < (-40)) {
+            this.morreu = 0;
+            this.morSoma = 0;
+            this.morSomaY = 0;
+            this.x = this.xMenorL + this.bloco;
+            this.y = this.y + 38;
+        }
+    }
+
+    fisicaDoPulo() {
+        if (this.noar) {
+            if ((this.xMenorL < this.personagemX - this.pixel * 2) && (this.lado == 'left')) {
+                this.x = this.x - this.passo;
+                //if(this.inercia<=-1.5) this.inercia = -1.5;
+                //else this.inercia-= 0.1;
+            }
+            if ((this.xMenorR >= this.personagemX + this.pesonagemTamanhoX + this.passo) && (this.lado == 'right')) {
+                this.x = this.x + this.passo;
+                //if(this.inercia>=1.5) this.inercia = 1.5;
+                //else this.inercia+= 0.1;
+            }
+        }
+    }
+
+    tempoDoSoco() {
+        if (this.nosoco) {
+            this.nosoco++;
+        }
+        if (this.nosoco >= 12) {
+            this.nosoco = 0;
+        }
+    }
+
+    bloqueioTopoBase() {
+        if (this.taAgua) {
+            this.gravity = 0;
+            this.vy = 0;
+        }
+        this.y += this.vy;
+        if (this.y >= this.yMenorPiso) {
+            this.y = this.yMenorPiso;
+            this.vy = 0;
+            this.noar = 0;
+            if (this.vy > 10) this.vy = 1;
+        } else {
+            this.vy += this.gravity;
+            this.noar = 1;
+        }
+
+        if (this.y <= this.yMaiorTopo) {
+            this.y = this.yMaiorTopo;
+            this.vy += 2;
+        }
+    }
+
+    zerarLoop() {
+        this.loopPega = 0;
+        this.loopPegaPiso = 0;
+    }
+
+    normaliza(cenario, inimigos) {
+        this.limitarTela();
+        this.zerarLoop();
+        this.colisao(cenario, inimigos)
+        if (this.morreu == 1) {
+            this.animarMorte();
+        } else {
+            this.fisicaDoPulo();
+            this.tempoDoSoco();
+            this.bloqueioTopoBase();
+        }
     }
 
     parado() {
+        this.passo = 0;
         if (this.morreu != 1) {
             this.impulso = 0;
             push();
@@ -293,39 +296,37 @@ class Personagem {
     andar(lado) {
         this.impulso = 1;
         this.lado = lado;
+        this.passo += 0.12;
+        if (this.passo >= 2) this.passo = 2;
         if (this.nosoco) this.b = 6;
         else if (this.noar) this.b = 5;
-        else if (this.i <= 4) this.b = 0;
-        else if (this.i <= 8) this.b = 1;
-        else if (this.i <= 12) this.b = 2;
-        else if (this.i <= 16) { this.b = 3; } else if (this.i <= 19) { this.i = 0; } else { this.i = 0; }
+        else if (this.animaPassos <= 4) this.b = 0;
+        else if (this.animaPassos <= 8) this.b = 1;
+        else if (this.animaPassos <= 12) this.b = 2;
+        else if (this.animaPassos <= 16) { this.b = 3; }
+        else if (this.animaPassos <= 19) { this.animaPassos = 0; }
+        else { this.animaPassos = 0; }
         push();
-
         if (lado == 'left') {
             scale(-1, 1);
             //rect(-this.x, this.y, this.bloco * 2, this.bloco * 2);
             image(this.animation[this.b], -this.x, this.y);
-
-            if ((this.nosoco == 0 || this.noar != 0)) {
-                console.log(this.xMenorL + " => " + (this.personagemX - this.pixel * 2));
+            if ((this.nosoco == 0 && this.noar == 0)) {
                 if (this.xMenorL < this.personagemX - this.pixel * 2) {
-                    if (this.z >= 4) this.x = this.x - this.passo;
+                    this.x = this.x - this.passo;
                 }
             }
         } else {
             scale(1, 1);
             //rect(this.x - this.bloco * 2, this.y, this.bloco * 2, this.bloco * 2);
             image(this.animation[this.b], this.x - this.bloco * 2, this.y);
-            if ((this.nosoco == 0 || this.noar != 0)) {
-                console.log(this.xMenorR);
-                console.log(this.x - 6);
+            if ((this.nosoco == 0 && this.noar == 0)) {
                 if (this.xMenorR > this.personagemX + this.pesonagemTamanhoX + this.pixel * 2) {
-                    if (this.z >= 4) this.x = this.x + this.passo;
+                    this.x = this.x + this.passo;
                 }
             }
         }
-        this.i++;
-        this.z++;
+        this.animaPassos++;
         pop();
     }
 
@@ -337,13 +338,13 @@ class Personagem {
                 if (this.lado == 'left') {
                     scale(-1, 1);
                     image(this.animation[5], -this.x, this.y);
-                    if (keyIsDown(LEFT_ARROW) && (this.segueLeft == 0) && (this.xStopL == 0)) {
+                    if (keyIsDown(LEFT_ARROW) && (this.segueLeft == 0)) {
                         //this.x = this.x - 1;
                     }
                     //console.log(5*this.inverte);
                 } else {
                     image(this.animation[5], this.x - this.bloco * 2, this.y);
-                    if (keyIsDown(RIGHT_ARROW) && (this.segueRight == 0) && (this.xStopR == 0)) {
+                    if (keyIsDown(RIGHT_ARROW) && (this.segueRight == 0)) {
                         //this.x = this.x + 1;
                     }
                 }
@@ -397,11 +398,9 @@ class Personagem {
             image(this.animation[this.img], this.x - this.bloco * 2, this.y);
         }
         pop();
-
     }
 
     vaisuperForca() {
-
         if (this.forcaAndando == 0) {
             this.yForca = this.y + 65;
             this.xForca = this.x;
@@ -411,7 +410,6 @@ class Personagem {
             this.forcaxMenorL = this.xMenorLForca;
             this.forcaLado = this.lado;
         } else if (this.forcaAndando == 1) {
-
             push();
             if (this.forcaLado == 'left') {
                 scale(-1, 1);
