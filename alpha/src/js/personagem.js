@@ -12,10 +12,11 @@ class Personagem {
         this.animation = animation;
         this.w = this.animation[0].width;
         this.len = this.animation.length;
-        this.gravity = 0.17;
+        this.gravity = 0.105;
         this.vy = 1;
         this.noar = 0;
         this.img = 0;
+        this.inmortal = 0;
         this.nosoco = 0;
         this.lado = 'right';
         this.nobaixo = 0;
@@ -32,16 +33,35 @@ class Personagem {
         this.taAgua = 0;
         this.margemAgua = 0;
         this.blocos = [];
+        this.menu = 0;
+    }
+
+    sairPause(){
+        if (pressPause && menu==2) {
+            let valorSom = true;
+            menu = 0 & chamaSom(valorSom);
+        }
     }
 
     adicionarControle(cenario) {
-        if (keyIsDown('x')) {
+        if (pressZ && this.noar == 0) {
+            this.segueRight = 0;
+            this.segueLeft = 0;
+            this.pular();
+        }
+        else if (pressZ == 0) {
+            if (this.vy < 0) this.vy = 0;
+        }
+        if (pressPause && menu==0) {
+           menu = 2;
+        }
+        if (keyIsDown('x') || (pressX && this.nosoco == 0)) {
             this.soco(cenario);
-        } else if (keyIsDown(LEFT_ARROW)) {
+        } else if (keyIsDown(LEFT_ARROW) || pressLeft) {
             this.andar("left");
-        } else if (keyIsDown(RIGHT_ARROW)) {
+        } else if (keyIsDown(RIGHT_ARROW) || pressRight) {
             this.andar("right");
-        } else if (keyIsDown(DOWN_ARROW)) {
+        } else if (keyIsDown(DOWN_ARROW) || pressDown) {
             this.abaixar();
         } else {
             this.parado();
@@ -120,6 +140,25 @@ class Personagem {
         }
     }
 
+    colisaoInimigoParede(inimigos, linha, coluna) {
+        for (let inimigo of inimigos) {
+            if (((linha * this.bloco) - cenario.scrollPer) <= inimigo.inimigoAltura + this.bloco && ((linha * this.bloco) - cenario.scrollPer) + this.bloco >= inimigo.inimigoAltura + this.bloco) {
+                var hitInimigo = collideRectRect(inimigo.x - personagem.bloco * 0.2, inimigo.inimigoAltura + this.bloco, this.bloco * 1.3, this.bloco - 5, (coluna * this.bloco), (linha * this.bloco) - cenario.scrollPer, this.bloco, this.bloco - 5);
+                if (hitInimigo) {
+                    //rect(inimigo.x, inimigo.inimigoAltura + this.bloco, this.bloco, this.bloco);
+                    if (inimigo.soma > 0) {
+                        inimigo.x = inimigo.x - 1;
+                        inimigo.soma = inimigo.soma * -1;
+                    }
+                    else {
+                        inimigo.x = inimigo.x + 1;
+                        inimigo.soma = inimigo.soma * -1;
+                    }
+                }
+            }
+        }
+    }
+
     colisao(cenario, inimigos) {
         this.pegarAreaPersonagem();
         this.pegarAreaSoco();
@@ -141,6 +180,7 @@ class Personagem {
                     this.pegarColisaoTopo(cenario, coluna, linha);
                     this.pegarColisaoPiso(cenario, coluna, linha);
                     this.pegarColisaoDasLaterais(linha, coluna, cenario, mapa);
+                    this.colisaoInimigoParede(inimigos, linha, coluna);
                 } else if (objetos.indexOf(mapa[coluna]) >= 0) {
                     let colisaoObjeto = collideRectRect(this.personagemX, this.personagemY, this.pesonagemTamanhoX - this.pixel * 2, this.pesonagemTamanhoY - this.pixel * 2, (coluna * this.bloco), (linha * this.bloco) - cenario.scrollPer, this.bloco, this.bloco);
                     if (colisaoObjeto) {
@@ -166,16 +206,7 @@ class Personagem {
                     }
                 }
 
-                for (let inimigo of inimigos) {
-                    if (((linha * this.bloco) - cenario.scrollPer) < inimigo.inimigoAltura + this.bloco && ((linha * this.bloco) - cenario.scrollPer) + this.bloco > inimigo.inimigoAltura + this.bloco) {
 
-                        var hitInimigo = collideRectRect(inimigo.x, inimigo.inimigoAltura + this.bloco, this.bloco * 2, 4, (coluna * this.bloco), (linha * this.bloco) - cenario.scrollPer, this.bloco, this.bloco);
-                        if (hitInimigo) {
-                            if (inimigo.soma > 0) inimigo.soma = inimigo.soma * -1;
-                            else inimigo.soma = inimigo.soma * -1;
-                        }
-                    }
-                }
 
                 if (superBloco) {
                     if (superBloco == 'zero') superBloco = 0;
@@ -187,17 +218,18 @@ class Personagem {
 
     animarMorte() {
         this.morSoma++;
-        this.morSomaY = this.morSomaY - 5;
+        this.morSomaY = this.morSomaY - 0.8;
         if (this.morSoma <= 8) this.ImgMorte = 12;
         else if (this.morSoma <= 16) {
             this.ImgMorte = 13;
         } else {
             this.morSoma = 0;
         }
-        image(this.animation[this.ImgMorte], this.x - 190, this.y + 50 + this.morSomaY);
+        image(this.animation[this.ImgMorte], this.x - this.bloco * 2, this.y + this.morSomaY);
         diedSound.volume(0.5)
         diedSound.play()
-        if (this.y + 10 + this.morSomaY < (-40)) {
+        if (this.y + this.morSomaY < (-40)) {
+            this.inmortal = 100;
             this.morreu = 0;
             this.morSoma = 0;
             this.morSomaY = 0;
@@ -207,7 +239,7 @@ class Personagem {
     }
 
     fisicaDoPulo() {
-        if (this.noar) {
+        if ((this.noar) && (this.morreu == 0)) {
             if ((this.xMenorL < this.personagemX - this.pixel * 2) && (this.lado == 'left')) {
                 this.x = this.x - this.passo;
                 //if(this.inercia<=-1.5) this.inercia = -1.5;
@@ -221,11 +253,17 @@ class Personagem {
         }
     }
 
+    terminaInmortalidade() {
+        if (this.inmortal) {
+            this.inmortal = this.inmortal - 0.5;
+        }
+    }
+
     tempoDoSoco() {
         if (this.nosoco) {
             this.nosoco++;
         }
-        if (this.nosoco >= 12) {
+        if (this.nosoco >= 15) {
             this.nosoco = 0;
         }
     }
@@ -248,7 +286,7 @@ class Personagem {
 
         if (this.y <= this.yMaiorTopo) {
             this.y = this.yMaiorTopo;
-            this.vy += 2;
+            this.vy += 1.5;
         }
     }
 
@@ -258,21 +296,24 @@ class Personagem {
     }
 
     normaliza(cenario, inimigos) {
-        this.limitarTela();
-        this.zerarLoop();
-        this.colisao(cenario, inimigos)
+
         if (this.morreu == 1) {
             this.animarMorte();
         } else {
+            this.adicionarControle(cenario);
+            this.limitarTela();
+            this.zerarLoop();
+            this.colisao(cenario, inimigos);
             this.fisicaDoPulo();
             this.tempoDoSoco();
             this.bloqueioTopoBase();
+            this.terminaInmortalidade();
         }
     }
 
     parado() {
         this.passo = 0;
-        if (this.morreu != 1) {
+        if (this.morreu == 0) {
             this.impulso = 0;
             push();
             if (this.taAgua) this.img = 14;
@@ -331,7 +372,7 @@ class Personagem {
     }
 
     pular(tipo) {
-        if (this.noar == 0) {
+        if ((this.noar == 0) && (this.morreu == 0)) {
             jumpingSound.play();
             if (tipo == "image") {
                 push();
@@ -351,8 +392,8 @@ class Personagem {
                 pop();
 
             } else {
-                if (this.impulso) this.vy = -4.3;
-                else this.vy = -4;
+                if (this.impulso) this.vy = -3.4;
+                else this.vy = -3.1;
             }
             this.noar = 1;
         }
@@ -374,7 +415,8 @@ class Personagem {
                 //cenario.x = cenario.x - 220;
             } else {
                 scale(1, 1);
-                image(this.animation[6], this.x - 190, this.y);
+                image(this.animation[6], this.x - this.bloco * 2, this.y);
+
             }
             pop();
         }

@@ -1,65 +1,18 @@
 let controller = document.getElementById('afterCanvas')
+controller.style.zoom = '60%'
+let pressDown, pressLeft, pressRight, pressX, pressZ, pressPause = 0;
 
-controller.style.zoom = '59%'
-let moveDireitaDiv = 0;
-// controle para mobile
-let divSoco = document.getElementById('soco'),
-    divPulo = document.getElementById('pulo'),
-    divSobe = document.getElementById('moveCima'),
-    divDesce = document.getElementById('moveBaixo'),
-    divEsquerda = document.getElementById('moveEsquerda'),
-    divDireita = document.getElementById('moveDireita')
+    document.getElementById("moveDireita").addEventListener("touchstart", function(  ) { pressRight=1;});
+    document.getElementById("moveDireita").addEventListener("touchend", function(  ) { pressRight=0;});
 
-    document.getElementById("moveDireita").addEventListener("mouseenter", function(  ) { moveDireitaDiv=1;});
-    document.getElementById("moveDireita").addEventListener("mouseleave", function(  ) { moveDireitaDiv=0;});
+    document.getElementById("moveEsquerda").addEventListener("touchstart", function(  ) { pressLeft=1;});
+    document.getElementById("moveEsquerda").addEventListener("touchend", function(  ) { pressLeft=0;});
 
-function detectaClick(id) {
-    
-    if (menu == 0) {
-        if (id == 'soco') {
-            personagem.soco(cenario);
-            punchSound.volume(0.4);
-            if (personagem.superForca == 2) {
-                personagem.vaisuperForca();
-                personagem.forcaAndando = 0;
-            }
-            if ((menu == 1) && (flechaMenu <= 690) && (personagem.superForca == 1)) {
-                personagem.superForca = 2;
-            }
-        }
+    document.getElementById("pulo").addEventListener("touchstart", function(  ) { pressZ=1;});
+    document.getElementById("pulo").addEventListener("touchend", function(  ) { pressZ=0;});
 
-        if (id == 'pulo') {
-            personagem.segueRight = 0;
-            personagem.segueLeft = 0;
-            personagem.pular();
-            if ((menu == 1) && (flechaMenu <= 690) && (personagem.superForca == 1)) {
-                personagem.superForca = 2;
-            }
-        }
+    document.getElementById("soco").addEventListener("touchstart", function(  ) { pressX=1;});
+    document.getElementById("soco").addEventListener("touchend", function(  ) { pressX=0;});    
 
-        // movimentacao
-        if (id == 'moveEsquerda') {
-            personagem.andar('left')
-            i = i - 2;
-        }
-        if (id == 'moveDireita') {
-            personagem.andarRight = 1;
-            i = i + 2;
-        }
-        if (id == 'moveCima') {
-            personagem.abaixar()
-            b = b - 2;
-        } if (id == 'moveBaixo') {
-            personagem.abaixar()
-            b = b + 2;
-        }
-    } if (id == 'pause') {
-        let valorSom = true
-        if (menu == 0) menu = 2
-        else menu = 0 & chamaSom(valorSom)
-
-    } else {
-        personagem.parado()
-    }
-
-}
+    document.getElementById("pause").addEventListener("touchstart", function(  ) { pressPause=1;});
+    document.getElementById("pause").addEventListener("touchend", function(  ) { pressPause=0;});  

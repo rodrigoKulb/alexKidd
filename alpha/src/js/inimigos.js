@@ -1,89 +1,64 @@
 // JavaScript Document
 
+class Inimigos {
 
-class Inimigos
-{
-
-	constructor(x,y,animation)
-	{
+	constructor(x, y, animation) {
 		this.x = x;
 		this.y = y;
 		this.animation = animation;
 		this.count = 0;
-		this.soma = +2.5;
+		this.soma = +0.45;
 		this.inimigoAltura = 0;
 		this.morreu = 0;
-
-
+		this.fumaca = 0;
 	}
 
-	aparece(cenario,personagem)
-	{
-		if(!(this.morreu))
-		{
+	aparece(cenario, personagem) {
+		if (!(this.morreu)) {
 			this.count++;
-			if(this.count<=20) this.img = 10;
-			else if(this.count<=39) this.img = 11;
+			if (this.count <= 20) this.img = 10;
+			else if (this.count <= 39) this.img = 11;
 			else this.count = 0;
-			this.x = this.x+this.soma;
-			this.inimigoAltura = this.y-cenario.scrollPer;
-
-			//rect(personagem.x-120,personagem.y+40,50,100);
-			//rect(this.x+40,this.y-cenario.scrollPer+60,100,50);
-			//rect(personagem.x-120,personagem.y+40,50,100);
-
-			if(personagem.nosoco>=1)
-			{
-				if(personagem.lado=='left')
-				{
-					//rect(personagem.x-220, personagem.y+85,30,30);
-					//rect(this.x+40,this.y-cenario.scrollPer+60,100,50);
-					var matou = collideRectRect(personagem.x-220, personagem.y+85,30,30,this.x+40,this.y-cenario.scrollPer+60,100,50);
-					if(matou)
-					{
-						this.morreu = 1;
-					}
-				}
-				else
-				{
-					//rect(personagem.x, personagem.y+85,30,30);
-					//rect(this.x+40,this.y-cenario.scrollPer+60,100,50);
-					var matou = collideRectRect(personagem.x, personagem.y+85,30,30,this.x+40,this.y-cenario.scrollPer+60,100,50);
-					if(matou)
-					{
-						this.morreu = 1;
-					}
-				}
-
-				if(this.morreu == 1){
-					enemyDiedSound.play()
+			if(personagem.morreu == 0) this.x = this.x + this.soma;
+			this.inimigoAltura = this.y - cenario.scrollPer;
+			//rect(personagem.personagemX, personagem.personagemY, personagem.pesonagemTamanhoX, personagem.pesonagemTamanhoY);
+			///rect(this.x-personagem.bloco*0.2, this.y - cenario.scrollPer + personagem.bloco, personagem.bloco*1.3, personagem.bloco);
+			if (personagem.nosoco >= 1) {
+				//rect(personagem.personagemXSoco, personagem.personagemYSoco, personagem.pesonagemTamanhoXSoco, personagem.pesonagemTamanhoYSoco);
+				var matou = collideRectRect(personagem.personagemXSoco, personagem.personagemYSoco, personagem.pesonagemTamanhoXSoco, personagem.pesonagemTamanhoYSoco,
+					this.x - personagem.bloco * 0.2, this.y - cenario.scrollPer + personagem.bloco, personagem.bloco * 1.3, personagem.bloco);
+				if (matou) {
+					this.morreu = 1;
+					enemyDiedSound.play();
 				}
 			}
 
-			var morreu = collideRectRect(personagem.x-120,personagem.y+40,50,100,this.x+40,this.y-cenario.scrollPer+60,100,50);
-			if(morreu && personagem.morreu==0)
-			{
+			var morreu = collideRectRect(personagem.personagemX, personagem.personagemY, personagem.pesonagemTamanhoX, personagem.pesonagemTamanhoY,
+				this.x, this.y - cenario.scrollPer + personagem.bloco, personagem.bloco, personagem.bloco);
+			if (morreu && personagem.morreu == 0 && personagem.inmortal == 0) {
 				noLoop();
 				personagem.morreu = 1;
-				personagem.life = personagem.life-1;
-				personagem.y = 	personagem.y+60-100-50;
-				setTimeout(function(){ loop(); }, 2000);
+				personagem.life = personagem.life - 1;
+				//personagem.y = personagem.y + 6 - 10 - 5;
+				setTimeout(function () { loop(); }, 2000);
 			}
 			push();
 
-			if(this.soma>0)
-			{
-
-				image(this.animation[this.img], this.x,this.y-cenario.scrollPer);
-
+			if (this.soma > 0) {
+				image(this.animation[this.img], this.x - personagem.bloco * 0.5, this.y - cenario.scrollPer + personagem.bloco * 0.5);
 			}
-			else
-			{
-				scale(-1,1);
-				image(this.animation[this.img], -this.x-180,this.y-cenario.scrollPer);
+			else {
+				scale(-1, 1);
+				image(this.animation[this.img], -this.x - personagem.bloco * 1.5, this.y - cenario.scrollPer + personagem.bloco * 0.5);
 			}
 			pop();
 
+		}
+		else {
+			if (this.fumaca <= 10) {
+				image(this.animation[17], this.x - personagem.bloco * 0.5, this.y - cenario.scrollPer + personagem.bloco * 0.5);
+				this.fumaca++;
+			}
 		}
 	}
 }

@@ -57,8 +57,7 @@ function preload() {
     jumpingSound = loadSound('src/sounds/jumping1.wav');
     diedSound = createAudio('src/sounds/died.wav');
     crashSound = loadSound('src/sounds/crash.wav');
-    enemyDiedSound = loadSound('src/sounds/crow.mp3');
-    enemyDiedSound.volume = 1
+    enemyDiedSound = loadSound('src/sounds/crow.wav');
 }
 
 function setup() {
@@ -74,19 +73,22 @@ function setup() {
     //background(bg);
     personagem = new Personagem(44, 53, animation);
     cenario = new Cenario();
-    inimigos[0] = new Inimigos(400, 1600, animation);
-    inimigos[1] = new Inimigos(650, 2185, animation);
-    inimigos[2] = new Inimigos(275, 2885, animation);
-    inimigos[3] = new Inimigos(275, 3180, animation);
-    inimigos[4] = new Inimigos(275, 3180, animation);
-    inimigos[5] = new Inimigos(400, 3990, animation);
-    inimigos[6] = new Inimigos(350, 4350, animation);
-    inimigos[7] = new Inimigos(550, 4800, animation);
-    inimigos[8] = new Inimigos(550, 5610, animation);
-    inimigos[9] = new Inimigos(550, 6510, animation);
-    inimigos[10] = new Inimigos(95, 7140, animation);
-    inimigos[11] = new Inimigos(95, 8040, animation);
-    inimigos[12] = new Inimigos(95, 8310, animation);
+
+    araras = [[personagem.bloco*5,personagem.bloco*18],
+    [personagem.bloco*8,personagem.bloco*25],
+    [personagem.bloco*4,personagem.bloco*33],
+    [personagem.bloco*10,personagem.bloco*36],
+    [personagem.bloco*5,personagem.bloco*45],
+    [personagem.bloco*5,personagem.bloco*49],
+    [personagem.bloco*5,personagem.bloco*54],
+    [personagem.bloco*5,personagem.bloco*63],
+    [personagem.bloco*5,personagem.bloco*73],
+    [personagem.bloco*3,personagem.bloco*80],
+    [personagem.bloco*2,personagem.bloco*90],
+    [personagem.bloco*2,personagem.bloco*93]];
+    for (var linha = 0; linha < araras.length; linha++) {
+        inimigos[linha] = new Inimigos(araras[linha][0], araras[linha][1], animation);
+    }
 
     resolucao();
     let valorSom = true
@@ -145,6 +147,7 @@ function draw() {
 
 
     else if (menu == 2) {
+        personagem.sairPause();
         let valorSom = false
         chamaSom(valorSom)
         gameCanvas.classList.add('im-paused')
@@ -158,7 +161,6 @@ function draw() {
         gameCanvas.classList.remove('im-paused')
         textPaused.setAttribute('style', 'display:none')
         cenario.pedra(personagem)
-        personagem.adicionarControle(cenario);
         personagem.normaliza(cenario, inimigos);
         for (let inimigo of inimigos) {
             inimigo.aparece(cenario, personagem);
