@@ -1,5 +1,20 @@
-let controller = document.getElementById('afterCanvas')
-controller.style.zoom = '60%'
+// pega o tamanho do canvas criado e define no css  
+function canvasSizing() {
+    let gameCanvas = document.getElementById('defaultCanvas0'),
+        gameCanvasWidth = gameCanvas.style.width,
+        gameCanvasHeight = gameCanvas.style.height
+
+// printa o tamanho do canvas
+    console.log(`Y: ${gameCanvasHeight}` + '\n' +  `X: ${gameCanvasWidth}`)
+    var domCSS = document.querySelectorAll(':root')[0], 
+        cssComputed = getComputedStyle(domCSS)
+    domCSS.style.setProperty('--game-canvas-width', gameCanvasWidth)
+    domCSS.style.setProperty('--game-canvas-height', gameCanvasHeight)
+    console.log(cssComputed.getPropertyValue('--game-canvas-width'))
+} 
+setTimeout(canvasSizing, 1500)
+
+
 let pressDown, pressLeft, pressRight, pressX, pressZ, pressPause = 0;
 
     document.getElementById("moveDireita").addEventListener("touchstart", function(  ) { pressRight=1;});
