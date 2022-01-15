@@ -20,42 +20,20 @@
     <!-- Controller -->
     <div id="afterCanvas">
         <div class="controller">
-            <div class="vertical-left-plastic"></div>
-            <div class="largest-square">
-                <div class="red-square">
-                    <div class="medium-square">
-                        <div class="small-square">
-                            <div class="smallest-square">
-                                <div class="arrow arrow-top" id="moveCima"></div>
-                                <div class="arrow arrow-left" id="moveEsquerda"></div>
-                                <div class="arrow arrow-right" id="moveDireita"></div>
-                                <div class="arrow arrow-bottom" id="moveBaixo"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="red-square-label-text">CONTROL PAD</div>
+            <!-- analógico / direcionais -->
+            <div class="controller-left">
+                <div class="btn-dir controller-dir-top" id="moveCima">↑</div>
+                <div class="btn-dir controller-dir-bottom" id="moveBaixo">↓</div>
+                <div class="btn-dir controller-dir-left" id="moveEsquerda">←</div>
+                <div class="btn-dir controller-dir-right" id="moveDireita">→</div>
             </div>
-            <div class="horizontal-right-plastic">
-                <div class="button-pause" id="pause">
-                    <p>P</p>
-                </div>
+
+            <!-- poderes / botões normais -->
+            <div class="controller-right">
+                <div class="btn controller-button-left" id="pulo">✴</div>
+                <div class="btn controller-button-right" id="soco">¤</div>
+                <div class="btn controller-button-center" id="pause">•</div>
             </div>
-            <div class="rectangle-dark-plastic">
-                <div class="first-square-label">1 START</div>
-                <div class="second-square-label">2</div>
-                <div class="first-square">
-                    <div class="button">
-                        <div class="button-circle" id="soco"></div>
-                    </div>
-                </div>
-                <div class="second-square">
-                    <div class="button">
-                        <div class="button-circle" id="pulo"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="horizontal-bottom-plastic"></div>
         </div>
     </div>
 
@@ -66,6 +44,7 @@
     <script src="src/js/inimigos.js"></script>
     <script src="src/js/sketch.js"></script>
     <script src="src/js/controller.js"></script>
+    <script defer src="src/js/testing.js"></script>
 </body>
 
 </html>
