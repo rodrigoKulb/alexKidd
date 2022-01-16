@@ -1,158 +1,47 @@
-/* Mega System Controller made by Victor Inknov (https://github.com/victorinknov) */
 
-:root {
-    --vertical-left-plastic-width: 30px;
-    --all-elements-height: 200px;
-    --game-canvas-width: 0;
-    --controller-height: 0;
-    --controller-width: calc((98vw - var(--game-canvas-width)) / 2);
-
-
-    /* Colors */
-    --deeper-grey: #434450;
-    --medium-grey: #78767f;
-    --dark: #292729;
-    --red: #ff5555;
-}
-
-* {
-    box-sizing: border-box;
-    margin: 0;
+.controleDireito, .controleEsquerdo{
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
     user-select: none;
 }
 
-html {
-    translate: no;
-    z-index: 0;
+@media (min-width: 0) {
+    .controleEsquerdo {
+        width: 50%;
+        left: 0px;
+        position: absolute;
+        bottom: 100px;
+    }
+    .controleDireito {
+        width: 50%;
+        right: 0px;
+        position: absolute;
+        bottom: 100px;
+    }
 }
 
-body {
-    display: block;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    background-color: #444;
+@media (max-width: 1000px) and (orientation:landscape) {
+    .controleEsquerdo {
+        width: 200px;
+        left: 0px;
+        position: absolute;
+        bottom: 100px;
+    }
+    .controleDireito {
+        width: 200px;
+        right: 0px;
+        position: absolute;
+        bottom: 100px;
+    }
 }
 
-#afterCanvas {
-    display:none;
-}
-
-@media only screen and (hover: none) and (pointer: coarse){
-
-    #afterCanvas {
-        display: inherit;
-        width: 100%;
-        height: 100%;
-        position: absolute;
+@media (min-width: 1001px) {
+    .controleEsquerdo {
+        display: none;
     }
-    
-    .controller {
-        display: flex;
-        width: 98vw;
-        height: 65vh;
-        margin-top: calc((100vh - 65vh) / 2);
-        margin-left: 1vw;
-        border-radius: .75rem;
+    .controleDireito {
+        display: none;
     }
-    
-    .controller-left {
-        border-top-left-radius: 1rem;
-        border-bottom-left-radius: 1rem;
-        background-color: #222;
-        width: calc((98vw - var(--game-canvas-width)) / 2);
-        height: 65vh;
-        display: flex;
-    }
-    
-    .controller-right {
-        border-top-right-radius: 1rem;
-        border-bottom-right-radius: 1rem;
-        background-color: #222;
-        margin-left: var(--game-canvas-width);
-        width: var(--controller-width);
-        height: 65vh;
-        display: flex;
-    }
-    
-    .controller-button-right {
-        margin-top: calc(65vh - 25.5vh);
-        margin-left: calc(var(--controller-width) - 25.5vh);  
-    }
-    
-    .controller-button-left {
-        margin-left: 5vh;
-        margin-top: 5vh;
-    }
-    
-    .btn-dir {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 32px;
-        font-weight: bold;
-        color: white;
-        position: absolute;
-        background-color: #444;
-    }
-    
-    .btn {
-        position: absolute;
-        width: 22.5vh;
-        height: 22.5vh;
-        background-color: #444;
-        border-radius: 50%;
-        font-size: 32px;
-        font-weight: bold;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        color: white;
-    }
-    
-    .controller-button-center {
-        width: 10vh;
-        height: 10vh;
-        background-color: blue;
-        margin-top: calc((65vh / 2) - 4vh);
-        margin-left: calc((var(--controller-width) / 2) - 5vh);
-    }
-    
-    /* left controller part */
-    .controller-dir-top {
-        width: calc(var(--controller-width) / 4);
-        margin-top: 1.5vh;
-        margin-left: calc((var(--controller-width) / 2) - ((var(--controller-width) / 4)) / 2);
-        height: calc((var(--controller-width) / 2) - 1vh);
-        border-top-left-radius: .75rem;
-        border-top-right-radius: .75rem;
-    }
-    
-    .controller-dir-right {
-        height: calc(var(--controller-width) / 4);
-        width: calc((var(--controller-width) / 2) - 1vh);
-        margin-top: calc((65vh / 2) - ((var(--controller-width) / 4) / 2));
-        margin-left: calc((var(--controller-width) / 2));
-        border-top-right-radius: .75rem;
-        border-bottom-right-radius: .75rem;
-    }
-    
-    .controller-dir-left {
-        height: calc(var(--controller-width) / 4);
-        margin-left: 1vh;
-        width: calc((var(--controller-width) / 2) - 1vh);
-        margin-top: calc((65vh / 2) - ((var(--controller-width) / 4) / 2));
-        border-top-left-radius: .75rem;
-        border-bottom-left-radius: .75rem;
-    }
-    
-    .controller-dir-bottom {
-        width: calc(var(--controller-width) / 4);
-        margin-top: calc(((var(--controller-width) / 2) - 1vh + (var(--controller-width) / 4)) + 1vh);
-        margin-left: calc((var(--controller-width) / 2) - ((var(--controller-width) / 4)) / 2);
-        height: calc((var(--controller-width) / 2) - 1vh);
-        border-bottom-left-radius: .75rem;
-        border-bottom-right-radius: .75rem;
-    }
-    
 }
