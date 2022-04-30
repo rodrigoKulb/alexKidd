@@ -31,10 +31,10 @@ document.oncontextmenu = document.body.oncontextmenu = function() {return false;
 document.getElementById("controleDireito").addEventListener("touchstart", function (e) {
     let coordenadas = this.getBoundingClientRect();
     if (e.changedTouches[0].pageX-coordenadas.x >= coordenadas.width / 2) {
-        pressX = 1;
+        pressZ = 1;
     }
     else if (e.changedTouches[0].pageX-coordenadas.x < coordenadas.width / 2) {
-        pressZ = 1;
+        pressX = 1;
     }
 });
 
