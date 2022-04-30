@@ -22,7 +22,6 @@ class Personagem {
         this.nobaixo = 0;
         this.segueRight = 0;
         this.segueLeft = 0;
-        this.inercia = 0;
         this.xMenorL = 0;
         this.money = 0;
         this.life = 3;
@@ -34,10 +33,11 @@ class Personagem {
         this.margemAgua = 0;
         this.blocos = [];
         this.menu = 0;
+        this.passo = 0;
     }
 
-    sairPause(){
-        if (pressPause && menu==2) {
+    sairPause() {
+        if (pressPause && menu == 2) {
             let valorSom = true;
             menu = 0 & chamaSom(valorSom);
         }
@@ -52,8 +52,8 @@ class Personagem {
         else if (pressZ == 0) {
             if (this.vy < 0) this.vy = 0;
         }
-        if (pressPause && menu==0) {
-           menu = 2;
+        if (pressPause && menu == 0) {
+            menu = 2;
         }
         if (keyIsDown('x') || (pressX && this.nosoco == 0)) {
             this.soco(cenario);
@@ -239,11 +239,22 @@ class Personagem {
     }
 
     fisicaDoPulo() {
+        
         if ((this.noar) && (this.morreu == 0)) {
+            if(keyIsDown(LEFT_ARROW) || keyIsDown(RIGHT_ARROW)){
+                if(this.passo<=2){
+                    this.passo+0.01;
+                    console.log(this.passo);
+                } 
+            }
+            else{
+                if(this.passo>=0){
+                    console.log(this.passo);
+                    this.passo-0.01;
+                } 
+            } 
             if ((this.xMenorL < this.personagemX - this.pixel * 2) && (this.lado == 'left')) {
                 this.x = this.x - this.passo;
-                //if(this.inercia<=-1.5) this.inercia = -1.5;
-                //else this.inercia-= 0.1;
             }
             if ((this.xMenorR >= this.personagemX + this.pesonagemTamanhoX + this.passo) && (this.lado == 'right')) {
                 this.x = this.x + this.passo;
@@ -309,26 +320,43 @@ class Personagem {
             this.bloqueioTopoBase();
             this.terminaInmortalidade();
         }
+        if(this.passo<=0){ this.passo = 0; }
     }
 
+
     parado() {
-        this.passo = 0;
+        if(this.passo>=0 && this.noar==0) this.passo -= 0.15;
+       
         if (this.morreu == 0) {
             this.impulso = 0;
             push();
             if (this.taAgua) this.img = 14;
             else if (this.nosoco) this.img = 6;
-            else if (this.noar) this.img = 5;
+            else if (this.noar){ this.img = 5;
+                this.passo -= 0.05;
+            }
             else this.img = 4;
             //console.log(this.img);
             if (this.lado == 'left') {
                 scale(-1, 1);
+               
                 //rect(-this.x, this.y, this.bloco * 2, this.bloco * 2);
                 image(this.animation[this.img], -this.x, this.y);
+                if ((this.nosoco == 0 && this.noar == 0)) {
+                    if (this.xMenorL < this.personagemX - this.pixel * 2) {
+                        this.x = this.x - this.passo;
+                    }
+                }
 
             } else {
+               
                 //rect(this.x - this.bloco * 2, this.y, this.bloco * 2, this.bloco * 2);
                 image(this.animation[this.img], this.x - this.bloco * 2, this.y);
+                if ((this.nosoco == 0 && this.noar == 0)) {
+                    if (this.xMenorR > this.personagemX + this.pesonagemTamanhoX + this.pixel * 2) {
+                        this.x = this.x + this.passo;
+                    }
+                }
             }
             pop();
         }
@@ -423,6 +451,7 @@ class Personagem {
     }
 
     abaixar() {
+        if(this.passo>=0) this.passo -= 0.15;
         if (this.taAgua) {
             this.img = 14;
             this.y = this.y + 5;
@@ -432,12 +461,24 @@ class Personagem {
         this.nobaixo = 1;
         push();
         if (this.lado == 'left') {
+           
             scale(-1, 1);
             image(this.animation[this.img], -this.x, this.y);
+            if ((this.nosoco == 0 && this.noar == 0)) {
+                if (this.xMenorL < this.personagemX - this.pixel * 2) {
+                    this.x = this.x - this.passo;
+                }
+            }
             //console.log('soco');
         } else {
+          
             scale(1, 1);
             image(this.animation[this.img], this.x - this.bloco * 2, this.y);
+            if ((this.nosoco == 0 && this.noar == 0)) {
+                if (this.xMenorR > this.personagemX + this.pesonagemTamanhoX + this.pixel * 2) {
+                    this.x = this.x + this.passo;
+                }
+            }
         }
         pop();
     }

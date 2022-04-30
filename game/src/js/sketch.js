@@ -212,9 +212,11 @@ function keyPressed() {
 
     // movimentacao
     if (key == 'ArrowRight') {
+        personagem.passo = 0;
         i = i + 2;
     }
     if (key == 'ArrowLeft') {
+        personagem.passo = 0;
         i = i - 2;
     }
     if (key == 'ArrowDown') {
@@ -229,10 +231,12 @@ function keyPressed() {
 function keyReleased() {
     // corrida 
     if (key == 'ArrowRight') {
-        personagem.passo = 0;
+        //personagem.passo = 0;
+        //personagem.inercia(personagem.lado);
     }
     if (key == 'ArrowLeft') {
-        personagem.passo = 0;
+        //personagem.passo = 0;
+        //personagem.inercia(personagem.lado);
     }
 
     // super soco
