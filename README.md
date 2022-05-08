@@ -12,7 +12,8 @@ Gostaria de listar os créditos as pessoas que vem ajudando o projeto:
 (30/10/2021) [@victorinknov](https://github.com/victorinknov) => Entrou com algumas melhorias na versão Alpha: Opção de pause, Favicon, CSS.
 <hr>
 
-![print](https://github.com/rodrigoKulb/alexKidd/blob/master/stable/src/img/Captura%20de%20tela%20de%202020-03-14%2021-53-21.png)
+![Captura de tela em 2022-05-08 01-22-08](https://user-images.githubusercontent.com/5334261/167281624-a01b3b75-0ce7-4e50-a2b4-e007cba004c5.png)
+
 
 
 # DEMO VERSÃO
