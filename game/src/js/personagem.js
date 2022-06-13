@@ -3,15 +3,12 @@
 class Personagem {
 
     constructor(x, y, animation) {
-        //strokeWeight(1);
         this.x = x;
         this.y = y;
         this.bloco = 16;
         this.pixel = 1;
         this.animaPassos = 0;
         this.animation = animation;
-        this.w = this.animation[0].width;
-        this.len = this.animation.length;
         this.gravity = 0.105;
         this.vy = 1;
         this.noar = 0;
@@ -30,8 +27,6 @@ class Personagem {
         this.morSoma = 0;
         this.morSomaY = 0;
         this.taAgua = 0;
-        this.margemAgua = 0;
-        this.blocos = [];
         this.menu = 0;
         this.passo = 0;
     }
@@ -70,9 +65,17 @@ class Personagem {
 
     limitarTela() {
         if (this.y >= this.bloco * 5) {
-            if (cenario.scrollPer <= cenario.limiteAlturaMapa - 10) {
+            if (cenario.scrollPer <= cenario.limiteVertical - 16*this.bloco) {
                 cenario.scrollPer = cenario.scrollPer + 2;
                 this.y = this.bloco * 5;
+            }
+            else{
+                if (this.x >= this.bloco * 10) {
+                if(cenario.scrollHorizontal <= this.xMenorR - 2*this.bloco){
+                    cenario.scrollHorizontal = cenario.scrollHorizontal + 2;
+                this.x = this.bloco * 10;
+                }
+            }
             }
         }
     }
@@ -99,7 +102,7 @@ class Personagem {
         this.personagemY = this.y + this.bloco * 0.3;
         this.pesonagemTamanhoX = this.bloco - this.pixel * 4;
         this.pesonagemTamanhoY = this.bloco * 1.4;
-        //rect(this.personagemX, this.personagemY, this.pesonagemTamanhoX, this.pesonagemTamanhoY);
+        rect(this.personagemX, this.personagemY, this.pesonagemTamanhoX, this.pesonagemTamanhoY);
     }
 
     pegarColisaoPiso(cenario, coluna, linha) {
@@ -109,7 +112,7 @@ class Personagem {
             linha * this.bloco - cenario.scrollPer > this.personagemY && (this.loopPegaPiso == 0)) {
             this.yMenorPiso = (linha * this.bloco - cenario.scrollPer) - this.bloco * 1.75;
             this.loopPegaPiso = 1;
-            //rect((coluna * this.bloco), (linha * this.bloco) - cenario.scrollPer, this.bloco, this.bloco);
+            rect((coluna * this.bloco), (linha * this.bloco) - cenario.scrollPer, this.bloco, this.bloco);
         }
     }
 
@@ -119,7 +122,7 @@ class Personagem {
                 (coluna * this.bloco + this.bloco > this.personagemX + this.pesonagemTamanhoX && coluna * this.bloco < this.personagemX + this.pesonagemTamanhoX)) &&
             linha * this.bloco - cenario.scrollPer < this.personagemY) {
             this.yMaiorTopo = (linha * this.bloco - cenario.scrollPer) + this.bloco * 0.7;
-            //rect((coluna * this.bloco), (linha * this.bloco) - cenario.scrollPer, this.bloco, this.bloco);
+            rect((coluna * this.bloco), (linha * this.bloco) - cenario.scrollPer, this.bloco, this.bloco);
         }
     }
 
@@ -239,18 +242,22 @@ class Personagem {
     }
 
     fisicaDoPulo() {
-        
         if ((this.noar) && (this.morreu == 0)) {
+            
             if(keyIsDown(LEFT_ARROW) || keyIsDown(RIGHT_ARROW)){
-                if(this.passo<=2){
+               
+                if(this.ultimoLado!=this.lado){
+                    this.passo = 0;
+                    console.log('passo: '+this.passo)
+                }
+                
+                if(this.passo<=1.5){
                     this.passo+0.01;
-                    console.log(this.passo);
                 } 
             }
             else{
                 if(this.passo>=0){
-                    console.log(this.passo);
-                    this.passo-0.01;
+                    this.passo-0.02;
                 } 
             } 
             if ((this.xMenorL < this.personagemX - this.pixel * 2) && (this.lado == 'left')) {
@@ -280,9 +287,9 @@ class Personagem {
     }
 
     bloqueioTopoBase() {
-        if (this.taAgua) {
-            this.gravity = 0;
-            this.vy = 0;
+         if (this.taAgua) {
+        //     this.gravity = 0;
+        //     this.vy = 0;
         }
         this.y += this.vy;
         if (this.y >= this.yMenorPiso) {
@@ -330,8 +337,8 @@ class Personagem {
         if (this.morreu == 0) {
             this.impulso = 0;
             push();
-            if (this.taAgua) this.img = 14;
-            else if (this.nosoco) this.img = 6;
+            //if (this.taAgua) this.img = 14;
+             if (this.nosoco) this.img = 6;
             else if (this.noar){ this.img = 5;
                 this.passo -= 0.05;
             }
@@ -365,6 +372,7 @@ class Personagem {
     andar(lado) {
         this.impulso = 1;
         this.lado = lado;
+        this.ultimoLado = this.lado;
         this.passo += 0.12;
         if (this.passo >= 2) this.passo = 2;
         if (this.nosoco) this.b = 6;

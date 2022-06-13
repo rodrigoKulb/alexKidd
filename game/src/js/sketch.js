@@ -8,7 +8,7 @@ let N;
 let total;
 let ladoAnterior;
 let path = [];
-
+let backR = 1, backG = 0, backB = 252;
 // sprites
 let spritesheet,
     spritedata,
@@ -119,7 +119,7 @@ function draw() {
     const ctx = gameCanvas.getContext("2d");
     let textPaused = document.getElementById('pausado')
     ctx.imageSmoothingEnabled = false
-    background(1, 0, 252);
+    background(backR, backG, backB);
 
     // mapa
     if (menu == 1) {
