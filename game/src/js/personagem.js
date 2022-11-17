@@ -102,7 +102,7 @@ class Personagem {
         this.personagemY = this.y + this.bloco * 0.3;
         this.pesonagemTamanhoX = this.bloco - this.pixel * 4;
         this.pesonagemTamanhoY = this.bloco * 1.4;
-        rect(this.personagemX, this.personagemY, this.pesonagemTamanhoX, this.pesonagemTamanhoY);
+        //rect(this.personagemX, this.personagemY, this.pesonagemTamanhoX, this.pesonagemTamanhoY);
     }
 
     pegarColisaoPiso(cenario, coluna, linha) {
@@ -112,7 +112,7 @@ class Personagem {
             linha * this.bloco - cenario.scrollPer > this.personagemY && (this.loopPegaPiso == 0)) {
             this.yMenorPiso = (linha * this.bloco - cenario.scrollPer) - this.bloco * 1.75;
             this.loopPegaPiso = 1;
-            rect((coluna * this.bloco), (linha * this.bloco) - cenario.scrollPer, this.bloco, this.bloco);
+            //rect((coluna * this.bloco), (linha * this.bloco) - cenario.scrollPer, this.bloco, this.bloco);
         }
     }
 
@@ -122,7 +122,7 @@ class Personagem {
                 (coluna * this.bloco + this.bloco > this.personagemX + this.pesonagemTamanhoX && coluna * this.bloco < this.personagemX + this.pesonagemTamanhoX)) &&
             linha * this.bloco - cenario.scrollPer < this.personagemY) {
             this.yMaiorTopo = (linha * this.bloco - cenario.scrollPer) + this.bloco * 0.7;
-            rect((coluna * this.bloco), (linha * this.bloco) - cenario.scrollPer, this.bloco, this.bloco);
+            //rect((coluna * this.bloco), (linha * this.bloco) - cenario.scrollPer, this.bloco, this.bloco);
         }
     }
 
