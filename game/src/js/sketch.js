@@ -203,8 +203,14 @@ function keyPressed() {
             }
         }
 
+        if(key == '1'){
+            cenario.scrollPer = 1600;
+            cenario.scrollHorizontal = 350;
+        }
+
         // abre o mapa
         if (key == 'c' || key == 'C') {
+                
             if (menu == 0) menu = 1;
             else menu = 0;
         }
@@ -268,7 +274,8 @@ function resolucao() {
 
 // caso usuario saia da aba o jogo pausa
 document.addEventListener('visibilitychange', () => { 
-    let state = document.visibilityState
-    if(state == 'hidden') menu = 2 & backgroundSound.pause()
-    if(state == 'visible') menu = 2
+    //let state = document.visibilityState
+    //if(state == 'hidden') menu = 2 & backgroundSound.pause()
+    //if(state == 'visible') menu = 2
 })
+
