@@ -12,7 +12,6 @@ let backR = 1, backG = 0, backB = 252;
 // sprites
 let spritesheet,
     spritedata,
-    pedraImgP,
     spritedataP,
     spritesheetP,
     animation = [],
@@ -36,16 +35,17 @@ let backgroundSound,
     jumpingSound,
     diedSound,
     crashSound,
-    enemyDiedSound
+    enemyDiedSound,
+    crashglassSound,
+    superforcaSound
+
 
 function preload() {
     // sprites
     spritedata = loadJSON('src/img/alex.json');
     spritesheet = loadImage('src/img/alex.png');
-    pedraImgP = loadImage('src/img/pedra.png');
     spritedataP = loadJSON('src/img/fundo.json');
     spritesheetP = loadImage('src/img/fundo-01.png');
-    bg = loadImage('src/img/fundo.png');
     menuImg = loadImage('src/img/menu.jpg');
     fontGame = loadFont('src/fonts/PixelGameFont.ttf');
 
@@ -57,7 +57,9 @@ function preload() {
     jumpingSound = loadSound('src/sounds/jumping1.wav');
     diedSound = createAudio('src/sounds/died.wav');
     crashSound = loadSound('src/sounds/crash.wav');
+    crashglassSound = loadSound('src/sounds/crashglass.wav');
     enemyDiedSound = loadSound('src/sounds/crow.wav');
+    superforcaSound = loadSound('src/sounds/superforca.wav');
 }
 
 function setup() {
@@ -93,6 +95,7 @@ function setup() {
     resolucao();
     let valorSom = true
     chamaSom(valorSom)
+    document.getElementById('container').style.display = 'none';
 }
 
 // inicia o som 
@@ -117,7 +120,7 @@ function intro() {
 function draw() {
     let gameCanvas = document.getElementById('defaultCanvas0')
     const ctx = gameCanvas.getContext("2d");
-    let textPaused = document.getElementById('pausado')
+    
     ctx.imageSmoothingEnabled = false
     background(backR, backG, backB);
 
@@ -150,16 +153,12 @@ function draw() {
         personagem.sairPause();
         let valorSom = false
         chamaSom(valorSom)
-        gameCanvas.classList.add('im-paused')
-        textPaused.removeAttribute('style')
         cenario.pedra(personagem)
         personagem.parado()
     }
 
 
     else {
-        gameCanvas.classList.remove('im-paused')
-        textPaused.setAttribute('style', 'display:none')
         cenario.pedra(personagem)
         personagem.normaliza(cenario, inimigos);
         for (let inimigo of inimigos) {
@@ -171,12 +170,6 @@ function draw() {
 }
 
 function keyPressed() {
-    // pausa e despausa
-    if (key == 'p' || key == 'P') {
-        let valorSom = true
-        if (menu == 0) menu = 2
-        else menu = 0 & chamaSom(valorSom)
-    }
 
     // teclas não funcionais enquanto há pausa
     if (menu != 2) {
@@ -206,6 +199,11 @@ function keyPressed() {
         if(key == '1'){
             cenario.scrollPer = 1600;
             cenario.scrollHorizontal = 350;
+        }
+
+        if(key == '2'){
+            cenario.scrollPer = 1600;
+            cenario.scrollHorizontal = 0;
         }
 
         // abre o mapa

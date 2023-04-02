@@ -9,7 +9,7 @@ class Personagem {
         this.pixel = 1;
         this.animaPassos = 0;
         this.animation = animation;
-        this.gravity = 0.105;
+        this.gravity = 0.14;
         this.vy = 1;
         this.noar = 0;
         this.img = 0;
@@ -64,13 +64,13 @@ class Personagem {
     }
     
     limitarTela() {
-        if (this.y >= this.bloco * 5) {
             if (cenario.scrollPer <= cenario.mapLevel.length*this.bloco - 16*this.bloco) {
-                cenario.scrollPer = cenario.scrollPer + 2;
-                this.y = this.bloco * 5;
+                if(this.y >= this.bloco * 5){
+                    cenario.scrollPer = cenario.scrollPer + 2;
+                    this.y = this.bloco * 5;
+                }
             }
             else if(cenario.scrollHorizontal <= cenario.mapLevel[cenario.mapLevel.length-1].length*this.bloco - 15*this.bloco) {
-                console.log(cenario.scrollHorizontal);
                 if (this.x >= this.bloco * 10) {
                     if (this.xMenorR > this.personagemX + this.pesonagemTamanhoX + this.pixel * 2 + this.passo) {
                         cenario.scrollHorizontal = cenario.scrollHorizontal + this.passo;
@@ -79,7 +79,6 @@ class Personagem {
                 }
             }
         }
-    }
 
     pegarAreaSoco() {
         if (this.lado == 'left') {
@@ -140,6 +139,7 @@ class Personagem {
                     this.xMenorR = ((coluna * this.bloco) - cenario.scrollHorizontal);
                     this.xMenorR = Math.trunc(this.xMenorR);
                     //rect((coluna * this.bloco) - cenario.scrollHorizontal, (linha * this.bloco) - cenario.scrollPer, this.bloco, this.bloco);
+                    //rect(this.personagemX, this.personagemY, this.pesonagemTamanhoX, this.pesonagemTamanhoY)
 
                 }
             } else {
@@ -207,6 +207,7 @@ class Personagem {
                                 break;
                             case 20:
                                 this.superForca = 1;
+                                superforcaSound.play();
                                 break;
                         }
                         cenario.mapLevel[linha][coluna] = 0;
@@ -217,9 +218,6 @@ class Personagem {
                         this.taAgua = 1;
                     }
                 }
-
-
-
                 if (superBloco) {
                     if (superBloco == 'zero') superBloco = 0;
                     mapa[coluna] = superBloco;
@@ -252,14 +250,11 @@ class Personagem {
 
     fisicaDoPulo() {
         if ((this.noar) && (this.morreu == 0)) {
-            
             if(keyIsDown(LEFT_ARROW) || keyIsDown(RIGHT_ARROW)){
-               
                 if(this.ultimoLado!=this.lado){
                     this.passo = 0;
                     //console.log('passo: '+this.passo)
                 }
-                
                 if(this.passo<=1.5){
                     this.passo+0.01;
                 } 
@@ -272,7 +267,7 @@ class Personagem {
             if ((this.xMenorL < this.personagemX - this.pixel * 2) && (this.lado == 'left')) {
                 this.x = this.x - this.passo;
             }
-            if ((this.xMenorR >= this.personagemX + this.pesonagemTamanhoX + this.passo) && (this.lado == 'right')) {
+            if ((this.xMenorR > this.personagemX + this.pesonagemTamanhoX + this.passo) && (this.lado == 'right')) {
                 this.x = this.x + this.passo;
                 //if(this.inercia>=1.5) this.inercia = 1.5;
                 //else this.inercia+= 0.1;
@@ -307,6 +302,7 @@ class Personagem {
             this.noar = 0;
             if (this.vy > 10) this.vy = 1;
         } else {
+            //this.y += this.vy;
             this.vy += this.gravity;
             this.noar = 1;
         }
@@ -341,17 +337,26 @@ class Personagem {
 
 
     parado() {
-        if(this.passo>=0 && this.noar==0) this.passo -= 0.15;
+        const data = new Date(); // momento atual 
+        const milisegundos = data.getMilliseconds();
+        if(this.passo>=1 && this.noar==0) this.passo -= 0.15;
+        else if(this.noar==0)this.passo = 0;
        
         if (this.morreu == 0) {
             this.impulso = 0;
             push();
-            //if (this.taAgua) this.img = 14;
-             if (this.nosoco) this.img = 6;
-            else if (this.noar){ this.img = 5;
-                this.passo -= 0.05;
+            if (this.taAgua){
+                if (this.nosoco) this.img = 16;
+                else if(milisegundos<=500) this.img = 14;
+                else if(milisegundos<=1000) this.img = 15;
             }
-            else this.img = 4;
+            else{
+                if (this.nosoco) this.img = 6;
+                else if (this.noar){ this.img = 5;
+                    this.passo -= 0.05;
+                }
+                else this.img = 4;
+            }
             //console.log(this.img);
             if (this.lado == 'left') {
                 scale(-1, 1);
@@ -381,20 +386,32 @@ class Personagem {
     andar(lado) {
         //console.log("xMenor: "+ this.xMenorR);
         //console.log("this.x: "+(this.personagemX + this.pesonagemTamanhoX + this.pixel * 2));
-     
-        this.impulso = 1;
+        const data = new Date(); // momento atual 
+        const milisegundos = data.getMilliseconds();
+        
+        if(this.x!=this.xOld) this.impulso = 1;
         this.lado = lado;
         this.ultimoLado = this.lado;
-        this.passo += 0.12;
-        if (this.passo >= 2) this.passo = 2;
-        if (this.nosoco) this.b = 6;
-        else if (this.noar) this.b = 5;
-        else if (this.animaPassos <= 4) this.b = 0;
-        else if (this.animaPassos <= 8) this.b = 1;
-        else if (this.animaPassos <= 12) this.b = 2;
-        else if (this.animaPassos <= 16) { this.b = 3; }
-        else if (this.animaPassos <= 19) { this.animaPassos = 0; }
-        else { this.animaPassos = 0; }
+
+        if (this.taAgua){
+            this.passo += 0.05;
+            if (this.passo >= 0.8) this.passo = 0.8;
+            if (this.nosoco) this.b = 16;
+            else if(milisegundos<=500) this.b = 14;
+            else if(milisegundos<=1000) this.b = 15;
+        }
+        else{
+            this.passo += 0.12;
+            if (this.passo >= 2) this.passo = 2;
+            if (this.nosoco) this.b = 6;
+            else if (this.noar) this.b = 5;
+            else if (this.animaPassos <= 4) this.b = 0;
+            else if (this.animaPassos <= 8) this.b = 1;
+            else if (this.animaPassos <= 12) this.b = 2;
+            else if (this.animaPassos <= 16) { this.b = 3; }
+            else if (this.animaPassos <= 19) { this.animaPassos = 0; }
+            else { this.animaPassos = 0; }
+        }
         push();
         if (lado == 'left') {
             scale(-1, 1);
@@ -417,6 +434,7 @@ class Personagem {
         }
         this.animaPassos++;
         pop();
+        this.xOld = this.x;
     }
 
     pular(tipo) {
@@ -440,8 +458,8 @@ class Personagem {
                 pop();
 
             } else {
-                if (this.impulso) this.vy = -3.4;
-                else this.vy = -3.1;
+                if (this.impulso) this.vy = -4;
+                else this.vy = -3.6;
             }
             this.noar = 1;
         }

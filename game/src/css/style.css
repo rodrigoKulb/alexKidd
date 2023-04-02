@@ -29,19 +29,25 @@ body {
     image-rendering: pixelated;
 }
 
-/* Adiciona opacidade ao canvas quando pausado */
-.im-paused {
-    opacity: 0.3;
+#container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: blue;
+    z-index: 1000;
+    display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.text-paused {
+#loading{
     position: absolute;
-    font-family: PixelGameFont, serif;
+    font-size: 2em;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     color: white;
-    /* A margem da esquerda será o tamanho da view width dividido por 2 menos 4x fonte */
-    margin-left: calc((var(--w)/2) - (var(--font-size))*4);
-    top: calc(50% - var(--font-size));
-    z-index: 1000;
 }
 
 .invisible {

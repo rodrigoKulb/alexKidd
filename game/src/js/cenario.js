@@ -17,7 +17,7 @@ class Cenario {
 		this.somaCor = 0;
 		this.limiteHorizontal = 0;
 		// 10: pedra, 9: caixote, 19: caixa surpresa
-		this.quebraveis = [10, 9, 19];
+		this.quebraveis = [10, 9, 19, 35];
 		this.mapLevel = [
 			[11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11],
 			[11, 0, 0, 12, 13, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 11],
@@ -130,14 +130,14 @@ class Cenario {
 			[8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6],
 			[1, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,28],
 			[1, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25,25,2,2,2,2,2,2,25,25,25,31,28,25,25,25,25,25,29,28,28,28,30,25,25,25,25,25,25,25,25,28,28],
-			[1, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25,25,28,28,28,28,28,28,25,25,25,25,28,25,25,25,25,25,28,25,25,25,28,25,25,25,25,25,25,25,28,28,28],
-			[1, 2, 2, 2, 2, 30, 25, 25, 25, 25, 28, 25, 25, 25, 25, 25,25,31,28,28,28,28,32,25,25,25,25,28,25,25,25,25,25,28,25,25,25,28,25,25,25,25,25,25,25,25,25,28],
-			[1, 28, 28, 28, 28, 28, 25, 25, 25, 25, 31, 28, 30, 25, 25, 25,25,25,25,25,25,25,25,25,25,25,25,28,28,30,25,25,25,28,25,25,25,28,25,25,25,25,25,25,25,25,25,28],
-			[1, 10, 25, 25, 28, 28, 25, 25, 25,25, 25, 25, 28, 25, 25, 25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,28,25,25,25,28,25,25,25,25,25,25,25,25,25,28],
-			[1, 9, 25, 25, 25, 28, 25, 25, 25, 25, 29, 28, 32, 25, 25, 25,25,2,2,2,2,2,2,25,25,25,25,28,28,32,25,25,25,19,25,25,25,28,25,25,25,29,28,30,25,25,19,28],
-			[1, 28, 25, 25, 25, 28, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25,25,1,1,1,1,1,1,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,28,25,25,25,25,25,28],
-			[1, 28, 30, 25, 25, 28, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25,2,1,1,1,1,1,1,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,28,25,25,25,25,25,28],
-			[1, 28, 28, 25, 25, 25, 25, 25, 25, 25, 25, 9, 9, 25, 25, 25,1,1,1,1,1,1,1,25,25,25,25,28,25,25,25,25,25,28,25,25,25,31,28,28,28,28,25,25,25,25,25,28],
+			[1, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25,25,28,28,28,28,28,28,25,25,25,25,28,25,25,25,25,25,28,25,25,25,35,25,25,25,25,25,25,25,28,28,28],
+			[1, 2, 2, 2, 2, 30, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25,25,31,28,28,28,28,32,25,25,25,25,28,25,25,25,25,25,28,25,25,25,35,25,25,25,25,25,25,25,35,35,28],
+			[1, 28, 28, 28, 28, 28, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25,25,25,25,25,25,9,25,25,25,25,25,28,28,30,25,25,25,28,25,25,25,35,25,25,25,25,25,25,25,35,9,28],
+			[1, 18, 25, 25, 28, 28, 25, 25, 25,25, 25, 25, 25, 25, 25, 25,25,35,25,25,25,25,35,25,25,25,25,25,25,25,25,25,25,28,25,25,25,35,25,25,25,25,25,25,35,35,9,28],
+			[1, 9, 25, 25, 25, 28, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25,25,2,2,2,2,2,2,25,25,25,25,28,28,32,25,25,25,25,25,25,25,35,25,25,25,29,28,30,25,25,19,28],
+			[1, 28, 25, 25, 25, 28, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25,25,1,1,1,1,1,1,25,25,25,25,25,25,25,25,25,25,35,25,25,25,35,25,25,25,28,35,35,25,25,35,28],
+			[1, 28, 30, 25, 25, 28, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25,2,1,1,1,1,1,1,25,25,25,25,25,25,25,25,25,25,35,25,25,25,28,25,25,25,28,35,35,25,25,35,28],
+			[1, 28, 28, 25, 25, 35, 25, 25, 25, 25, 25, 9, 9, 25, 25, 25,1,1,1,1,1,1,1,25,25,25,25,28,25,25,25,25,25,28,25,25,25,31,28,28,28,28,9,35,25,25,35,28],
 			[1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],
 			[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
 			[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
@@ -154,35 +154,46 @@ class Cenario {
 	}
 
 	verificaSoco(personagem) {
+		//rect(personagem.personagemXSoco, personagem.personagemYSoco, personagem.pesonagemTamanhoXSoco, personagem.pesonagemTamanhoYSoco);
+		//rect(this.coluna * personagem.bloco - this.scrollHorizontal, (this.linha * personagem.bloco) - this.scrollPer, personagem.bloco, personagem.bloco);
 		if (personagem.nosoco == 7) {
 			if (collideRectRect(personagem.personagemXSoco, personagem.personagemYSoco, personagem.pesonagemTamanhoXSoco, personagem.pesonagemTamanhoYSoco,
-				this.coluna * personagem.bloco, (this.linha * personagem.bloco) - this.scrollPer, personagem.bloco, personagem.bloco)) {
+				this.coluna * personagem.bloco - this.scrollHorizontal, (this.linha * personagem.bloco) - this.scrollPer, personagem.bloco, personagem.bloco)) {
 				if (this.quebraveis.includes(this.mapLevel[this.linha][this.coluna]) && !crashSound.isPlaying()) {
-					crashSound.play();
+					
 					switch (this.mapLevel[this.linha][this.coluna]) {
 						case 10:
+							crashSound.play();
 							this.mapLevel[this.linha][this.coluna] = 0;
 							this.socoN = 1;
 							break;
 						case 17:
+							crashSound.play();
 							this.mapLevel[this.linha][this.coluna] = 0;
 							this.socoN = 1;
 							break;
 						case 18:
+							crashSound.play();
 							this.mapLevel[this.linha][this.coluna] = 19;
 							this.socoN = 1;
 							break;
 						case 19:
+							crashglassSound.play();
 							this.mapLevel[this.linha][this.coluna] = 20;
 							this.socoN = 1;
 							break;
 						case 9:
+							crashglassSound.play();
 							if (random(0, 1) >= 0.5) {
 								this.mapLevel[this.linha][this.coluna] = 15;
 							}
 							else {
 								this.mapLevel[this.linha][this.coluna] = 16;
 							}
+							this.socoN = 1;
+							break;
+						case 35:
+							this.mapLevel[this.linha][this.coluna] = 25;
 							this.socoN = 1;
 							break;
 					}
@@ -242,7 +253,7 @@ class Cenario {
 						if (this.mapLevel[this.linha][this.coluna] == 26) { this.mapLevel[this.linha][this.coluna] = this.somaCor + 3; }
 						if (this.mapLevel[this.linha][this.coluna] == 27) { this.mapLevel[this.linha][this.coluna] = this.somaCor + 3; }
 						
-						if (this.linha>=111) {
+						if (this.linha>=110) {
 							image(this.bg[32], this.coluna * this.bg[mapLavelN[this.coluna] - 1].width - this.scrollHorizontal, this.linha * this.bg[mapLavelN[this.coluna] - 1].height - this.scrollPer);
 						 }
 						image(this.bg[mapLavelN[this.coluna] - 1], this.coluna * this.bg[mapLavelN[this.coluna] - 1].width - this.scrollHorizontal, this.linha * this.bg[mapLavelN[this.coluna] - 1].height - this.scrollPer);
