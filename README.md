@@ -12,7 +12,7 @@ Gostaria de listar os créditos as pessoas que vem ajudando o projeto:
 (30/10/2021) [@victorinknov](https://github.com/victorinknov) => Entrou com algumas melhorias na versão Alpha: Opção de pause, Favicon, CSS.
 <hr>
 
-![Captura de tela em 2022-05-08 01-22-08](https://user-images.githubusercontent.com/5334261/167281624-a01b3b75-0ce7-4e50-a2b4-e007cba004c5.png)
+<a href="https://rodrigo-kulb.com.br/alexKidd/game">![Captura de tela em 2022-05-08 01-22-08](https://user-images.githubusercontent.com/5334261/167281624-a01b3b75-0ce7-4e50-a2b4-e007cba004c5.png)</a>
 
 
 
