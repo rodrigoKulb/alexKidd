@@ -29,6 +29,7 @@ class Personagem {
         this.taAgua = 0;
         this.menu = 0;
         this.passo = 0;
+        this.yPara = 0;
     }
 
     sairPause() {
@@ -67,7 +68,7 @@ class Personagem {
             if (cenario.scrollPer <= cenario.mapLevel.length*this.bloco - 16*this.bloco) {
                 if(this.y >= this.bloco * 5){
                     cenario.scrollPer = cenario.scrollPer + 2;
-                    this.y = this.bloco * 5;
+                   this.y = this.bloco * 5;
                 }
             }
             else if(cenario.scrollHorizontal <= cenario.mapLevel[cenario.mapLevel.length-1].length*this.bloco - 15*this.bloco) {
@@ -98,11 +99,20 @@ class Personagem {
     }
 
     pegarAreaPersonagem() {
-        this.personagemX = this.x - this.bloco * 1.5 + this.pixel * 2;
-        this.personagemY = this.y + this.bloco * 0.3;
-        this.pesonagemTamanhoX = this.bloco - this.pixel * 4;
-        this.pesonagemTamanhoY = this.bloco * 1.4;
-        //rect(this.personagemX, this.personagemY, this.pesonagemTamanhoX, this.pesonagemTamanhoY);
+        if(this.taAgua){
+            //rect(this.personagemX, this.personagemY, this.pesonagemTamanhoX, this.pesonagemTamanhoY);
+            this.personagemX = this.x - this.bloco * 1.4;
+            this.personagemY = this.y + this.bloco * 0.5;
+            this.pesonagemTamanhoX = this.bloco * 1.2;
+            this.pesonagemTamanhoY = this.bloco - this.pixel * 2;
+            this.diferencaRotacao =  this.bloco * 1.6;
+        }else{
+            this.personagemX = this.x - this.bloco * 1.5 + this.pixel * 2;
+            this.personagemY = this.y + this.bloco * 0.3;
+            this.pesonagemTamanhoX = this.bloco - this.pixel * 4;
+            this.pesonagemTamanhoY = this.bloco * 1.4;
+            this.diferencaRotacao =  this.bloco * 2;
+        }
     }
 
     pegarColisaoPiso(cenario, coluna, linha) {
@@ -112,7 +122,7 @@ class Personagem {
              (coluna * this.bloco + this.bloco - cenario.scrollHorizontal > this.personagemX + this.pesonagemTamanhoX && 
               coluna * this.bloco - cenario.scrollHorizontal < this.personagemX + this.pesonagemTamanhoX)) &&
             linha * this.bloco - cenario.scrollPer > this.personagemY && (this.loopPegaPiso == 0)) {
-            this.yMenorPiso = (linha * this.bloco - cenario.scrollPer) - this.bloco * 1.75;
+            this.yMenorPiso = (linha * this.bloco - cenario.scrollPer);
             this.loopPegaPiso = 1;
             //rect((coluna * this.bloco - cenario.scrollHorizontal), (linha * this.bloco) - cenario.scrollPer, this.bloco, this.bloco);
         }
@@ -125,7 +135,7 @@ class Personagem {
              (coluna * this.bloco + this.bloco - cenario.scrollHorizontal > this.personagemX + this.pesonagemTamanhoX && 
               coluna * this.bloco - cenario.scrollHorizontal < this.personagemX + this.pesonagemTamanhoX)) &&
             linha * this.bloco - cenario.scrollPer < this.personagemY) {
-            this.yMaiorTopo = (linha * this.bloco - cenario.scrollPer) + this.bloco * 0.7;
+            this.yMaiorTopo = (linha * this.bloco - cenario.scrollPer);
             //rect((coluna * this.bloco - cenario.scrollHorizontal), (linha * this.bloco) - cenario.scrollPer, this.bloco, this.bloco);
         }
     }
@@ -295,20 +305,20 @@ class Personagem {
         //     this.gravity = 0;
         //     this.vy = 0;
         }
-        this.y += this.vy;
-        if (this.y >= this.yMenorPiso) {
-            this.y = this.yMenorPiso;
+        //rect(this.personagemX,this.personagemY, this.pesonagemTamanhoX, this.pesonagemTamanhoY);
+        if (this.personagemY + this.pesonagemTamanhoY  >= this.yMenorPiso && this.vy>=-3.3) {
+            this.y = this.yMenorPiso-this.pesonagemTamanhoY-this.personagemY+this.y
+            //rect(this.x,this.y, this.bloco, this.bloco);
             this.vy = 0;
             this.noar = 0;
             if (this.vy > 10) this.vy = 1;
         } else {
-            //this.y += this.vy;
+            this.y += this.vy;
             this.vy += this.gravity;
             this.noar = 1;
         }
-
-        if (this.y <= this.yMaiorTopo) {
-            this.y = this.yMaiorTopo;
+        if (this.personagemY<= this.yMaiorTopo+this.bloco) {
+            this.y = this.yMaiorTopo+this.bloco-this.personagemY+this.y;
             this.vy += 1.5;
         }
     }
@@ -372,7 +382,7 @@ class Personagem {
             } else {
                
                 //rect(this.x - this.bloco * 2, this.y, this.bloco * 2, this.bloco * 2);
-                image(this.animation[this.img], this.x - this.bloco * 2, this.y);
+                image(this.animation[this.img], this.x - this.diferencaRotacao, this.y);
                 if ((this.nosoco == 0 && this.noar == 0)) {
                         if (this.xMenorR > this.personagemX + this.pesonagemTamanhoX + this.pixel * 2 + this.passo) {
                         this.x = this.x + this.passo;
@@ -425,7 +435,7 @@ class Personagem {
         } else {
             scale(1, 1);
             //rect(this.x - this.bloco * 2, this.y, this.bloco * 2, this.bloco * 2);
-            image(this.animation[this.b], this.x - this.bloco * 2, this.y);
+            image(this.animation[this.b], this.x - this.diferencaRotacao, this.y);
             if ((this.nosoco == 0 && this.noar == 0)) {
                 if (this.xMenorR > this.personagemX + this.pesonagemTamanhoX + this.pixel * 2 + this.passo) {
                     this.x = this.x + this.passo;
