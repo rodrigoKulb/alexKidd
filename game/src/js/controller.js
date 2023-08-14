@@ -1,4 +1,4 @@
-let pressDown, pressLeft, pressRight, pressX, pressZ, pressPause = 0;
+let pressDown, pressUp, pressLeft, pressRight, pressX, pressZ, pressPause = 0;
 
 document.getElementById("controleEsquerdo").addEventListener("touchstart", function (e) {
     let coordenadas = this.getBoundingClientRect();

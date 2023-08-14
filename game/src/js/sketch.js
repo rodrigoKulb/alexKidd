@@ -29,7 +29,7 @@ let jump = 0,
     pisca = 1
 
 // sons
-let backgroundSound,
+let level1,
     punchSound,
     coinSound,
     jumpingSound,
@@ -51,8 +51,9 @@ function preload() {
 
     // sounds
     soundFormats('mp3', 'wav');
-    backgroundSound = loadSound('src/sounds/level1.mp3');
-    punchSound = createAudio('src/sounds/punch.wav');
+    level1 = loadSound('src/sounds/level1.mp3');
+    level2 = loadSound('src/sounds/level2.mp3');
+    punchSound = loadSound('src/sounds/punch.wav');
     coinSound = loadSound('src/sounds/coins.wav');
     jumpingSound = loadSound('src/sounds/jumping1.wav');
     diedSound = createAudio('src/sounds/died.wav');
@@ -94,7 +95,7 @@ function setup() {
 
     resolucao();
     let valorSom = true
-    chamaSom(valorSom)
+    chamaSom(valorSom,'1')
     document.getElementById('container').style.display = 'none';
 }
 
@@ -103,12 +104,15 @@ let settings = {
     vol: 0.2
 }
 
-function chamaSom(valorSom) {
+function chamaSom(valorSom,level) {
     if (valorSom == true) {
-        backgroundSound.loop(1, 1, settings.vol);
+        level1.stop()
+        level2.stop()
+        if(level == '1') level1.loop(1, 1, settings.vol);
+        else if(level == '2') level2.loop(1, 1, settings.vol);
     }
     if (valorSom == false) {
-        backgroundSound.stop()
+        level1.stop()
     }
 }
 
@@ -176,7 +180,6 @@ function keyPressed() {
         // soco
         if (key == 'x' || key == 'X') {
             personagem.soco(cenario);
-            punchSound.volume(0.4);
             if (personagem.superForca == 2) {
                 personagem.vaisuperForca();
                 personagem.forcaAndando = 0;
@@ -273,7 +276,7 @@ function resolucao() {
 // caso usuario saia da aba o jogo pausa
 document.addEventListener('visibilitychange', () => { 
     //let state = document.visibilityState
-    //if(state == 'hidden') menu = 2 & backgroundSound.pause()
+    //if(state == 'hidden') menu = 2 & level1.pause()
     //if(state == 'visible') menu = 2
 })
 
