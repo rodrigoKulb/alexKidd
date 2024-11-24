@@ -14,6 +14,7 @@ let spritesheet,
     spritedata,
     spritedataP,
     spritesheetP,
+    mapa1 = [],
     animation = [],
     inimigos = []
 
@@ -48,6 +49,7 @@ function preload() {
     spritesheetP = loadImage('src/img/fundo-01.png');
     menuImg = loadImage('src/img/menu.jpg');
     fontGame = loadFont('src/fonts/PixelGameFont.ttf');
+    mapa1 = loadJSON('src/json/mapa1.json');
 
     // sounds
     soundFormats('mp3', 'wav');
@@ -75,7 +77,8 @@ function setup() {
 
     //background(bg);
     personagem = new Personagem(44, 53, animation);
-    cenario = new Cenario();
+    cenario = new Cenario(); 
+    cenario.mapLevel = mapa1; 
 
     araras = [[personagem.bloco*5,personagem.bloco*18],
     [personagem.bloco*8,personagem.bloco*25],

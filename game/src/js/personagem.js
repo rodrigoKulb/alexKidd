@@ -30,6 +30,7 @@ class Personagem {
     this.menu = 0;
     this.passo = 0;
     this.yPara = 0;
+    this.vida = 3;
   }
 
   sairPause() {
@@ -66,12 +67,12 @@ class Personagem {
   }
 
   limitarTela() {
-    if (cenario.scrollPer <= cenario.mapLevel.length * this.bloco - 16 * this.bloco) {
+    if (cenario.scrollPer <= Object.keys(cenario.mapLevel).length * this.bloco - 16 * this.bloco) {
       if (this.y >= this.bloco * 5) {
         cenario.scrollPer = cenario.scrollPer + 2;
         this.y = this.bloco * 5;
       }
-    } else if (cenario.scrollHorizontal <= cenario.mapLevel[cenario.mapLevel.length - 1].length * this.bloco - 15 * this.bloco) {
+    } else if (cenario.scrollHorizontal <= Object.keys(cenario.mapLevel[Object.keys(cenario.mapLevel).length - 1]).length * this.bloco - 15 * this.bloco) {
       if (this.x >= this.bloco * 10) {
         if (this.xMenorR > this.personagemX + this.pesonagemTamanhoX + this.pixel * 2 + this.passo) {
           cenario.scrollHorizontal = cenario.scrollHorizontal + this.passo;
@@ -185,7 +186,7 @@ class Personagem {
     this.xMenorR = 0;
     this.xMenorL = 0;
     this.yMaiorTopo = 0;
-    for (var linha = 0; linha < cenario.mapLevel.length; linha++) {
+    for (var linha = 0; linha < Object.keys(cenario.mapLevel).length; linha++) {
       let mapa = cenario.mapLevel[linha];
       for (var coluna = 0; coluna < mapa.length; coluna++) {
         //stroke('rgba(0,0,0,1)');
@@ -306,9 +307,7 @@ class Personagem {
 
   bloqueioTopoBase() {
     if (this.taAgua) {
-      //     this.gravity = 0;
-           //this.vy -= 0.1;
-           //this.y += this.vy;
+
 
     } else {
       //rect(this.personagemX,this.personagemY, this.pesonagemTamanhoX, this.pesonagemTamanhoY);
@@ -503,8 +502,8 @@ class Personagem {
   abaixar() {
     if (this.passo >= 0) this.passo -= 0.15;
     if (this.taAgua) {
-      this.y = this.y + 0.7;
-
+      if (this.personagemY + this.pesonagemTamanhoY + 0.7 <= this.yMenorPiso) this.y = this.y + 0.7;
+     
     } else if (this.nosoco) this.img = 6;
     else if (this.noar) this.img = 5;
     else this.img = 7;
@@ -535,7 +534,7 @@ class Personagem {
 
   subir(){
     if (this.taAgua) {
-      this.y = this.y - 0.7;
+      if (this.personagemY >= this.yMaiorTopo + this.bloco)  this.y = this.y - 0.7;
     }
     push();
     if (this.lado == 'left') {
