@@ -21,6 +21,7 @@ class Personagem {
     this.segueLeft = 0;
     this.xMenorL = 0;
     this.money = 0;
+    this.score = 0;
     this.life = 3;
     this.forcaAndando = 0;
     this.morreu = 0;

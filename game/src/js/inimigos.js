@@ -29,6 +29,7 @@ class Inimigos {
 					this.x - personagem.bloco * 0.2, this.y - cenario.scrollPer + personagem.bloco, personagem.bloco * 1.3, personagem.bloco);
 				if (matou) {
 					this.morreu = 1;
+					personagem.score += 200;
 					enemyDiedSound.play();
 				}
 			}
@@ -38,7 +39,7 @@ class Inimigos {
 			if (morreu && personagem.morreu == 0 && personagem.inmortal == 0) {
 				noLoop();
 				personagem.morreu = 1;
-				personagem.life = personagem.life - 1;
+				personagem.life -= 1;
 				//personagem.y = personagem.y + 6 - 10 - 5;
 				setTimeout(function () { loop(); }, 2000);
 			}

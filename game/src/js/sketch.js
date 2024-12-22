@@ -26,7 +26,7 @@ let jump = 0,
     menu = 0,
     i = 0,
     b = 0,
-    flechaMenu = 620,
+    flechaMenu = 110,
     pisca = 1
 
 // sons
@@ -48,7 +48,7 @@ function preload() {
     spritedataP = loadJSON('src/img/fundo.json');
     spritesheetP = loadImage('src/img/fundo-01.png');
     menuImg = loadImage('src/img/menu.jpg');
-    fontGame = loadFont('src/fonts/PixelGameFont.ttf');
+    fontGame = loadFont('src/fonts/PixelGame.ttf');
     mapa1 = loadJSON('src/json/mapa1.json');
 
     // sounds
@@ -74,6 +74,8 @@ function setup() {
         let img = spritesheet.get(pos.x, pos.y, pos.w, pos.h);
         animation.push(img);
     }
+
+
 
     //background(bg);
     personagem = new Personagem(44, 53, animation);
@@ -134,24 +136,27 @@ function draw() {
     // mapa
     if (menu == 1) {
         background(menuImg);
-        if (pisca <= 5) image(animation[9], flechaMenu, 820);
+        if (pisca <= 5) image(cenario.bg[35], flechaMenu, 165);
         fill(255);
-        textSize(50);
+        textSize(11);
         textFont(fontGame);
         textAlign(RIGHT);
-        text(personagem.money, 420, 930);
-        text(personagem.life, 280, 1010);
+        text(personagem.money, 70, 193);
+        text(personagem.life, 70, 208);
+        text(personagem.score, 170, 208);
+        text("Score", 112, 208);
+        
         if (keyIsDown(LEFT_ARROW)) {
-            if (flechaMenu >= 620) flechaMenu -= 10;
+            if (flechaMenu >= 110) flechaMenu -= 1;
         } else if (keyIsDown(RIGHT_ARROW)) {
-            if (flechaMenu <= 1200) flechaMenu += 10;
+            if (flechaMenu <= 220) flechaMenu += 1;
         }
         if (personagem.superForca == 1) {
-            image(cenario.bg[19], 605, 870);
-            if (flechaMenu <= 690) {
+            image(cenario.bg[19], 110, 178);
+            if (flechaMenu <= 120) {
                 pisca++;
-                if (pisca >= 10) pisca = 1;
-            } else pisca = 1;
+                if (pisca >= 10) pisca = 0.5;
+            } else pisca = 0.5;
         }
     }
 
