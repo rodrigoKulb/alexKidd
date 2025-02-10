@@ -1,4 +1,4 @@
-# Alex Kidd in Miracle World em P5.js
+# Alex Kidd in Miracle World em JavaScript - P5.js
 Recriando o jogo Alex Kidd em p5.js
 
 O objetivo do repositório é ajudar as pessoas que querem aprender um pouco mais sobre JAVASCRIPT, recriando o jogo Alex Kidd para Master System em JAVASCRIPT, toda ajuda será bem vinda.
