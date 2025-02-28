@@ -198,7 +198,7 @@ class Personagem {
         let naoColidir = [5, 6, 16, 15, 12, 13, 20, 22, 23, 24, 24, 25, 26, 27];
         let objetos = [15, 16, 20];
         if (mapa[coluna] && (naoColidir.indexOf(mapa[coluna]) == -1)) {
-          var superBloco = this.quebraSuperForca(mapa, coluna, linha);
+         this.quebraSuperForca(mapa, coluna, linha);
           this.pegarColisaoTopo(cenario, coluna, linha);
           this.pegarColisaoPiso(cenario, coluna, linha);
           this.pegarColisaoDasLaterais(linha, coluna, cenario, mapa);
@@ -234,10 +234,6 @@ class Personagem {
            
             naoColidir = naoColidir.splice(naoColidir.indexOf('22'), 1);
           }
-        }
-        if (superBloco) {
-          if (superBloco == 'zero') superBloco = 0;
-          mapa[coluna] = superBloco;
         }
       }
     }
@@ -347,6 +343,7 @@ class Personagem {
       this.tempoDoSoco();
       this.bloqueioTopoBase();
       this.terminaInmortalidade();
+      if(this.forcaAndando==1) this.vaisuperForca();
     }
     if (this.passo <= 0) { this.passo = 0; }
   }
@@ -563,29 +560,30 @@ class Personagem {
 
   vaisuperForca() {
     if (this.forcaAndando == 0) {
-      this.yForca = this.y + 65;
+      this.yForca = this.y;
       this.xForca = this.x;
       this.forcaAndando = 1;
       this.cenarioIni = cenario.scrollPer;
-      this.forcaxMenorR = this.xMenorRForca;
-      this.forcaxMenorL = this.xMenorLForca;
+      this.forcaxMenorR = this.bloco * 16;
+      this.forcaxMenorL = this.bloco;
       this.forcaLado = this.lado;
     } else if (this.forcaAndando == 1) {
       push();
       if (this.forcaLado == 'left') {
         scale(-1, 1);
-        this.xForca = this.xForca - 25;
-        image(this.animation[8], -this.xForca + 180, this.yForca + this.cenarioIni - cenario.scrollPer);
-        //console.log('soco');
-        if (this.xForca <= this.forcaxMenorL + 190) {
-          this.forcaAndando = 3;
+        this.xForca = this.xForca - 5;
+        image(this.animation[8], -this.xForca, this.yForca + this.cenarioIni - cenario.scrollPer);
+        if (this.xForca <= this.forcaxMenorL + 1) {
+          this.forcaAndando = 0;
+          this.superForca = 2;
         }
       } else {
         scale(1, 1);
-        this.xForca = this.xForca + 25;
-        image(this.animation[8], this.xForca - 190 + 180, this.yForca + this.cenarioIni - cenario.scrollPer);
+        this.xForca = this.xForca + 5;
+        image(this.animation[8],  this.xForca - this.bloco , this.yForca + this.cenarioIni - cenario.scrollPer);
         if (this.xForca >= this.forcaxMenorR) {
-          this.forcaAndando = 3;
+          this.forcaAndando = 0;
+          this.superForca = 2;
         }
       }
       pop();
@@ -593,22 +591,26 @@ class Personagem {
   }
 
   quebraSuperForca(mapa, coluna, linha) {
-    if (this.forcaLado == 'left') this.redusX = this.xForca - 280;
-    else this.redusX = this.xForca - 10
-      //rect(this.redusX, this.yForca+this.cenarioIni-cenario.scrollPer+20,this.bloco,45);
+    if (
+      this.forcaLado == 'left'){this.redusX = this.xForca - 10;
+    }
+    else{
+      this.redusX = this.xForca - 10
+    }
+      //rect(this.redusX, this.yForca+this.cenarioIni-cenario.scrollPer+this.bloco/2,this.bloco,this.bloco);
 
-    var hitSoco = collideRectRect(this.redusX, this.yForca + this.cenarioIni - cenario.scrollPer + 20, this.bloco, 45, (coluna * this.bloco), (linha * this.bloco) - cenario.scrollPer, this.bloco, this.bloco);
+    var hitSoco = collideRectRect(this.redusX, this.yForca + this.cenarioIni - cenario.scrollPer +this.bloco/2, this.bloco, this.bloco, (coluna * this.bloco), (linha * this.bloco) - cenario.scrollPer, this.bloco, this.bloco);
     if ((mapa[coluna] == 9 || mapa[coluna] == 10 || mapa[coluna] == 19 || mapa[coluna] == 18) && (hitSoco)) {
       //rect((c*this.bloco),(b*this.bloco)-cenario.scrollPer,this.bloco,this.bloco);
       if (mapa[coluna] == 9) {
         if (random(0, 1) >= 0.5) {
-          return 15;
+          mapa[coluna] = 15;
         } else {
-          return 16;
+          mapa[coluna] = 16;
         }
       }
-      if (mapa[coluna] == 10 || mapa[coluna] == 18) return 'zero';
-      if (mapa[coluna] == 19) return 20;
+      if (mapa[coluna] == 10 || mapa[coluna] == 18) mapa[coluna] = 0;
+      if (mapa[coluna] == 19) mapa[coluna] = 20;
     } else {
       return false;
     }

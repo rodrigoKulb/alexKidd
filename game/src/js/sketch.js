@@ -49,7 +49,7 @@ function preload() {
     spritesheetP = loadImage('src/img/fundo-01.png');
     menuImg = loadImage('src/img/menu.jpg');
     fontGame = loadFont('src/fonts/PixelGame.ttf');
-    mapa1 = loadJSON('src/json/mapa1.json');
+    mapa1 = loadJSON('src/json/level-1.json');
 
     // sounds
     soundFormats('mp3', 'wav');
@@ -190,10 +190,11 @@ function keyPressed() {
             personagem.soco(cenario);
             if (personagem.superForca == 2) {
                 personagem.vaisuperForca();
-                personagem.forcaAndando = 0;
+                //personagem.forcaAndando = 0;
             }
             if ((menu == 1) && (flechaMenu <= 690) && (personagem.superForca == 1)) {
                 personagem.superForca = 2;
+                console.log('superforca');
             }
         }
 
@@ -204,6 +205,7 @@ function keyPressed() {
             personagem.pular();
             if ((menu == 1) && (flechaMenu <= 690) && (personagem.superForca == 1)) {
                 personagem.superForca = 2;
+                console.log('superforca');
             }
         }
 
