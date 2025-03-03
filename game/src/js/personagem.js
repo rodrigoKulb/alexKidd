@@ -597,8 +597,10 @@ class Personagem {
     else{
       this.redusX = this.xForca - 10
     }
-      //rect(this.redusX, this.yForca+this.cenarioIni-cenario.scrollPer+this.bloco/2,this.bloco,this.bloco);
+      
 
+
+//rect(this.redusX, this.yForca+this.cenarioIni-cenario.scrollPer+this.bloco/2,this.bloco,this.bloco);
     var hitSoco = collideRectRect(this.redusX, this.yForca + this.cenarioIni - cenario.scrollPer +this.bloco/2, this.bloco, this.bloco, (coluna * this.bloco), (linha * this.bloco) - cenario.scrollPer, this.bloco, this.bloco);
     if ((mapa[coluna] == 9 || mapa[coluna] == 10 || mapa[coluna] == 19 || mapa[coluna] == 18) && (hitSoco)) {
       //rect((c*this.bloco),(b*this.bloco)-cenario.scrollPer,this.bloco,this.bloco);
